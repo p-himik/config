@@ -48,17 +48,19 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-history-substring-search
     zgen load rimraf/k
 
-    zgen load $ZSH_BASE/themes/p-himik
+    zgen load "$ZSH_BASE/themes/p-himik"
+    zgen load "$ZSH_BASE/my_mvn.zsh"
+    zgen load "$ZSH_BASE/vars.zsh"
+    zgen load "$ZSH_BASE/aliases.zsh"
+    zgen load "$ZSH_BASE/line_numbers.zsh"
+    zgen load "$ZSH_BASE/git_functions.zsh"
+    zgen load "$HOME/.scm_breeze/scm_breeze.sh"
 
     zgen save
 fi
 
-[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
-
-source "$ZSH_BASE/vars.zsh"
-source "$ZSH_BASE/aliases.zsh"
-source "$ZSH_BASE/line_numbers.zsh"
-source "$ZSH_BASE/git_functions.zsh"
+compctl -K listMavenCompletions mvn2
+compctl -K listMavenCompletions mvn3
 
 #set -o vi
 #bindkey -v

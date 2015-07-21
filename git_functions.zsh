@@ -1,32 +1,30 @@
 #!zsh
 
-#parse_git_dirty() {
-#  local SUBMODULE_SYNTAX=''
-#  local GIT_STATUS=''
-#  local GIT_STATUS_UNTRACKED=''
-#  local CLEAN_MESSAGE='nothing to commit (working directory clean)'
-#  if [[ "$(command git config --get oh-my-zsh.hide-status)" != "1" ]]; then
-#    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
-#          SUBMODULE_SYNTAX="--ignore-submodules=dirty"
-#    fi
-#    GIT_STATUS=$(command git status -s ${SUBMODULE_SYNTAX} -uno 2> /dev/null | tail -n1)
-#    if [[ -z $GIT_STATUS && "$DISABLE_UNTRACKED_FILES_DIRTY" != "true" ]]; then
-#      GIT_STATUS_UNTRACKED=$(command git status -s ${SUBMODULE_SYNTAX} 2> /dev/null | tail -n1)
-#    fi
-#    if [[ -n $GIT_STATUS ]]; then
-#      echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-#    elif [[ -n $GIT_STATUS_UNTRACKED ]]; then
-#      echo "$ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED"
-#    else
-#      echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-#    fi
-#  else
-#    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-#  fi
-#}
+# Modified version from lib/git
+parse_git_dirty() {
+  local STATUS=''
+  local FLAGS
+  FLAGS=('--porcelain')
+  if [[ "$(command git config --get oh-my-zsh.hide-dirty)" != "1" ]]; then
+    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
+      FLAGS+='--ignore-submodules=dirty'
+    fi
+    if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
+      FLAGS+='--untracked-files=no'
+    fi
+    STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
+  fi
+  if [[ -n $STATUS ]]; then
+    echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY"
+    if echo "$STATUS" | grep "^?? " -q; then
+      echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED"
+    fi
+  else
+    echo -n "$ZSH_THEME_GIT_PROMPT_CLEAN"
+  fi
+}
 
-export ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED="+"    # Text to display if the branch has untracked files
-
+# Modified version from git-fast
 function git_prompt_info() {
   dirty="$(parse_git_dirty)"
   branch="$(git-get-current-branch-name 2>/dev/null)"
