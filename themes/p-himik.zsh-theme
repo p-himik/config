@@ -25,10 +25,11 @@ case ${SOLARIZED_THEME:-dark} in
 esac
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${bkg}}%B%F{green}%}]"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
-ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED=" %{%F{yellow}%}+%{%f%k%b%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%b%K{${bkg}}%B%F{green}%}]"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%b%}"
+ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED=" %{%F{yellow}%}+%{%f%b%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
+ZSH_THEME_GIT_PROMPT_DESCRIPTION_PREFIX="%{%f%b%K{${bkg}}%}"
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWDESCRIPTION=true
 

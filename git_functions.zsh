@@ -29,12 +29,12 @@ export ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED="+"    # Text to display if the bran
 
 function git_prompt_info() {
   dirty="$(parse_git_dirty)"
-  branch="$(git-get-current-branch-name)"
-  desc="$(git-get-branch-description "$branch")"
+  branch="$(git-get-current-branch-name 2>/dev/null)"
+  desc="$(git-get-branch-description "$branch" 2>/dev/null)"
   if [[ -n "$desc" ]]; then
     desc=" \"$desc\""
   fi
-  __git_ps1 "${ZSH_THEME_GIT_PROMPT_PREFIX//\%/%%}%s${dirty//\%/%%}${desc//\%/%%}${ZSH_THEME_GIT_PROMPT_SUFFIX//\%/%%}"
+  __git_ps1 "${ZSH_THEME_GIT_PROMPT_PREFIX//\%/%%}%s${dirty//\%/%%}${ZSH_THEME_GIT_PROMPT_DESCRIPTION_PREFIX//\%/%%}${desc//\%/%%}${ZSH_THEME_GIT_PROMPT_SUFFIX//\%/%%}"
 }
 
 
