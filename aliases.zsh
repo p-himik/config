@@ -11,7 +11,9 @@ alias a='sudo aptitude'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//  '\'')"'
 
 alias s=auto_ssh
-alias ss='ssh -t "cd /opt/CSCOlumos; bash"'
+function ss() {
+    ssh $@ -t "cd /opt/CSCOlumos; bash"
+}
 
 alias tosvn=jump_to_svn_from_git
 
