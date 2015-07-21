@@ -12,11 +12,12 @@ parse_git_dirty() {
     if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
       FLAGS+='--untracked-files=no'
     fi
-    STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
+    STATUS=$(command git status ${FLAGS} 2> /dev/null)
   fi
   if [[ -n $STATUS ]]; then
-    echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY"
-    if echo "$STATUS" | grep "^?? " -q; then
+    if echo "$STATUS" | grep -v "^?? " -q; then
+      echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY"
+    else
       echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED"
     fi
   else
