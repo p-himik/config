@@ -190,4 +190,8 @@ function listMavenCompletions {
 }
 
 compctl -K listMavenCompletions mvn
+compctl -K listMavenCompletions mvn2
+compctl -K listMavenCompletions mvn3
+compctl -K listMavenCompletions mvn-color
+compctl -K listMavenCompletions ps-mvn
 

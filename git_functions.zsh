@@ -38,8 +38,8 @@ function git_prompt_info() {
 
 
 alias gdm='git diff master'
-alias gdmn='git diff master --name-only'
-alias gdmnt='git diff master --name-only | tee'
+alias gdmn='git diff master --name-status'
+alias gdmnt='git diff master --name-status | tee'
 alias gup='git up'
 alias gdtm='git difftool -d master'
 alias grbim='git rebase -i master'

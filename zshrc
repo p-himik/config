@@ -1,29 +1,25 @@
+#!/usr/bin/zsh
+
 #zmodload zsh/zprof
 ZSH_BASE="$HOME/.zsh"
 
 DISABLE_UPDATE_PROMPT=true
 DEFAULT_USER=p-himik
 
-source $PS_SCRIPTS_DIR/ps-util-functions 2>&1 > /dev/null
-
 # The following lines were added by compinstall
-
 zstyle ':completion:*' completer _complete _ignored _approximate _prefix
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*'
 zstyle ':completion:*' max-errors 1
 zstyle ':completion:*' prompt 'No completion found. Corrected results:'
 zstyle :compinstall filename "$HOME/.zshrc"
-
 # End of lines added by compinstall
+
 # Lines configured by zsh-newuser-install
 export HISTFILE=~/.histfile
 export HISTSIZE=1000
 export SAVEHIST=1000
 export HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
-
-unsetopt autocd extendedglob sharehistory
-setopt incappendhistory
 
 source "$ZSH_BASE/zgen/zgen.zsh"
 
@@ -38,15 +34,17 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/jump
     zgen oh-my-zsh plugins/extract
     zgen oh-my-zsh plugins/sublime
-    zgen oh-my-zsh plugins/mvn
+#    zgen oh-my-zsh plugins/mvn
     zgen oh-my-zsh plugins/virtualenv
     zgen oh-my-zsh plugins/zsh_reload
     zgen oh-my-zsh plugins/command-not-found
+    zgen oh-my-zsh plugins/vagrant
 
     zgen load khrt/svn-n-zsh-plugin
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
     zgen load rimraf/k
+    zgen load arialdomartini/oh-my-git
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
@@ -59,6 +57,21 @@ if ! zgen saved; then
     zgen save
 fi
 
+function omg-description() {
+    for i in $(typeset + | grep "^omg_.*_symbol$"); do
+        local s="${(P)i}"
+        local color_var="${i}_color"
+        local color="${(P)color_var}"
+        local desc="$(echo $i | sed -r 's/^omg_(.*)_symbol$/\1/g' | tr '_' ' ')"
+        print -P -- "${color} ${s} %k%b - ${desc}"
+    done
+}
+
+source "$PS_SCRIPTS_DIR/ps-util-functions" 2>&1 > /dev/null
+
+unsetopt autocd extendedglob sharehistory
+setopt incappendhistory
+
 compctl -K listMavenCompletions mvn2
 compctl -K listMavenCompletions mvn3
 
@@ -67,7 +80,7 @@ compctl -K listMavenCompletions mvn3
 
 export HH_CONFIG=keywords,hicolor        # get more colors
 # binding for viins
-invoke-hh() { hh </dev/tty ; zle -I }
+function invoke-hh() { hh </dev/tty ; zle -I }
 zle -N invoke-hh
 bindkey -M viins "^Y" invoke-hh
 # bind hh to Ctrl-r
