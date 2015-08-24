@@ -121,31 +121,6 @@ function custom_build_prompt() {
     local will_rebase=${22}
     local has_stashes=${23}
     local action=${24}
-#    local enabled=true
-#    local current_commit_hash=a234b234c345
-#    local is_a_git_repo=true
-#    local current_branch=TA777
-#    local detached=
-#    local just_init=true
-#    local has_modifications=true
-#    local has_modifications_cached=true
-#    local has_adds=true
-#    local has_deletions=true
-#    local has_deletions_cached=true
-#    local has_untracked_files=true
-#    local ready_to_commit=true
-#    local tag_at_current_commit=TAG_1
-#    local is_on_a_tag=true
-#    local has_upstream=true
-#    local commits_ahead=0
-#    local commits_behind=0
-#    local has_diverged=
-#    local should_push=true
-#    local will_rebase=true
-#    local has_stashes=true
-#    local action="rebase -i"
-#    local upstream=origin
-
 
     local prompt=""
     if [[ ${is_a_git_repo} == true ]]; then
@@ -210,39 +185,3 @@ ${omg_second_line_color}${omg_second_line}%k%b "
 
     echo "${prompt}"
 }
-
-##############################################
-
-#function _prompt_char() {
-#  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-#    echo "%{%F{blue}%}±%{%f%k%b%}"
-#  else
-#    echo ' '
-#  fi
-#}
-#
-
-# This theme works with both the "dark" and "light" variants of the
-# Solarized color schema.  Set the SOLARIZED_THEME variable to one of
-# these two values to choose.  If you don't specify, we'll assume you're
-# using the "dark" variant.
-
-#case ${SOLARIZED_THEME:-dark} in
-#    light) bkg=white;;
-#    *)     bkg=black;;
-#esac
-#
-#ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-#ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%b%K{${bkg}}%B%F{green}%}]"
-#ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%}"
-#ZSH_THEME_GIT_PROMPT_DIRTY_UNTRACKED=" %{%F{yellow}%}+%{%f%}"
-#ZSH_THEME_GIT_PROMPT_CLEAN=""
-#ZSH_THEME_GIT_PROMPT_DESCRIPTION_PREFIX="%{%f%b%K{${bkg}}%}"
-#GIT_PS1_SHOWSTASHSTATE=true
-#GIT_PS1_SHOWDESCRIPTION=true
-#
-#PROMPT='%{%f%k%b%}
-#%{%K{${bkg}}%} $(ssh_connection)%{%b%F{yellow}%K{${bkg}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
-#%{%K{${bkg}}%}$(_prompt_char)%{%K{${bkg}}%} %#%{%f%k%b%} '
-
-#RPROMPT='%{%B%F{cyan}%}%* %D{%F} !%!%{%f%k%b%}'
