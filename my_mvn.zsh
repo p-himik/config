@@ -1,8 +1,8 @@
 # Wrapper function for Maven's mvn command.
 mvn-color()
 {
-  mvn_cmd=$1
-  if [[ -z $mvn_cmd ]]; then
+  local mvn_cmd="$1"
+  if [[ -z "$mvn_cmd" ]]; then
       echo "No maven command parameter"
       exit 1
   fi
@@ -32,7 +32,7 @@ mvn-color()
   (
   # Filter mvn output using sed. Before filtering set the locale to C, so invalid characters won't break some sed implementations
   unset LANG
-  LC_CTYPE=C $mvn_cmd $@ | sed \
+  LC_CTYPE=C ${=mvn_cmd} $@ | sed \
                -e "s/\(\[INFO\]\) \(BUILD SUCCESS\w*\)/\1 ${BOLD}${TEXT_GREEN}\2${RESET_FORMATTING}/g" \
                -e "s/\(\[INFO\]\)\(.*\)/${TEXT_BLUE}${BOLD}\1${RESET_FORMATTING}\2/g" \
                -e "s/\(\[WARNING\]\)\(.*\)/${BOLD}${TEXT_YELLOW}\1${RESET_FORMATTING}\2/g" \

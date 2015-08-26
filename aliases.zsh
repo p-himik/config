@@ -35,7 +35,7 @@ alias mvn2i='mvn2 install'
 alias mvn2c='mvn2 clean'
 alias mvn2t='mvn2 test'
 
-alias mvn3='mvn-color mvn3'
+alias mvn3='mvn-color "ps-mvn -m mvn3"'
 alias mvn3ci='mvn3 clean install'
 alias mvn3i='mvn3 install'
 alias mvn3c='mvn3 clean'
