@@ -92,7 +92,7 @@ function git-list-current-branches() {
         cd $r
         print -P $(git_prompt_info)
     done
-    popd
+    popd -q
 }
 alias glcb=git-list-current-branches
 
