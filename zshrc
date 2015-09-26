@@ -69,8 +69,8 @@ function omg-description() {
 
 source "$PS_SCRIPTS_DIR/ps-util-functions" 2>&1 > /dev/null
 
-unsetopt autocd extendedglob sharehistory
-setopt incappendhistory
+unsetopt extendedglob sharehistory
+setopt incappendhistory autocd
 
 compctl -K listMavenCompletions mvn2
 compctl -K listMavenCompletions mvn3
