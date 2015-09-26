@@ -79,12 +79,12 @@ PROMPT='$(build_prompt)'
 RPROMPT='%* %D{%F} !%!%{%f%k%b%}'
 
 function enrich_append {
-    local flag=$1
-    local symbol=$2
-    local color=${3:-$omg_default_color_on}
+    local flag="$1"
+    local symbol="$2"
+    local color="${3:-$omg_default_color_on}"
     if [[ ${flag} == false ]]; then
         symbol=''
-        color=${omg_default_color_on}
+        color="${omg_default_color_on}"
     fi
 
     echo -n "${color}${symbol}%b${omg_default_color_on}"
