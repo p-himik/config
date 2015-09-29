@@ -1,3 +1,6 @@
 [submodule "zgen"]
 	path = zgen
 	url = https://github.com/tarjoilija/zgen.git
+[submodule "zsh-pygments-highlighting"]
+	path = zsh-pygments-highlighting
+	url = ./zsh-pygments-highlighting
