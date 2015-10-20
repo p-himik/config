@@ -30,7 +30,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/gitfast
     zgen oh-my-zsh plugins/svn
-    zgen oh-my-zsh plugins/colored-man
+    zgen oh-my-zsh plugins/colored-man-pages
     zgen oh-my-zsh plugins/jump
     zgen oh-my-zsh plugins/extract
     zgen oh-my-zsh plugins/sublime
