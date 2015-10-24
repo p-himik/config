@@ -48,7 +48,7 @@ if ! zgen saved; then
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
-    zgen load "$ZSH_BASE/vars.zsh"
+    zgen load "$ZSH_BASE/vars.sh"
     zgen load "$ZSH_BASE/aliases.zsh"
     zgen load "$ZSH_BASE/line_numbers.zsh"
     zgen load "$ZSH_BASE/git_functions.zsh"
