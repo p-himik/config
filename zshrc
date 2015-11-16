@@ -51,8 +51,8 @@ if ! zgen saved; then
     zgen load "$ZSH_BASE/vars.sh"
     zgen load "$ZSH_BASE/aliases.zsh"
     zgen load "$ZSH_BASE/line_numbers.zsh"
-    zgen load "$ZSH_BASE/git_functions.zsh"
     zgen load "$HOME/.scm_breeze/scm_breeze.sh"
+    zgen load "$ZSH_BASE/git_functions.zsh"  # loading after SCM Breeze to override some aliases
 
     zgen save
 fi
