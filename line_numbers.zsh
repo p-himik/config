@@ -43,8 +43,10 @@ alias fn=find-with-alias
 function locate-with-alias() {
     fill-query-and-params $@
     local INPUT_FILES_LIST
-    INPUT_FILES_LIST=($(locate "$CMD_QUERY" $CMD_PARAMS))
-    print-with-aliases "$CMD_QUERY"
+    if [[ -n "$CMD_QUERY" ]]; then
+        INPUT_FILES_LIST=($(locate "$CMD_QUERY" $CMD_PARAMS))
+        print-with-aliases "$CMD_QUERY"
+    fi
 }
 alias lt=locate-with-alias
 
