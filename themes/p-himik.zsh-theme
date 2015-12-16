@@ -172,7 +172,7 @@ function custom_build_prompt() {
             fi
             local branch_description="$(git config "branch.${current_branch}.description")"
             if [[ -n "$branch_description" ]]; then
-                prompt+=$(enrich_append true "[${branch_description}]" "${omg_branch_description_color}")
+                prompt+=$(enrich_append true "[$(echo "${branch_description}" | sed 's/%/%%/g')]" "${omg_branch_description_color}")
             fi
         fi
         prompt+=$(enrich_append ${is_on_a_tag} "[ ${omg_is_on_a_tag_symbol} ${tag_at_current_commit} ]" "${omg_is_on_a_tag_symbol_color}")
