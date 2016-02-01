@@ -1,21 +1,14 @@
 #!zsh
 
-alias vpn-c='ps-vpn check-connection'
 alias j=jump
 alias rsync='rsync --progress -avh'
 alias less='less -i'
 alias a='sudo aptitude'
+alias af='apt-file find'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//  '\'')"'
-
-alias s=auto_ssh
-function ss() {
-    ssh $@ -t "cd /opt/CSCOlumos; bash"
-}
-
-alias tosvn=jump_to_svn_from_git
 
 alias tmux='tmux -2'
 
@@ -32,9 +25,9 @@ function _mvn_with_notify {
     mvn-color $@ && notify-info "Build Successful" "$current_path" || notify-error "Build Failed" "$current_path"
 }
 
-alias mvn='_mvn_with_notify ps-mvn'
-alias mvn2='_mvn_with_notify ps-mvn2'
-alias mvn3='_mvn_with_notify "ps-mvn -m mvn3"'
+alias mvn='_mvn_with_notify mvn'
+alias mvn2='_mvn_with_notify mvn2'
+alias mvn3='_mvn_with_notify mvn3'
 
 alias mvnci='mvn clean install'
 alias mvni='mvn install'

@@ -67,8 +67,6 @@ function omg-description() {
     done
 }
 
-source "$PS_SCRIPTS_DIR/ps-util-functions" 2>&1 > /dev/null
-
 unsetopt extendedglob sharehistory
 setopt incappendhistory autocd
 
