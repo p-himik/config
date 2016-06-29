@@ -1,4 +1,3 @@
-
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -13,11 +12,16 @@ local naughty = require("naughty")
 
 -- In case we use symlink as rc.lua, we need to change paths
 local posix = require("posix")
-function get_real_config_dir()
-    local c = awful.util.getdir('config')
-    return posix.realpath(posix.dirname(posix.readlink(c .. '/rc.lua')))
+local _orig_getdir = awful.util.getdir
+awful.util.getdir = function(d)
+    local orig = _orig_getdir(d)
+    if d == "config" then
+        orig = posix.realpath(posix.dirname(posix.readlink(orig .. '/rc.lua')))
+    end
+    return orig
 end
-local config_dir = get_real_config_dir()
+
+local config_dir = awful.util.getdir('config')
 
 package.path = package.path .. ';' .. config_dir .. '/?.lua;' .. config_dir .. '/?/init.lua'
 
@@ -66,8 +70,11 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
---beautiful.init("/usr/local/share/awesome/themes/default/theme.lua")
 beautiful.init(config_dir .. "/themes/p-himik/theme.lua")
+
+-- Has to be after beautiful.init()
+local pomodoro = require("pomodoro")
+pomodoro.init()
 
 -- This is used later as the default terminal and editor to run.
 terminal = "terminator"
@@ -253,6 +260,11 @@ calendar = blingbling.calendar(obvious.clock())
 calendar:set_link_to_external_calendar(true)
 
 
+function small_margin(widget)
+    return wibox.layout.margin(widget, 5, 5)
+end
+
+
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -290,9 +302,11 @@ for s = 1, screen.count() do
         mytasklist[s],
         {
             layout = wibox.layout.fixed.horizontal,
+            small_margin(pomodoro.icon_widget),
+            small_margin(pomodoro.widget),
             APW,
-            wibox.layout.margin(obvious.battery(), 5, 5),
-            wibox.layout.margin(vpnwidget, 5, 5),
+            small_margin(obvious.battery()),
+            small_margin(vpnwidget),
             kbdwidget,
             s == screen.count() and wibox.widget.systray() or nil,
             calendar,
@@ -547,7 +561,7 @@ awful.rules.rules = {
 tag_rules = {
     [2] = { "Google-chrome", "Firefox" },
     [3] = { "jetbrains-idea", "jetbrains-pycharm", "XMP SDK" },
-    [4] = { "Skype" },
+    [4] = { "Skype", "Telegram", "Slack" },
     [5] = { "com-install4j-runtime-launcher-Launcher" },
     [6] = { "Sublime_text" },
     [7] = { "VirtualBox" },

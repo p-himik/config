@@ -16,3 +16,6 @@
 [submodule "awesome/lain"]
 	path = awesome/lain
 	url = git@github.com:copycat-killer/lain.git
+[submodule "awesome/awesome-pomodoro"]
+	path = awesome/pomodoro
+	url = git://github.com/nikolavp/awesome-pomodoro.git
