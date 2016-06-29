@@ -13,3 +13,6 @@
 [submodule "awesome/retrograde"]
 	path = awesome/retrograde
 	url = https://github.com/Elv13/retrograde.git
+[submodule "awesome/lain"]
+	path = awesome/lain
+	url = git@github.com:copycat-killer/lain.git

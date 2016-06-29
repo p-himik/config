@@ -28,6 +28,8 @@ local menubar = require("menubar")
 
 local APW = require("apw/widget")
 
+local quake = require("lain.util.quake")
+
 
 require("vpnwidget")
 require("obvious.clock")
@@ -36,8 +38,6 @@ require("obvious.battery")
 require("retrograde")
 
 local blingbling = require('blingbling')
-
-local scratch = require("scratch")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -73,6 +73,7 @@ beautiful.init(config_dir .. "/themes/p-himik/theme.lua")
 terminal = "terminator"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -x " .. editor
+quakeconsole = quake({ app = terminal, argname = "--classname=%s" })
 
 obvious.clock.set_editor(editor_cmd)
 obvious.clock.set_shortformat(" %a %b %d, %R ")
@@ -385,7 +386,7 @@ globalkeys = awful.util.table.join(
 
     -- Dropdown terminal
     --awful.key({ modkey,           }, "z", function () drop(terminal) end),
-    awful.key({ modkey,           }, "z", function () scratch.pad.toggle() end),
+    awful.key({ modkey,           }, "z", function () quakeconsole:toggle() end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
