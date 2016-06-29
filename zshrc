@@ -1,7 +1,9 @@
 #!/usr/bin/zsh
 
 #zmodload zsh/zprof
-ZSH_BASE="$HOME/.zsh"
+ZSHRC_HOME="${ZDOTDIR:=$HOME}"
+ZSHRC="${ZSHRC_HOME}/.zshrc"
+ZSH_BASE="$(dirname "$(readlink -f "$ZSHRC")")"
 
 DISABLE_UPDATE_PROMPT=true
 DEFAULT_USER=p-himik
@@ -11,7 +13,7 @@ zstyle ':completion:*' completer _complete _ignored _approximate _prefix
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*'
 zstyle ':completion:*' max-errors 1
 zstyle ':completion:*' prompt 'No completion found. Corrected results:'
-zstyle :compinstall filename "$HOME/.zshrc"
+zstyle :compinstall filename "$ZSHRC"
 # End of lines added by compinstall
 
 # Lines configured by zsh-newuser-install
