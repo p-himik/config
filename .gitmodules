@@ -1,3 +1,15 @@
 [submodule "zgen"]
 	path = zsh/zgen
 	url = https://github.com/tarjoilija/zgen.git
+[submodule "awesome/apw"]
+	path = awesome/apw
+	url = https://github.com/mokasin/apw.git
+[submodule "awesome/blingbling"]
+	path = awesome/blingbling
+	url = git://github.com/cedlemo/blingbling.git
+[submodule "awesome/obvious"]
+	path = awesome/obvious
+	url = https://github.com/hoelzro/obvious.git
+[submodule "awesome/retrograde"]
+	path = awesome/retrograde
+	url = https://github.com/Elv13/retrograde.git
