@@ -1,4 +1,6 @@
 #!/usr/bin/zsh
+# This file should also be sourced in .xprofile
+# That's why it's .sh and not .zsh
 
 export JAVA6_HOME="/opt/jdk1.6.0_45"
 export JAVA7_HOME="/opt/jdk1.7.0_67"
