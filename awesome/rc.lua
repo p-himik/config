@@ -89,8 +89,6 @@ obvious.clock.set_longformat(" %a %b %d, %R ")
 lock_cmd = "physlock -dms"
 logout_cmd = "pkill -u " .. os.getenv("USER")
 suspend_cmd = 'dbus-send --system --print-reply --dest="org.freedesktop.login1" /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
-xbindkeys_reset = "killall xbindkeys"
-xbindkeys_init = "xbindkeys"
 scrot_cmd = "scrot"
 switch_dp_monitor_cmd = "switch_monitor.sh DP1"
 
