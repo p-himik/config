@@ -27,6 +27,7 @@ source "$ZSH_BASE/zgen/zgen.zsh"
 
 if ! zgen saved; then
     echo "Creating a zgen save"
+    zgen load "$ZSH_BASE/vars.sh"  # loading it first so other scripts already have correct env
 
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/git
@@ -51,7 +52,6 @@ if ! zgen saved; then
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
-    zgen load "$ZSH_BASE/vars.sh"
     zgen load "$ZSH_BASE/aliases.zsh"
     zgen load "$ZSH_BASE/line_numbers.zsh"
     zgen load "$ZSH_BASE/git_functions.zsh"  # loading after SCM Breeze to override some aliases
