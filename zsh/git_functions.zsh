@@ -40,7 +40,7 @@ function git_prompt_info() {
 alias gdm='git diff master'
 alias gdmn='git diff master --name-status'
 alias gdmnt='git diff master --name-status | tee'
-alias gup='git up'
+alias gup='git remote update -p && git merge --ff-only @{u}'
 alias gdt='git difftool -d'
 alias gdtm='git difftool -d master'
 alias grbim='git rebase -i master'
