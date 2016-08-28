@@ -92,7 +92,7 @@ function enrich_append {
 
 function ssh_connection() {
     if [[ -n ${SSH_CONNECTION} ]]; then
-        echo "%{$fg_bold[red]%}($(hostname)) %b"
+        echo "%{$fg_bold[red]%}($(hostname))"
     fi
 }
 
