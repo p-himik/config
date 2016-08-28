@@ -6,7 +6,7 @@
 	url = https://github.com/mokasin/apw.git
 [submodule "awesome/blingbling"]
 	path = awesome/blingbling
-	url = git://github.com/cedlemo/blingbling.git
+	url = https://github.com/cedlemo/blingbling.git
 [submodule "awesome/obvious"]
 	path = awesome/obvious
 	url = https://github.com/hoelzro/obvious.git
@@ -15,7 +15,7 @@
 	url = https://github.com/Elv13/retrograde.git
 [submodule "awesome/lain"]
 	path = awesome/lain
-	url = git@github.com:copycat-killer/lain.git
+	url = https://github.com/copycat-killer/lain.git
 [submodule "awesome/awesome-pomodoro"]
 	path = awesome/pomodoro
-	url = git://github.com/nikolavp/awesome-pomodoro.git
+	url = https://github.com/nikolavp/awesome-pomodoro.git
