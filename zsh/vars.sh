@@ -12,7 +12,7 @@ export PYCHARM_JDK="${JAVA8_HOME}"
 export JD_GUI_HOME="$HOME/soft/jd-gui"
 export HEROKU_HOME="/usr/local/heroku"
 export ANACONDA3_HOME="$HOME/soft/anaconda3"
-export PATH="$HOME/bin:${JAVA_HOME}/bin:${JD_GUI_HOME}:${HEROKU_HOME}/bin:${ANACONDA3_HOME}/bin:$PATH"
+export PATH="$HOME/bin:${JAVA_HOME}/bin:$PATH:${JD_GUI_HOME}:${HEROKU_HOME}/bin:${ANACONDA3_HOME}/bin"
 export GIT_ROOT="$HOME/dev/git"
 export WINEARCH="win32"
 
