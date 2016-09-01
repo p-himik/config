@@ -89,6 +89,7 @@ obvious.clock.set_longformat(" %a %b %d, %R ")
 lock_cmd = "physlock -dms"
 logout_cmd = "pkill -u " .. os.getenv("USER")
 suspend_cmd = 'dbus-send --system --print-reply --dest="org.freedesktop.login1" /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
+hibernate_cmd = 'sudo pm-hibernate'
 scrot_cmd = "scrot"
 switch_dp_monitor_cmd = "switch_monitor.sh DP1"
 
@@ -359,6 +360,10 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey, "Control" }, "#39", function() -- s
         awful.util.spawn(suspend_cmd)
+    end),
+
+    awful.key({ modkey, "Control" }, "#43", function() -- h
+        awful.util.spawn(hibernate_cmd)
     end),
 
     --awful.key({ modkey }, "Left",   awful.tag.viewprev       ),
