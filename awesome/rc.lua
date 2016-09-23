@@ -90,7 +90,9 @@ lock_cmd = "physlock -dms"
 logout_cmd = "pkill -u " .. os.getenv("USER")
 suspend_cmd = 'dbus-send --system --print-reply --dest="org.freedesktop.login1" /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
 hibernate_cmd = 'sudo pm-hibernate'
-scrot_cmd = "scrot"
+screenshot_screen = 'shutter -f'
+screenshot_window = 'shutter -w'
+screenshot_selection = 'shutter -s'
 switch_dp_monitor_cmd = "switch_monitor.sh DP1"
 
 autostarts = {
@@ -346,8 +348,16 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "Left",           APW.Down),
     awful.key({ modkey }, "Right",          APW.Up),
 
-    awful.key({ }, "#107", function()
-        awful.util.spawn(scrot_cmd)
+    awful.key({ }, "#107", function() -- PrtSc
+        awful.util.spawn(screenshot_screen)
+    end),
+
+    awful.key({ "Shift" }, "#107", function() -- PrtSc
+        awful.util.spawn(screenshot_window)
+    end),
+
+    awful.key({ "Control", "Shift" }, "#107", function() -- PrtSc
+        awful.util.spawn(screenshot_selection)
     end),
 
     awful.key({ modkey, "Control" }, "#46", function()
@@ -563,7 +573,9 @@ awful.rules.rules = {
 
 tag_rules = {
     [2] = { "Google-chrome", "Firefox" },
-    [3] = { "jetbrains-idea", "jetbrains-pycharm", "XMP SDK" },
+    [3] = { "jetbrains-idea", "jetbrains-pycharm",
+            "jetbrains-pychar" -- for some reason Awesome strips a letter from child window
+          },
     [4] = { "Skype", "Telegram", "Slack" },
     [5] = { "com-install4j-runtime-launcher-Launcher" },
     [6] = { "Sublime_text" },
