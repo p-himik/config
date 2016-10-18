@@ -152,7 +152,7 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
     names  = { "cmd", "www", "dev", "soc", "db", "txt", "vnc", 8, "mail" },
-    layout = { layouts[6], layouts[3], layouts[8], layouts[6], layouts[3],
+    layout = { layouts[6], layouts[3], layouts[2], layouts[6], layouts[3],
                layouts[3], layouts[3], layouts[3],  layouts[3], layouts[3] }
            }
 for s = 1, screen.count() do
@@ -601,7 +601,7 @@ awful.rules.rules = {
 
 tag_rules = {
     [2] = { "Google-chrome", "Firefox" },
-    [3] = { "jetbrains-idea", "jetbrains-pycharm",
+    [3] = { "jetbrains-idea", "jetbrains-ide", "jetbrains-idea-c", "jetbrains-idea-ce", "jetbrains-pycharm",
             "jetbrains-pychar" -- for some reason Awesome strips a letter from child window
           },
     [4] = { "Skype", "Telegram", "Slack" },
