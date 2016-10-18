@@ -55,6 +55,7 @@ if ! zgen saved; then
     zgen load "$ZSH_BASE/aliases.zsh"
     zgen load "$ZSH_BASE/line_numbers.zsh"
     zgen load "$ZSH_BASE/git_functions.zsh"  # loading after SCM Breeze to override some aliases
+    zgen load "$ZSH_BASE/conda_env.zsh"
 
     zgen save
 fi
