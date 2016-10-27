@@ -6,7 +6,7 @@ vpnwidget = wibox.widget.textbox()
 vpnwidget:set_text("VPN: N/A")
 
 local check = function()
-    if os.execute('test ! -z "`ip tuntap show | grep -v ^vir`"') then
+    if os.execute('test ! -z "`ip tuntap show | grep -v ^vir`"') == 0 then
         vpnwidget:set_markup(" <span color='#00FF00'>VPN: ON</span> ")
     else
         vpnwidget:set_markup(" <span color='#FF0000'>VPN: OFF</span> ")
