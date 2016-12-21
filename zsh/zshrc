@@ -1,11 +1,11 @@
 #!/usr/bin/zsh
 
 #zmodload zsh/zprof
-ZSHRC_HOME="${ZDOTDIR:=$HOME}"
-ZSHRC="${ZSHRC_HOME}/.zshrc"
+ZSHRC="$HOME/.zshrc"
 ZSH_BASE="$(dirname "$(readlink -f "$ZSHRC")")"
 
 DISABLE_UPDATE_PROMPT=true
+DISABLE_AUTO_UPDATE=true
 DEFAULT_USER=p-himik
 
 # The following lines were added by compinstall
