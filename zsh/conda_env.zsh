@@ -6,31 +6,20 @@ if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
         return
     fi
 
-    # Automatically activate Git projects or other customized projects with .conda_env file
+    # Automatically activate venv specified in .conda_env file
     function workon_cwd {
         if [[ -z "$WORKON_CWD" ]]; then
             local WORKON_CWD=1
-            # Check if this is a Git repo
-            local GIT_REPO_ROOT=""
-            local GIT_TOPLEVEL="$(git rev-parse --show-toplevel 2> /dev/null)"
-            if [[ $? == 0 ]]; then
-                GIT_REPO_ROOT="$GIT_TOPLEVEL"
-            fi
             # Get absolute path, resolving symlinks
             local PROJECT_ROOT="${PWD:A}"
-            while [[ "$PROJECT_ROOT" != "/" && ! -e "$PROJECT_ROOT/.conda_env" \
-                   && ! -d "$PROJECT_ROOT/.git"  && "$PROJECT_ROOT" != "$GIT_REPO_ROOT" ]]; do
+            while [[ "$PROJECT_ROOT" != "/" && ! -e "$PROJECT_ROOT/.conda_env" ]]; do
                 PROJECT_ROOT="${PROJECT_ROOT:h}"
             done
             if [[ "$PROJECT_ROOT" == "/" ]]; then
                 PROJECT_ROOT="."
             fi
             # Check for virtualenv name override
-            if [[ -f "$PROJECT_ROOT/.conda_env" ]]; then
-                ENV_NAME="$(cat "$PROJECT_ROOT/.conda_env")"
-            else
-                ENV_NAME=""
-            fi
+            ENV_NAME="$(cat "$PROJECT_ROOT/.conda_env" 2>/dev/null)"
             if [[ "$ENV_NAME" != "" ]]; then
                 # Activate the environment only if it is not already active
                 if [[ "$CONDA_DEFAULT_ENV" != "$ENV_NAME" ]]; then
