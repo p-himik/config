@@ -83,19 +83,16 @@ local function reset(d, my)
     local day_1 = tonumber(first_day_op(year, month, "%u"))
     local day_n = tonumber(last_day_op(year, month, "%d"))
 
-    d.day_1 = day_1
-    d.day_n = day_n
     local days = d.days_of_month
-    local day_number = 0
 
     for i = 1, 42 do
         local bg = days[i]
         local w = bg.widget
-        if i < day_1 - 1 or i >= (day_n + day_1 - 1) then
+        if i < day_1 or i >= (day_n + day_1) then
             w:set_text("")
         else
-            w:set_text(day_number)
-            day_number = day_number + 1
+            local day_number = i - day_1 + 1
+            w:set_text(i - day_1 + 1)
             local current_day = tonumber(os_date("%d"))
             if is_current_month(d) and current_day == day_number then
                 bg:set_bg("#494B4F")
@@ -105,8 +102,12 @@ local function reset(d, my)
         end
     end
 
-    for i, wn in ipairs(get_week_numbers(year, month)) do
+    local week_numbers = get_week_numbers(year, month)
+    for i, wn in ipairs(week_numbers) do
         d.weeks_numbers[i]:set_text(wn)
+    end
+    for i = #week_numbers + 1, 6 do
+        d.weeks_numbers[i]:set_text("")
     end
 
     local month_name = os_date("%B", os_time { year = year, month = month, day = 01 })
