@@ -4,6 +4,22 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
+
+-- Just to remove the warning about missing xrdb config
+beautiful.xresources.get_current_theme = function()
+    return {
+		color0 = '#000000', color8 = '#465457',  --black
+		color1 = '#cb1578', color9 = '#dc5e86',  --red
+		color2 = '#8ecb15', color10 = '#9edc60', --green
+		color3 = '#cb9a15', color11 = '#dcb65e', --yellow
+		color4 = '#6f15cb', color12 = '#7e5edc', --blue
+		color5 = '#cb15c9', color13 = '#b75edc', --purple
+		color6 = '#15b4cb', color14 = '#5edcb4', --cyan
+		color7 = '#888a85', color15 = '#ffffff', --white
+		background  = '#0e0021', foreground  = '#bcbcbc',
+	}
+end
+
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 -- When loaded, this module makes sure that there's always a client that will
