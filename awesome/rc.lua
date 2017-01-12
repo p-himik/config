@@ -778,4 +778,10 @@ end
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- this adds the default 3.5 behavior when adding/removing a screen
+-- see https://github.com/awesomeWM/awesome/issues/1382
+screen.connect_signal("removed", awesome.restart)
+screen.connect_signal("added", awesome.restart)
+
 -- }}}
