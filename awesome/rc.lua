@@ -520,15 +520,15 @@ local function show_client_under_mouse_properties(c)
         text = id
     })
     f = io.popen('xprop -id ' .. id .. ' | grep -v "^\t[^\t]"')
-    local r = ''
+    local r = {}
     for l in f:lines() do
-        r = r .. '\n' .. l
+        table.insert(r, l)
     end
     f:close()
     naughty.notify({
         preset = naughty.config.presets.critical,
         title = "CLIENT INFO",
-        text = r
+        text = table.concat(r, '\n')
     })
 end
 
@@ -666,18 +666,6 @@ awful.rules.rules = {
         },
         properties = { floating = true }
     },
-
-    -- Add titlebars to normal clients and dialogs
-    {
-        rule_any = {
-            type = { "normal", "dialog" }
-        },
-        properties = { titlebars_enabled = false }
-    },
-
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
 }
 
 local tag_rules = {
@@ -708,58 +696,12 @@ end
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
-    if awesome.startup and
-            not c.size_hints.user_position
-            and not c.size_hints.program_position then
+    if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
-end)
-
--- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = awful.util.table.join(awful.button({}, 1, function()
-        client.focus = c
-        c:raise()
-        awful.mouse.client.move(c)
-    end),
-        awful.button({}, 3, function()
-            client.focus = c
-            c:raise()
-            awful.mouse.client.resize(c)
-        end))
-
-    awful.titlebar(c):setup {
-        {
-            -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout = wibox.layout.fixed.horizontal
-        },
-        {
-            -- Middle
-            {
-                -- Title
-                align = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout = wibox.layout.flex.horizontal
-        },
-        {
-            -- Right
-            awful.titlebar.widget.floatingbutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton(c),
-            awful.titlebar.widget.ontopbutton(c),
-            awful.titlebar.widget.closebutton(c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
@@ -772,8 +714,7 @@ end
 
 client.connect_signal("mouse::enter", refocus_client)
 
--- As far as I recall, it's needed to focus a client that
--- is under mouse right after we change a tag's layout
+-- It's needed to focus a client that is under mouse right after we change a tag's layout
 local function delay_refocus_client_under_mouse()
     local t = timer { timeout = 0.01 }
     t:connect_signal("timeout", function()
@@ -786,10 +727,7 @@ local function delay_refocus_client_under_mouse()
     t:start()
 end
 
--- TODO: how to port this to Awesome4? And is there a need for this at all?
---for s = 1, screen.count() do
---    screen[s]:connect_signal("tag::history::update", delay_refocus_client_under_mouse)
---end
+screen.connect_signal("tag::history::update", delay_refocus_client_under_mouse)
 
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
