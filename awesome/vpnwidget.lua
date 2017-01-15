@@ -9,7 +9,8 @@ function vpnwidget.new(timeout)
     local t = timer { timeout = timeout or 5 }
 
     t:connect_signal("timeout", function()
-        if execute('test ! -z "`ip tuntap show | grep -v ^vir`"') == 0 then
+        local _, _, exit_code = execute('test ! -z "`ip tuntap show | grep -v ^vir`"')
+        if exit_code == 0 then
             widget:set_markup(" <span color='#00FF00'>VPN: ON</span> ")
         else
             widget:set_markup(" <span color='#FF0000'>VPN: OFF</span> ")
