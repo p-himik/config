@@ -7,17 +7,19 @@ local menubar = require("menubar")
 
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
+    --@formatter:off
     return {
-		color0 = '#000000', color8 = '#465457',  --black
-		color1 = '#cb1578', color9 = '#dc5e86',  --red
-		color2 = '#8ecb15', color10 = '#9edc60', --green
-		color3 = '#cb9a15', color11 = '#dcb65e', --yellow
-		color4 = '#6f15cb', color12 = '#7e5edc', --blue
-		color5 = '#cb15c9', color13 = '#b75edc', --purple
-		color6 = '#15b4cb', color14 = '#5edcb4', --cyan
-		color7 = '#888a85', color15 = '#ffffff', --white
-		background  = '#0e0021', foreground  = '#bcbcbc',
-	}
+        color0 = '#000000', color8 = '#465457',  --black
+        color1 = '#cb1578', color9 = '#dc5e86',  --red
+        color2 = '#8ecb15', color10 = '#9edc60', --green
+        color3 = '#cb9a15', color11 = '#dcb65e', --yellow
+        color4 = '#6f15cb', color12 = '#7e5edc', --blue
+        color5 = '#cb15c9', color13 = '#b75edc', --purple
+        color6 = '#15b4cb', color14 = '#5edcb4', --cyan
+        color7 = '#888a85', color15 = '#ffffff', --white
+        background  = '#0e0021', foreground  = '#bcbcbc',
+    }
+    --@formatter:on
 end
 
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -377,8 +379,10 @@ root.buttons(awful.util.table.join(awful.button({}, 3, function() mymainmenu:tog
 -- }}}
 
 -- {{{ Key bindings
-local globalkeys = awful.util.table.join(awful.key({}, "#126", function() awful.util.spawn_with_shell(switch_dp_monitor_cmd) end,
-    { description = "Switch monitor (plus-minus sign, Fn+F5)", group = "awesome" }),
+--@formatter:off
+local globalkeys = awful.util.table.join(
+    awful.key({}, "#126", function() awful.util.spawn_with_shell(switch_dp_monitor_cmd) end,
+        { description = "Switch monitor (plus-minus sign, Fn+F5)", group = "awesome" }),
 
     awful.key({}, "XF86AudioRaiseVolume", apw.up),
     awful.key({}, "XF86AudioLowerVolume", apw.down),
@@ -508,7 +512,9 @@ local globalkeys = awful.util.table.join(awful.key({}, "#126", function() awful.
         { description = "lua execute prompt", group = "awesome" }),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-        { description = "show the menubar", group = "launcher" }))
+        { description = "show the menubar", group = "launcher" })
+)
+--@formatter:on
 
 local function show_client_under_mouse_properties(c)
     local f = io.popen('xdotool getmouselocation --shell | grep WINDOW |cut -d= -f2')
