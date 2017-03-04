@@ -627,6 +627,9 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
+awful.ewmh.add_activate_filter(function(c)
+    return false
+end)
 awful.rules.rules = {
     -- All clients will match this rule.
     {
