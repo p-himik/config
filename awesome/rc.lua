@@ -564,6 +564,13 @@ local clientkeys = awful.util.table.join(awful.key({ modkey, }, "f",
     awful.key({ modkey, }, "m",
         function(c)
             c.maximized = not c.maximized
+
+            -- workaround for #1692
+            if client.focus then
+                client.focus.ignore_border_width = false
+                client.focus.border_width = beautiful.border_width
+            end
+
             c:raise()
         end,
         { description = "maximize", group = "client" }))
@@ -627,9 +634,9 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
-awful.ewmh.add_activate_filter(function(c)
-    return false
-end)
+--awful.ewmh.add_activate_filter(function(c)
+--    return false
+--end)
 awful.rules.rules = {
     -- All clients will match this rule.
     {
@@ -670,19 +677,37 @@ awful.rules.rules = {
             },
             role = {
                 "AlarmWindow", -- Thunderbird's calendar.
+                "gimp-toolbox",
+                "gimp-dock",
                 --"pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
         properties = { floating = true }
     },
+
+    -- On top clients
+    {
+        rule_any = {
+            role = {
+                "gimp-toolbox",
+                "gimp-dock",
+            }
+        },
+        properties = { ontop = true }
+    },
+
+    {
+        rule = {
+            class = "^jetbrains-",
+            name = "^ $"  -- find class or file dialog
+        },
+        properties = { prevent_auto_unfocus = true }
+    }
 }
 
 local tag_rules = {
     ["www"] = { "Google-chrome", "Firefox" },
-    ["dev"] = {
-        "jetbrains-idea", "jetbrains-ide", "jetbrains-idea-c", "jetbrains-idea-ce", "jetbrains-pycharm",
-        "jetbrains-pychar" -- for some reason Awesome strips a letter from child window
-    },
+    ["dev"] = { "^jetbrains-" },
     ["soc"] = { "Skype", "Telegram", "Slack" },
     ["db"] = { "com-install4j-runtime-launcher-Launcher" },
     ["txt"] = { "Sublime_text" },
@@ -713,15 +738,28 @@ client.connect_signal("manage", function(c)
     end
 end)
 
+
+local focus_follows_mouse = true
+
 -- Enable sloppy focus, so that focus follows mouse.
 local function refocus_client(c)
-    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+    if focus_follows_mouse
+            and awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
         client.focus = c
     end
 end
 
 client.connect_signal("mouse::enter", refocus_client)
+
+
+-- Prevent mouse from leaving a marked client
+local function check_prevent_auto_unfocus(c)
+    focus_follows_mouse = not c.prevent_auto_unfocus
+end
+
+client.connect_signal("focus", check_prevent_auto_unfocus)
+client.connect_signal("unfocus", check_prevent_auto_unfocus)
 
 -- It's needed to focus a client that is under mouse right after we change a tag's layout
 local function delay_refocus_client_under_mouse()
