@@ -20,6 +20,9 @@ alias m=mimeopen
 alias e=extract
 alias f='$(thefuck $(fc -ln -1))'
 
+alias sa='source activate'
+alias sd='source deactivate'
+
 function _mvn_with_notify {
     local current_path="$(pwd | sed "s/$(echo $HOME | sed 's|/|\\/|g')/~/g")"
     mvn-color $@ && notify-info "Build Successful" "$current_path" || notify-error "Build Failed" "$current_path"
@@ -43,4 +46,6 @@ alias mvn3ci='mvn3 clean install'
 alias mvn3i='mvn3 install'
 alias mvn3c='mvn3 clean'
 alias mvn3t='mvn3 test'
+
+
 
