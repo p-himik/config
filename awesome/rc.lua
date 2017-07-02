@@ -33,7 +33,7 @@ package.path = package.path .. ';' .. awful.util.get_configuration_dir() ..
 
 local APW = require("apw4/widget")
 local vicious = require("vicious")
-local calendar = require("calendar")
+local calendar_popup = require("awful.widget.calendar_popup")
 local battery = require('battery')
 local vpn = require('vpnwidget')
 
@@ -185,27 +185,18 @@ local mylauncher = awful.widget.launcher({
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- {{{ Wibar
+local calendar_args = {
+    position = 'tr',
+    spacing = 3,
+    week_numbers = true,
+    long_weekdays = true
+}
+for _, cell in ipairs({ 'normal', 'weeknumber', 'weekday', 'header', 'month', 'focus' }) do
+    calendar_args['style_' .. cell] = { border_width = 0 }
+end
 local calendarwidget = wibox.widget.textclock()
-local cal_box = wibox({ height = 200, width = 240, ontop = true, widget = calendar() })
-calendarwidget:buttons(awful.button({}, 1, function()
-    if cal_box.visible then
-        cal_box.visible = false
-    else
-        local margin = 10
-        local current_screen = awful.screen.focused()
-        local screen_geometry = current_screen.workarea
-        local screen_w = screen_geometry.x + screen_geometry.width
-        local screen_h = screen_geometry.y + screen_geometry.height
-        local mouse_coords = mouse.coords()
-        local y = mouse_coords.y < screen_geometry.y and screen_geometry.y or mouse_coords.y
-        local x = mouse_coords.x < screen_geometry.x and screen_geometry.x or mouse_coords.x
-        y = y + cal_box.height > (screen_h - margin) and screen_h - (cal_box.height + 10) or y + margin
-        x = x + cal_box.width > (screen_w - margin) and screen_w - (cal_box.width + 10) or x + margin
-        cal_box:geometry({ x = x, y = y })
-        cal_box.visible = true
-    end
-end))
+local cal_box = calendar_popup.month(calendar_args)
+cal_box:attach(calendarwidget, 'tr')
 
 local cpuwidget = wibox.widget.graph()
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 0.5)
@@ -282,6 +273,7 @@ local kbd_images = {
 dbus.request_name("session", "ru.gentoo.kbdd")
 dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
 
+-- {{{ Wibar
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -699,7 +691,7 @@ awful.rules.rules = {
     {
         rule = {
             class = "^jetbrains-",
-            name = "^ $"  -- find class or file dialog
+            name = "^ $" -- find class or file dialog
         },
         properties = { prevent_auto_unfocus = true }
     }
@@ -763,10 +755,10 @@ client.connect_signal("unfocus", check_prevent_auto_unfocus)
 
 -- It's needed to focus a client that is under mouse right after we change a tag's layout
 local function delay_refocus_client_under_mouse()
-    local t = timer { timeout = 0.01 }
+    local t = gears.timer { timeout = 0.01 }
     t:connect_signal("timeout", function()
         t:stop()
-        local c = awful.mouse.client_under_pointer()
+        local c = mouse.current_client
         if c then
             refocus_client(c)
         end
