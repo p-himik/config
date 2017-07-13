@@ -8,14 +8,6 @@ DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_UPDATE=true
 DEFAULT_USER=p-himik
 
-# The following lines were added by compinstall
-zstyle ':completion:*' completer _complete _ignored _approximate _prefix
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*'
-zstyle ':completion:*' max-errors 1
-zstyle ':completion:*' prompt 'No completion found. Corrected results:'
-zstyle :compinstall filename "$ZSHRC"
-# End of lines added by compinstall
-
 # Lines configured by zsh-newuser-install
 export HISTFILE=~/.histfile
 export HISTSIZE=1000
@@ -95,6 +87,15 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 # bind k and j for VI mode for history-substring-search
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
+# The following lines were added by compinstall
+zstyle ':completion:*' completer _complete _ignored _approximate _prefix
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*'
+zstyle ':completion:*' max-errors 1
+zstyle ':completion:*' prompt 'No completion found. Corrected results:'
+zstyle :compinstall filename "$ZSHRC"
+# End of lines added by compinstall
+
 
 if [[ $1 == eval ]]
 then
