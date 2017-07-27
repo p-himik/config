@@ -96,6 +96,19 @@ function ssh_connection() {
     fi
 }
 
+function omg_prompt_callback() {
+    local env_prompt
+    if [[ -n ${VIRTUAL_ENV} ]]; then
+        env_prompt+="[`basename ${VIRTUAL_ENV}`]"
+    fi
+    if [[ -n ${CONDA_DEFAULT_ENV} ]]; then
+        env_prompt+="($CONDA_DEFAULT_ENV)"
+    fi
+    if [[ -n ${env_prompt} ]]; then
+        echo -n "%k%{$fg_bold[red]%}${env_prompt}%b${omg_default_color_on}"
+    fi
+}
+
 function custom_build_prompt() {
     local enabled=${1}
     local current_commit_hash=${2}
@@ -179,6 +192,7 @@ function custom_build_prompt() {
         prompt+="%E%b%k
 "
     fi
+    prompt+="$(eval_prompt_callback_if_present)"
     local current_path="%~"
     prompt+="${omg_default_color_on} ${current_path} $(ssh_connection)%E%b%k
 ${omg_second_line_color}${omg_second_line}%k%b "

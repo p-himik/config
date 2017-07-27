@@ -15,6 +15,10 @@ export SAVEHIST=1000
 export HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
 
+# Remember also to execute
+# conda config --set changeps1 false
+VIRTUAL_ENV_DISABLE_PROMPT=true
+
 source "$ZSH_BASE/zgen/zgen.zsh"
 
 if ! zgen saved; then
