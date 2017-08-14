@@ -693,7 +693,23 @@ awful.rules.rules = {
             class = "^jetbrains-",
             name = "^ $" -- find class or file dialog
         },
-        properties = { prevent_auto_unfocus = true }
+        properties = {
+            prevent_auto_unfocus = true,
+            placement = awful.placement.centered
+        },
+    },
+
+    {
+        rule = {
+            class = "^Insync",
+            name = "^-$" -- tray pop-up
+        },
+        properties = {
+            prevent_auto_unfocus = true,
+            floating = true,
+            maximized = false,
+            placement = awful.placement.top_right
+        },
     }
 }
 
