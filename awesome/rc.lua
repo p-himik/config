@@ -83,7 +83,7 @@ local hibernate_cmd = 'sudo pm-hibernate'
 local screenshot_screen = 'shutter -f'
 local screenshot_window = 'shutter -w'
 local screenshot_selection = 'shutter -s'
-local switch_dp_monitor_cmd = "switch_monitor.sh DP1"
+local switch_dp_monitor_cmd = "switch_monitor.sh DP-1"
 
 local autostarts = {
     shell = {
