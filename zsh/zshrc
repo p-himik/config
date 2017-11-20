@@ -45,6 +45,7 @@ if ! zgen saved; then
     zgen load rimraf/k
     zgen load arialdomartini/oh-my-git
     zgen load scmbreeze/scm_breeze scm_breeze.sh
+    zgen load ingydotnet/git-subrepo .rc
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
