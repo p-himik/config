@@ -47,5 +47,6 @@ alias mvn3i='mvn3 install'
 alias mvn3c='mvn3 clean'
 alias mvn3t='mvn3 test'
 
-
+# overwriting `gunwip` from oh-my-zsh git plugin because its use of `git log -n 1` is incompatible with SCM Breeze
+alias gunwip='git log -1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 
