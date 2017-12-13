@@ -23,7 +23,6 @@ source "$ZSH_BASE/zgen/zgen.zsh"
 
 if ! zgen saved; then
     echo "Creating a zgen save"
-    zgen load "$ZSH_BASE/vars.sh"  # loading it first so other scripts already have correct env
 
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/git
