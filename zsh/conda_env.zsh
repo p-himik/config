@@ -1,7 +1,5 @@
 if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
-    if (( $+commands[conda] && $+commands[activate] && $+commands[deactivate] )); then
-        # everything appears to be Ok
-    else
+    if ! type conda > /dev/null; then
         print "[conda_env] conda/activate/deactivate not in PATH" >&2
         return
     fi
@@ -23,12 +21,12 @@ if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
             if [[ "$ENV_NAME" != "" ]]; then
                 # Activate the environment only if it is not already active
                 if [[ "$CONDA_DEFAULT_ENV" != "$ENV_NAME" ]]; then
-                    source activate "$ENV_NAME" && export CD_VIRTUAL_ENV="$ENV_NAME"
+                    conda activate "$ENV_NAME" && export CD_VIRTUAL_ENV="$ENV_NAME"
                 fi
             elif [[ -n "$CD_VIRTUAL_ENV" && -n "$CONDA_DEFAULT_ENV" ]]; then
                 # We've just left the repo, deactivate the environment
                 # Note: this only happens if the virtualenv was activated automatically
-                source deactivate && unset CD_VIRTUAL_ENV
+                conda deactivate && unset CD_VIRTUAL_ENV
             fi
         fi
     }

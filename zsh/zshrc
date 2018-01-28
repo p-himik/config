@@ -9,15 +9,21 @@ DISABLE_AUTO_UPDATE=true
 DEFAULT_USER=p-himik
 
 # Lines configured by zsh-newuser-install
-export HISTFILE=~/.histfile
-export HISTSIZE=1000
-export SAVEHIST=1000
-export HIST_STAMPS="dd.mm.yyyy"
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
 
 # Remember also to execute
 # conda config --set changeps1 false
 VIRTUAL_ENV_DISABLE_PROMPT=true
+
+if [[ -n "$ANACONDA_HOME" && -e "$ANACONDA_HOME/etc/profile.d/conda.sh" ]]; then
+    . "$ANACONDA_HOME/etc/profile.d/conda.sh"
+elif [[ -n "$MINICONDA_HOME" && -e "$MINICONDA_HOME/etc/profile.d/conda.sh" ]]; then
+    . "$MINICONDA_HOME/etc/profile.d/conda.sh"
+fi
 
 source "$ZSH_BASE/zgen/zgen.zsh"
 
@@ -37,6 +43,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/zsh_reload
     zgen oh-my-zsh plugins/command-not-found
     zgen oh-my-zsh plugins/vagrant
+    zgen oh-my-zsh plugins/pyenv
 
     zgen load khrt/svn-n-zsh-plugin
     zgen load zsh-users/zsh-syntax-highlighting
@@ -75,7 +82,7 @@ compctl -K listMavenCompletions mvn3
 #set -o vi
 #bindkey -v
 
-export HH_CONFIG=keywords,hicolor        # get more colors
+HH_CONFIG=keywords,hicolor        # get more colors
 # binding for viins
 function invoke-hh() { hh </dev/tty ; zle -I }
 zle -N invoke-hh
