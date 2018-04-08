@@ -1,23 +1,27 @@
 #!/usr/bin/zsh
 
 #zmodload zsh/zprof
-ZSHRC="$HOME/.zshrc"
-ZSH_BASE="$(dirname "$(readlink -f "$ZSHRC")")"
+export ZSHRC="$HOME/.zshrc"
+export ZSH_BASE="$(dirname "$(readlink -f "$ZSHRC")")"
 
-DISABLE_UPDATE_PROMPT=true
-DISABLE_AUTO_UPDATE=true
-DEFAULT_USER=p-himik
+export DISABLE_UPDATE_PROMPT=true
+export DISABLE_AUTO_UPDATE=true
+export DEFAULT_USER=p-himik
+
+# There're problems with user sites and conda
+# e.g. https://github.com/conda/conda/issues/448
+export PYTHONNOUSERSITE=True
 
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-HIST_STAMPS="dd.mm.yyyy"
+export HISTFILE=~/.histfile
+export HISTSIZE=1000
+export SAVEHIST=1000
+export HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
 
 # Remember also to execute
 # conda config --set changeps1 false
-VIRTUAL_ENV_DISABLE_PROMPT=true
+export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 if [[ -n "$ANACONDA_HOME" && -e "$ANACONDA_HOME/etc/profile.d/conda.sh" ]]; then
     . "$ANACONDA_HOME/etc/profile.d/conda.sh"
@@ -44,6 +48,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/command-not-found
     zgen oh-my-zsh plugins/vagrant
     zgen oh-my-zsh plugins/pyenv
+    zgen oh-my-zsh plugins/dotenv
 
     zgen load khrt/svn-n-zsh-plugin
     zgen load zsh-users/zsh-syntax-highlighting
@@ -82,7 +87,7 @@ compctl -K listMavenCompletions mvn3
 #set -o vi
 #bindkey -v
 
-HH_CONFIG=keywords,hicolor        # get more colors
+export HH_CONFIG=keywords,hicolor        # get more colors
 # binding for viins
 function invoke-hh() { hh </dev/tty ; zle -I }
 zle -N invoke-hh
