@@ -1,7 +1,7 @@
 #!zsh
 
 alias j=jump
-alias rsync='rsync --progress -avh'
+alias rsync='rsync --progress -avh -e "ssh -ax -o ClearAllForwardings=yes"'
 alias less='less -i'
 alias a='sudo aptitude'
 alias af='apt-file find'
