@@ -62,7 +62,8 @@ theme.layout_dwindle = "/usr/local/share/awesome/themes/default/layouts/dwindlew
 
 theme.awesome_icon = sharedicons .. "/awesome16.png"
 
-theme.aaa = 111
+theme.notification_icon_size = 150
+
 theme.apw_fg_color = '#698f1e'
 theme.apw_bg_color = '#33450f'
 theme.apw_mute_fg_color = '#be2a15'
