@@ -83,7 +83,7 @@ local hibernate_cmd = 'sudo pm-hibernate'
 local screenshot_screen = 'shutter -f'
 local screenshot_window = 'shutter -w'
 local screenshot_selection = 'shutter -s'
-local switch_dp_monitor_cmd = "switch_monitor.sh DP-1"
+local switch_dp_monitor_cmd = "switch_monitor.sh DP1"
 
 local autostarts = {
     shell = {
@@ -412,7 +412,7 @@ local globalkeys = awful.util.table.join(
     end),
 
     awful.key({ modkey, "Control" }, "#39", function() -- s
-        awful.util.spawn(suspend_cmd)
+        awful.util.spawn_with_shell(suspend_cmd)
     end),
 
     awful.key({ modkey, "Control" }, "#43", function() -- h
