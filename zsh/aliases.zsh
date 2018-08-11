@@ -65,3 +65,4 @@ alias dcl='docker-compose logs'
 alias dclf='docker-compose logs -f'
 alias dcpull='docker-compose pull'
 
+alias bt=bluetoothctl
