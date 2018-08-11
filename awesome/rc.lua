@@ -89,6 +89,8 @@ local switch_dp_monitor_cmd = "switch_monitor.sh DP1"
 local autostarts = {
     shell = {
         "kbdd",
+        "restart_xbindkeys.sh",
+        "restart_compton.sh"
     },
     noshell = {}
 }
