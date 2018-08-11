@@ -4,6 +4,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
+local lain = require("lain")
 
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
@@ -111,52 +112,46 @@ spawn_array(autostarts)
 local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts = {
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
+local layouts = awful.layout.suit
+awful.layout.layouts = {
+    layouts.floating,
+    lain.layout.centerwork,
+    layouts.tile,
+    layouts.tile.left,
+    layouts.tile.bottom,
+    layouts.tile.top,
+    layouts.fair,
+    layouts.fair.horizontal,
+    -- layouts.spiral,
+    -- layouts.spiral.dwindle,
+    layouts.max,
+    layouts.max.fullscreen,
+    -- layouts.magnifier,
+    -- layouts.corner.nw,
+    -- layouts.corner.ne,
+    -- layouts.corner.sw,
+    -- layouts.corner.se,
 }
-awful.layout.layouts = layouts
--- }}}
-
--- {{{ Helper functions
-local function client_menu_toggle_fn()
-    local instance
-
-    return function()
-        if instance and instance.wibox.visible then
-            instance:hide()
-            instance = nil
-        else
-            instance = awful.menu.clients({ theme = { width = 250 } })
-        end
-    end
-end
-
 -- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-local tags = {
-    names = { "cmd", "www", "dev", "soc", "db", "txt", "vnc", "8", "mail" },
-    layouts = {
-        layouts[6], layouts[3], layouts[2], layouts[6], layouts[3],
-        layouts[3], layouts[3], layouts[3], layouts[3], layouts[3]
-    }
+local tags = { names = {}, layouts = {} }
+local layout_by_tag = {
+    { name = "cmd", layout = layouts.fair },
+    { name = "www", layout = lain.layout.centerwork },
+    { name = "dev", layout = layouts.tile },
+    { name = "soc", layout = layouts.fair },
+    { name = "db", layout = layouts.tile.left },
+    { name = "txt", layout = layouts.tile.left },
+    { name = "vnc", layout = layouts.tile.left },
+    { name = "8", layout = layouts.tile.left },
+    { name = "mail", layout = layouts.tile.left },
 }
+for _, nl in ipairs(layout_by_tag) do
+    table.insert(tags.names, nl.name)
+    table.insert(tags.layouts, nl.layout)
+end
 -- }}}
 
 -- {{{ Menu
@@ -208,6 +203,22 @@ local batwidget = battery()
 -- vicious battery widget doesn't work and requires manual configuration
 
 local vpnwidget = vpn()
+
+-- {{{ Helper functions
+local function client_menu_toggle_fn()
+    local instance
+
+    return function()
+        if instance and instance.wibox.visible then
+            instance:hide()
+            instance = nil
+        else
+            instance = awful.menu.clients({ theme = { width = 250 } })
+        end
+    end
+end
+
+-- }}}
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(awful.button({}, 1, function(t) t:view_only() end),
