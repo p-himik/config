@@ -207,7 +207,7 @@ local batwidget = battery()
 local vpnwidget = vpn()
 
 -- {{{ Helper functions
-local function client_menu_toggle_fn()
+local function client_menu_toggle_fn(only_current_tag)
     local instance
 
     return function()
@@ -215,7 +215,53 @@ local function client_menu_toggle_fn()
             instance:hide()
             instance = nil
         else
-            instance = awful.menu.clients({ theme = { width = 300 } })
+            local filter_fn
+            if only_current_tag then
+                local s = awful.screen.focused()
+                local tags = {}
+                for _, t in ipairs(s.selected_tags) do
+                    tags[t] = true
+                end
+
+                filter_fn = function(c)
+                    for _, t in ipairs(c:tags()) do
+                        if tags[t] then return true end
+                    end
+                end
+            else
+                filter_fn = function(c) return true end
+            end
+
+            local items = {}
+            local key = 0;
+            for c in awful.client.iterate(filter_fn) do
+                local name = c.name or ""
+                if key < 10 then
+                    name = "[&" .. key .. "] " .. name
+                    key = key + 1
+                end
+                table.insert(items, {
+                    text = name,
+                    cmd = function()
+                        if not c.valid then return end
+                        if not c:isvisible() then
+                            awful.tag.viewmore(c:tags(), c.screen)
+                        end
+                        c:emit_signal("request::activate", "menu.clients", { raise = true })
+                    end,
+                    icon = c.icon
+                })
+            end
+
+            if next(items) ~= nil then
+                instance = awful.menu.new({
+                    theme = { width = 300 },
+                    items = items
+                })
+                instance:show()
+                -- Highlight currently focused client
+                instance:item_enter(1)
+            end
         end
     end
 end
@@ -254,7 +300,7 @@ local tasklist_buttons = gears.table.join(awful.button({}, 1, function(c)
         c:raise()
     end
 end),
-    awful.button({}, 3, client_menu_toggle_fn()),
+    awful.button({}, 3, client_menu_toggle_fn(false)),
     awful.button({}, 4, function()
         awful.client.focus.byidx(1)
     end),
@@ -388,6 +434,16 @@ root.buttons(gears.table.join(awful.button({}, 3, function() mymainmenu:toggle()
 local globalkeys = gears.table.join(
     awful.key({}, "#126", function() awful.spawn.with_shell(switch_dp_monitor_cmd) end,
         { description = "Switch monitor (plus-minus sign, Fn+F5)", group = "awesome" }),
+
+    awful.key({ modkey }, "Tab", function ()
+            awful.client.focus.history.previous()
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        { description = "go back", group = "client" }),
+    awful.key({ modkey }, "c", client_menu_toggle_fn(true),
+        { description = "select client", group = "client" }),
 
     awful.key({}, "XF86AudioRaiseVolume", apw.up),
     awful.key({}, "XF86AudioLowerVolume", apw.down),
