@@ -223,7 +223,7 @@ end
 -- }}}
 
 -- Create a wibox for each screen and add it
-local taglist_buttons = awful.util.table.join(awful.button({}, 1, function(t) t:view_only() end),
+local taglist_buttons = gears.table.join(awful.button({}, 1, function(t) t:view_only() end),
     awful.button({ modkey }, 1, function(t)
         if client.focus then
             client.focus:move_to_tag(t)
@@ -238,7 +238,7 @@ local taglist_buttons = awful.util.table.join(awful.button({}, 1, function(t) t:
     awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
     awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end))
 
-local tasklist_buttons = awful.util.table.join(awful.button({}, 1, function(c)
+local tasklist_buttons = gears.table.join(awful.button({}, 1, function(c)
     if c == client.focus then
         c.minimized = true
     else
@@ -299,7 +299,7 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(awful.util.table.join(awful.button({}, 1, function() awful.layout.inc(1) end),
+    s.mylayoutbox:buttons(gears.table.join(awful.button({}, 1, function() awful.layout.inc(1) end),
         awful.button({}, 3, function() awful.layout.inc(-1) end),
         awful.button({}, 4, function() awful.layout.inc(1) end),
         awful.button({}, 5, function() awful.layout.inc(-1) end)))
@@ -378,15 +378,15 @@ end)
 -- }}}
 
 -- {{{ Mouse bindings
-root.buttons(awful.util.table.join(awful.button({}, 3, function() mymainmenu:toggle() end),
+root.buttons(gears.table.join(awful.button({}, 3, function() mymainmenu:toggle() end),
     awful.button({}, 4, awful.tag.viewnext),
     awful.button({}, 5, awful.tag.viewprev)))
 -- }}}
 
 -- {{{ Key bindings
 --@formatter:off
-local globalkeys = awful.util.table.join(
-    awful.key({}, "#126", function() awful.util.spawn_with_shell(switch_dp_monitor_cmd) end,
+local globalkeys = gears.table.join(
+    awful.key({}, "#126", function() awful.spawn.with_shell(switch_dp_monitor_cmd) end,
         { description = "Switch monitor (plus-minus sign, Fn+F5)", group = "awesome" }),
 
     awful.key({}, "XF86AudioRaiseVolume", apw.up),
@@ -543,7 +543,7 @@ local function show_client_under_mouse_properties(c)
     })
 end
 
-local clientkeys = awful.util.table.join(awful.key({ modkey, }, "f",
+local clientkeys = gears.table.join(awful.key({ modkey, }, "f",
     function(c)
         c.fullscreen = not c.fullscreen
         c:raise()
@@ -584,7 +584,7 @@ local clientkeys = awful.util.table.join(awful.key({ modkey, }, "f",
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-    globalkeys = awful.util.table.join(globalkeys,
+    globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
             function()
@@ -629,7 +629,7 @@ for i = 1, 9 do
             { description = "toggle focused client on tag #" .. i, group = "tag" }))
 end
 
-local clientbuttons = awful.util.table.join(awful.button({}, 1, function(c)
+local clientbuttons = gears.table.join(awful.button({}, 1, function(c)
     if c.focusable then
         client.focus = c
         c:raise()
