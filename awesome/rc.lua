@@ -719,6 +719,16 @@ awful.rules.rules = {
 
     {
         rule = {
+            class = "^jetbrains-",
+            name = "^win"
+        },
+        properties = {
+            focusable = false
+        }
+    },
+
+    {
+        rule = {
             class = "^Insync",
             name = "^-$" -- tray pop-up
         },
