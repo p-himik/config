@@ -29,23 +29,11 @@ function _mvn_with_notify {
 }
 
 alias mvn='_mvn_with_notify mvn'
-alias mvn2='_mvn_with_notify mvn2'
-alias mvn3='_mvn_with_notify mvn3'
 
 alias mvnci='mvn clean install'
 alias mvni='mvn install'
 alias mvnc='mvn clean'
 alias mvnt='mvn test'
-
-alias mvn2ci='mvn2 clean install'
-alias mvn2i='mvn2 install'
-alias mvn2c='mvn2 clean'
-alias mvn2t='mvn2 test'
-
-alias mvn3ci='mvn3 clean install'
-alias mvn3i='mvn3 install'
-alias mvn3c='mvn3 clean'
-alias mvn3t='mvn3 test'
 
 # overwriting `gunwip` from oh-my-zsh git plugin because its use of `git log -n 1` is incompatible with SCM Breeze
 alias gunwip='git log -1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
