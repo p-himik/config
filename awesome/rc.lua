@@ -6,6 +6,33 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local lain = require("lain")
 
+local hotkeys_popup = require("awful.hotkeys_popup").widget
+
+local APW = require("apw4/widget")
+local vicious = require("vicious")
+local calendar_popup = require("awful.widget.calendar_popup")
+local battery = require('battery')
+local vpn = require('vpnwidget')
+
+-- When loaded, this module makes sure that there's always a client that will
+-- have focus on events such as tag switching, client unmanaging, etc.
+require("awful.autofocus")
+
+local awesome = awesome
+local client = client
+local dbus = dbus
+local screen = screen
+local mouse = mouse
+local tostring = tostring
+local os = os
+local io = io
+local ipairs = ipairs
+local pairs = pairs
+local table = table
+local type = type
+local next = next
+local root = root
+
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
     --@formatter:off
@@ -22,21 +49,6 @@ beautiful.xresources.get_current_theme = function()
     }
     --@formatter:on
 end
-
-local hotkeys_popup = require("awful.hotkeys_popup").widget
-
--- When loaded, this module makes sure that there's always a client that will
--- have focus on events such as tag switching, client unmanaging, etc.
-require("awful.autofocus")
-
-package.path = package.path .. ';' .. awful.util.get_configuration_dir() ..
-        '?.lua;' .. awful.util.get_configuration_dir() .. '?/init.lua'
-
-local APW = require("apw4/widget")
-local vicious = require("vicious")
-local calendar_popup = require("awful.widget.calendar_popup")
-local battery = require('battery')
-local vpn = require('vpnwidget')
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to

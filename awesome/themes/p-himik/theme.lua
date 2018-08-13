@@ -1,6 +1,10 @@
 --{{{ Main
 local gfs = require("gears.filesystem")
 
+local debug = debug
+local os = os
+local ipairs = ipairs
+
 local function script_path()
     local str = debug.getinfo(2, "S").source:sub(2)
     return str:match("(.*/)")

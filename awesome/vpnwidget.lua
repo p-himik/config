@@ -1,6 +1,7 @@
 local textbox = require("wibox.widget.textbox")
 local timer = require("gears.timer")
 local execute = os.execute
+local setmetatable = setmetatable
 
 local vpnwidget = { mt = {} }
 
