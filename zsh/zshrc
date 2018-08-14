@@ -41,8 +41,6 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/colored-man-pages
     zgen oh-my-zsh plugins/jump
     zgen oh-my-zsh plugins/extract
-    zgen oh-my-zsh plugins/sublime
-#    zgen oh-my-zsh plugins/mvn
     zgen oh-my-zsh plugins/virtualenv
     zgen oh-my-zsh plugins/zsh_reload
     zgen oh-my-zsh plugins/command-not-found
@@ -51,7 +49,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/dotenv
 
     zgen load khrt/svn-n-zsh-plugin
-    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load zdharma/fast-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
     zgen load rimraf/k
     zgen load arialdomartini/oh-my-git
