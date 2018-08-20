@@ -32,6 +32,7 @@ local table = table
 local type = type
 local next = next
 local root = root
+local debug = debug
 
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
@@ -79,9 +80,14 @@ do
 end
 -- }}}
 
+local function script_path()
+    local str = debug.getinfo(2, "S").source:sub(2)
+    return str:match("(.*/)")
+end
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(awful.util.get_configuration_dir() .. "themes/p-himik/theme.lua")
+beautiful.init(script_path() .. "/themes/p-himik/theme.lua")
 local apw = APW() -- must be after theme initialization
 
 -- This is used later as the default terminal and editor to run.
