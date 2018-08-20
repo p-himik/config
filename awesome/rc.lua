@@ -771,6 +771,7 @@ awful.rules.rules = {
         properties = { ontop = true }
     },
 
+    -- Ad-hoc rules
     {
         rule = {
             class = "^jetbrains-",
@@ -803,7 +804,18 @@ awful.rules.rules = {
             maximized = false,
             placement = awful.placement.top_right
         },
-    }
+    },
+
+    {
+        rule = {
+            name = "Slack Call Minipanel"
+        },
+        properties = {
+            focusable = false,
+            floating = true,
+            ontop = true,
+        }
+    },
 }
 
 local tag_rules = {
