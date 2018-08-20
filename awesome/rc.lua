@@ -25,7 +25,6 @@ local screen = screen
 local mouse = mouse
 local tostring = tostring
 local os = os
-local io = io
 local ipairs = ipairs
 local pairs = pairs
 local table = table
@@ -156,7 +155,7 @@ awful.layout.layouts = {
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-local tags = { names = {}, layouts = {} }
+local all_tags = { names = {}, layouts = {} }
 local layout_by_tag = {
     { name = "cmd", layout = layouts.fair },
     { name = "www", layout = lain.layout.centerwork },
@@ -169,8 +168,8 @@ local layout_by_tag = {
     { name = "mail", layout = layouts.tile.left },
 }
 for _, nl in ipairs(layout_by_tag) do
-    table.insert(tags.names, nl.name)
-    table.insert(tags.layouts, nl.layout)
+    table.insert(all_tags.names, nl.name)
+    table.insert(all_tags.layouts, nl.layout)
 end
 -- }}}
 
@@ -341,11 +340,11 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-local kbd_dbus_next_cmd = "dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.next_layout"
+--local kbd_dbus_next_cmd = "dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.next_layout"
 local kbd_img_path = "/usr/local/share/icons/flags/"
 local kbd_images = {
-    [0] = kbd_img_path .. "us.png",
-    [1] = kbd_img_path .. "ru.png"
+    kbd_img_path .. "us.png",
+    kbd_img_path .. "ru.png"
 }
 dbus.request_name("session", "ru.gentoo.kbdd")
 dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
@@ -356,7 +355,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag(tags.names, s, tags.layouts)
+    awful.tag(all_tags.names, s, all_tags.layouts)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -377,10 +376,10 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
     --noinspection ArrayElementZero
-    local kbdwidget = wibox.widget.imagebox(kbd_images[0], true)
+    local kbdwidget = wibox.widget.imagebox(kbd_images[1], true)
     dbus.connect_signal("ru.gentoo.kbdd", function(...)
         local data = { ... }
-        local layout = data[2]
+        local layout = data[2] + 1
         kbdwidget:set_image(kbd_images[layout])
     end)
 
@@ -592,28 +591,6 @@ for _, k_desc in pairs(client_direction_keys) do
             { description = "swap with a client " .. k_desc.desc, group = "client" }))
 end
 
-local function show_client_under_mouse_properties(c)
-    local f = io.popen('xdotool getmouselocation --shell | grep WINDOW |cut -d= -f2')
-    local id = f:read("*n")
-    f:close()
-    naughty.notify({
-        preset = naughty.config.presets.critical,
-        title = "ID",
-        text = id
-    })
-    f = io.popen('xprop -id ' .. id .. ' | grep -v "^\t[^\t]"')
-    local r = {}
-    for l in f:lines() do
-        table.insert(r, l)
-    end
-    f:close()
-    naughty.notify({
-        preset = naughty.config.presets.critical,
-        title = "CLIENT INFO",
-        text = table.concat(r, '\n')
-    })
-end
-
 local clientkeys = gears.table.join(awful.key({ modkey, }, "f",
     function(c)
         c.fullscreen = not c.fullscreen
@@ -659,8 +636,8 @@ for i = 1, 9 do
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
             function()
-                local screen = awful.screen.focused()
-                local tag = screen.tags[i]
+                local s = awful.screen.focused()
+                local tag = s.tags[i]
                 if tag then
                     tag:view_only()
                 end
@@ -669,8 +646,8 @@ for i = 1, 9 do
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
             function()
-                local screen = awful.screen.focused()
-                local tag = screen.tags[i]
+                local s = awful.screen.focused()
+                local tag = s.tags[i]
                 if tag then
                     awful.tag.viewtoggle(tag)
                 end
@@ -834,8 +811,8 @@ local tag_rules = {
     ["mail"] = { "Thunderbird" }
 }
 
-for tag_name, tag_rules in pairs(tag_rules) do
-    for _, c in pairs(tag_rules) do
+for tag_name, classes in pairs(tag_rules) do
+    for _, c in pairs(classes) do
         table.insert(awful.rules.rules, {
             rule = { class = c, type = "normal" },
             properties = { screen = 1, tag = tag_name }
