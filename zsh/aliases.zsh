@@ -20,8 +20,8 @@ alias m=mimeopen
 alias e=extract
 alias f='$(thefuck $(fc -ln -1))'
 
-alias sa='source activate'
-alias sd='source deactivate'
+alias sa='conda activate'
+alias sd='conda deactivate'
 
 function _mvn_with_notify {
     local current_path="$(pwd | sed "s/$(echo $HOME | sed 's|/|\\/|g')/~/g")"
