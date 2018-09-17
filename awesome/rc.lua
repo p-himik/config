@@ -778,8 +778,8 @@ awful.rules.rules = {
 
     {
         rule = {
-            class = "^Insync",
-            name = "^-$" -- tray pop-up
+            class = "^insync",
+            name = "^Insync$"
         },
         properties = {
             prevent_auto_unfocus = true,
