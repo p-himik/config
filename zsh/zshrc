@@ -112,6 +112,10 @@ zstyle ':completion:*' prompt 'No completion found. Corrected results:'
 zstyle :compinstall filename "$ZSHRC"
 # End of lines added by compinstall
 
+export FZF_DEFAULT_OPTS="--inline-info -e --ansi --history-size=100000 --bind=tab:accept,ctrl-m:toggle+down,ctrl-alt-m:toggle+up"
+export FZF_DEFAULT_COMMAND='fd --type file --color=always'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if [[ $1 == eval ]]
 then
