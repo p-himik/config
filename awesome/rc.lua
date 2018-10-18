@@ -870,7 +870,7 @@ local function delay_refocus_client_under_mouse()
     t:start()
 end
 
-screen.connect_signal("tag::history::update", delay_refocus_client_under_mouse)
+--screen.connect_signal("tag::history::update", delay_refocus_client_under_mouse)
 
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
