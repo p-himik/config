@@ -18,7 +18,6 @@ alias notify-error='notify-send -i /usr/share/icons/gnome/48x48/status/dialog-er
 
 alias m=mimeopen
 alias e=extract
-alias f='$(thefuck $(fc -ln -1))'
 
 alias sa='conda activate'
 alias sd='conda deactivate'
