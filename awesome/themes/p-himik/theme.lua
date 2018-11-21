@@ -94,4 +94,6 @@ theme.apw_bg_color = '#33450f'
 theme.apw_mute_fg_color = '#be2a15'
 theme.apw_mute_bg_color = '#532a15'
 
+theme.icon_theme = 'oxygen/base'
+
 return theme
