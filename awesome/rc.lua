@@ -757,6 +757,15 @@ awful.rules.rules = {
     -- Ad-hoc rules
     {
         rule = {
+            name = "Export Image as JPEG",
+        },
+        properties = {
+            placement = awful.placement.centered,
+        }
+    },
+
+    {
+        rule = {
             class = "^jetbrains-",
             name = "^ $" -- find class or file dialog
         },
@@ -808,6 +817,7 @@ local tag_rules = {
     ["db"] = { "com-install4j-runtime-launcher-Launcher" },
     ["txt"] = { "Sublime_text" },
     ["vnc"] = { "VirtualBox" },
+    ["8"] = { "Deadbeef" },
     ["mail"] = { "Thunderbird" }
 }
 
