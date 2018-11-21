@@ -1,5 +1,7 @@
 #!zsh
 
+alias ls='ls --color=auto --group-directories-first'
+
 alias j=jump
 alias rsync='rsync --progress -avh -e "ssh -ax -o ClearAllForwardings=yes"'
 alias less='less -i'
