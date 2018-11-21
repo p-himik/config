@@ -106,8 +106,8 @@ local function _tooltip()
     mutes:close()
 
     local max_nm_len = 0
-    for _, nm in pairs(nm) do
-        max_nm_len = math.max(max_nm_len, nm:len())
+    for i, _ in pairs(vol) do
+        max_nm_len = math.max(max_nm_len, nm[i]:len())
     end
 
     local result = ""
