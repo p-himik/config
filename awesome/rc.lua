@@ -695,6 +695,8 @@ root.keys(globalkeys)
 --awful.ewmh.add_activate_filter(function(c)
 --    return false
 --end)
+-- Use `xprop WM_STATE WM_HINTS WM_TRANSIENT_FOR WM_PROTOCOLS WM_CLASS WM_CLIENT_LEADER WM_NAME WM_NORMAL_HINTS`
+-- to extract common useful properties.
 awful.rules.rules = {
     -- All clients will match this rule.
     {
@@ -728,7 +730,7 @@ awful.rules.rules = {
                 "Wpa_gui",
                 "pinentry",
                 "veromix",
-                "xtightvncviewer"
+                "xtightvncviewer",
             },
             name = {
                 "Event Tester", -- xev.
@@ -755,6 +757,18 @@ awful.rules.rules = {
     },
 
     -- Ad-hoc rules
+    {
+        rule = {
+            class = "factorio",
+        },
+        properties = {
+            floating = true,
+            width = 1280,
+            height = 1280,
+            delayed_placement = awful.placement.centered,
+        }
+    },
+
     {
         rule = {
             name = "Export Image as JPEG",
@@ -809,6 +823,15 @@ awful.rules.rules = {
         }
     },
 }
+
+-- Taken from https://github.com/alfunx/.dotfiles/blob/master/.config/awesome/config/rules.lua
+-- placement, that should be applied after setting x/y/width/height/geometry
+-- TODO: Check and remove after https://github.com/awesomeWM/awesome/issues/2497 is fixed
+function awful.rules.delayed_properties.delayed_placement(c, value, props)
+    if props.delayed_placement then
+        awful.rules.extra_properties.placement(c, props.delayed_placement, props)
+    end
+end
 
 local tag_rules = {
     ["www"] = { "Google-chrome", "Firefox" },
