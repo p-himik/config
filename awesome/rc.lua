@@ -32,6 +32,7 @@ local type = type
 local next = next
 local root = root
 local debug = debug
+local math = math
 
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
@@ -374,6 +375,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
+    local size = s.mywibox.height;
 
     --noinspection ArrayElementZero
     local kbdwidget = wibox.widget.imagebox(kbd_images[1], true)
@@ -397,7 +399,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            spacing = 5,
+            spacing = math.ceil(size / 5),
             {
                 widget = cpuwidget,
                 color = {
@@ -407,7 +409,7 @@ awful.screen.connect_for_each_screen(function(s)
                     stops = { { 0, "#FF5656" }, { 0.5, "#88A175" }, { 1, "#AECF96" } }
                 },
                 background_color = "#494B4F",
-                forced_width = 50
+                forced_width = size * 2;
             },
             wibox.widget {
                 {
@@ -421,12 +423,12 @@ awful.screen.connect_for_each_screen(function(s)
                     background_color = "#494B4F"
                 },
                 border_color = nil,
-                forced_width = 8,
+                forced_width = math.ceil(size / 3),
                 direction = 'east',
                 layout = wibox.container.rotate
             },
             wibox.widget {
-                forced_width = 40,
+                forced_width = math.ceil(size * 1.5),
                 widget = apw.progressbar
             },
             batwidget,
