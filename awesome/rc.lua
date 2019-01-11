@@ -33,6 +33,7 @@ local next = next
 local root = root
 local debug = debug
 local math = math
+local string = string
 
 -- Just to remove the warning about missing xrdb config
 beautiful.xresources.get_current_theme = function()
@@ -200,6 +201,25 @@ local mylauncher = awful.widget.launcher({
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
+-- {{{ Manual timezone handling
+-- TODO: Remove when glib is updated at least to 2.59.0
+-- For the details, see https://github.com/GNOME/glib/commit/2ceb48dfc28f619b1bfe6037e5799ec9d0a0ab31
+
+-- From http://lua-users.org/wiki/TimeZone
+-- Compute the difference in seconds between local time and UTC.
+local function get_timezone()
+    local now = os.time()
+    return os.difftime(now, os.time(os.date("!*t", now)))
+end
+
+-- Return a timezone string in ISO 8601:2000 standard form (+hhmm or -hhmm)
+local function get_tzoffset()
+    local timezone = get_timezone()
+    local h, m = math.modf(timezone / 3600)
+    return string.format("%+.4d", 100 * h + 60 * m)
+end
+-- }}}
+
 local calendar_args = {
     position = 'tr',
     spacing = 3,
@@ -209,7 +229,7 @@ local calendar_args = {
 for _, cell in ipairs({ 'normal', 'weeknumber', 'weekday', 'header', 'month', 'focus' }) do
     calendar_args['style_' .. cell] = { border_width = 0 }
 end
-local calendarwidget = wibox.widget.textclock()
+local calendarwidget = wibox.widget.textclock(nil, nil, get_tzoffset())
 local cal_box = calendar_popup.month(calendar_args)
 cal_box:attach(calendarwidget, 'tr')
 
