@@ -11,7 +11,7 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 local APW = require("apw4/widget")
 local vicious = require("vicious")
 local calendar_popup = require("awful.widget.calendar_popup")
-local battery = require('battery')
+--local battery = require('battery')
 local vpn = require('vpnwidget')
 
 -- When loaded, this module makes sure that there's always a client that will
@@ -219,7 +219,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 0.5)
 local memwidget = wibox.widget.progressbar()
 vicious.register(memwidget, vicious.widgets.mem, "$1", 2)
 
-local batwidget = battery()
+--local batwidget = battery()
 -- vicious battery widget doesn't work and requires manual configuration
 
 local vpnwidget = vpn()
@@ -431,7 +431,7 @@ awful.screen.connect_for_each_screen(function(s)
                 forced_width = math.ceil(size * 1.5),
                 widget = apw.progressbar
             },
-            batwidget,
+            --batwidget,
             vpnwidget,
             kbdwidget,
             wibox.widget.systray(),
