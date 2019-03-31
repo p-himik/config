@@ -205,18 +205,20 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- TODO: Remove when glib is updated at least to 2.59.0
 -- For the details, see https://github.com/GNOME/glib/commit/2ceb48dfc28f619b1bfe6037e5799ec9d0a0ab31
 
--- From http://lua-users.org/wiki/TimeZone
--- Compute the difference in seconds between local time and UTC.
-local function get_timezone()
-    local now = os.time()
-    return os.difftime(now, os.time(os.date("!*t", now)))
+-- Remove leading and trailing spaces from the string.
+-- trim5 from http://lua-users.org/wiki/StringTrim
+function trim(s)
+   return s:match'^%s*(.*%S)' or ''
 end
 
 -- Return a timezone string in ISO 8601:2000 standard form (+hhmm or -hhmm)
+-- The recipe at http://lua-users.org/wiki/TimeZone does not work, probably
+-- because of the bug in glib.
 local function get_tzoffset()
-    local timezone = get_timezone()
-    local h, m = math.modf(timezone / 3600)
-    return string.format("%+.4d", 100 * h + 60 * m)
+    local handle = io.popen("date +%z")
+    local result = handle:read("*a")
+    handle:close()
+    return trim(result)
 end
 -- }}}
 
