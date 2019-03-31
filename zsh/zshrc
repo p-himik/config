@@ -87,14 +87,6 @@ compctl -K listMavenCompletions mvn3
 #set -o vi
 #bindkey -v
 
-export HH_CONFIG=keywords,hicolor        # get more colors
-# binding for viins
-function invoke-hh() { hh </dev/tty ; zle -I }
-zle -N invoke-hh
-bindkey -M viins "^Y" invoke-hh
-# bind hh to Ctrl-r
-bindkey -s "\C-r" "\eqhh\n"
-
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
