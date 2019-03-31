@@ -18,7 +18,7 @@ alias notify-info='notify-send -i /usr/share/icons/gnome/48x48/status/dialog-inf
 alias notify-warn='notify-send -i /usr/share/icons/gnome/48x48/status/dialog-warning.png'
 alias notify-error='notify-send -i /usr/share/icons/gnome/48x48/status/dialog-error.png'
 
-alias m=mimeopen
+alias m=xdg-open
 alias e=extract
 
 alias sa='conda activate'
