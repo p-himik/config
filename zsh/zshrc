@@ -56,7 +56,8 @@ if ! zgen saved; then
     zgen load scmbreeze/scm_breeze scm_breeze.sh
     zgen load ingydotnet/git-subrepo .rc
 
-    zgen load docker/compose contrib/completion/zsh/_docker-compose 1.20.1
+    zgen load docker/compose contrib/completion/zsh/_docker-compose 1.21.0
+    zgen load docker/machine contrib/completion/zsh/_docker-machine v0.16.1
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
