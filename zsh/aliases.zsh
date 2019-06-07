@@ -54,4 +54,9 @@ alias dcl='docker-compose logs'
 alias dclf='docker-compose logs -f'
 alias dcpull='docker-compose pull'
 
+alias dm='docker-machine'
+
 alias bt=bluetoothctl
+
+alias gdo=ordered-git-diff
+
