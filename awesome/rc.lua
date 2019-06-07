@@ -100,9 +100,9 @@ local lock_cmd = "physlock -dms"
 local logout_cmd = "pkill -u " .. os.getenv("USER")
 local suspend_cmd = 'dbus-send --system --print-reply --dest="org.freedesktop.login1" /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
 local hibernate_cmd = 'sudo pm-hibernate'
-local screenshot_screen = 'shutter -f'
-local screenshot_window = 'shutter -w'
-local screenshot_selection = 'shutter -s'
+local screenshot_screen = 'ksnip -f'
+local screenshot_window = 'ksnip -a'
+local screenshot_selection = 'ksnip -r'
 local switch_dp_monitor_cmd = "switch_monitor.sh DP-1"
 
 local autostarts = {
