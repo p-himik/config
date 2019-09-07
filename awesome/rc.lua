@@ -145,9 +145,9 @@ awful.layout.layouts = {
     layouts.fair.horizontal,
     -- layouts.spiral,
     -- layouts.spiral.dwindle,
+    layouts.magnifier,
     layouts.max,
     layouts.max.fullscreen,
-    -- layouts.magnifier,
     -- layouts.corner.nw,
     -- layouts.corner.ne,
     -- layouts.corner.sw,
@@ -167,7 +167,7 @@ local layout_by_tag = {
     { name = "txt", layout = layouts.tile.left },
     { name = "vnc", layout = layouts.tile.left },
     { name = "8", layout = layouts.tile.left },
-    { name = "mail", layout = layouts.tile.left },
+    { name = "9", layout = layouts.magnifier },
 }
 for _, nl in ipairs(layout_by_tag) do
     table.insert(all_tags.names, nl.name)
@@ -814,12 +814,16 @@ awful.rules.rules = {
     },
 
     {
+        -- IDEA starting splash screen.
         rule = {
-            class = "^jetbrains-",
+            -- For some reason, using `^$` does not work here in Awesome v4.3-219.
+            -- But it works in other places *shrug*.
+            class = "java-lang-Thread",
             name = "^win"
         },
         properties = {
-            focusable = false
+            floating = true,
+            focusable = false,
         }
     },
 
@@ -846,6 +850,16 @@ awful.rules.rules = {
             ontop = true,
         }
     },
+
+    {
+        rule = {
+            class = "GoldenDict"
+        },
+        properties = {
+            floating = true,
+            placement = awful.placement.bottom,
+        },
+    },
 }
 
 -- Taken from https://github.com/alfunx/.dotfiles/blob/master/.config/awesome/config/rules.lua
@@ -857,14 +871,16 @@ function awful.rules.delayed_properties.delayed_placement(c, value, props)
     end
 end
 
+-- NOTE: Use `xprop WM_CLASS` to get the value and use the last item in the list.
+--  The values are case-sensitive.
 local tag_rules = {
-    ["www"] = { "Google-chrome", "Firefox" },
-    ["dev"] = { "^jetbrains-" },
+    ["www"] = {},
+    ["dev"] = { "^jetbrains-", "java-lang-Thread" },
     ["soc"] = { "Skype", "Telegram", "Slack", "discord" },
     ["db"] = { "com-install4j-runtime-launcher-Launcher" },
     ["txt"] = { "Sublime_text" },
     ["vnc"] = { "VirtualBox" },
-    ["8"] = { "Deadbeef" },
+    ["8"] = { "Pragha" },
     ["mail"] = { "Thunderbird" }
 }
 
