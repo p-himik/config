@@ -81,6 +81,30 @@ do
 end
 -- }}}
 
+local default_timeout = 60
+naughty.config.defaults.timeout = default_timeout
+
+local orig_notify = naughty.notify
+naughty.notify = function (args)
+    local actions = args.actions or {}
+    if actions['Copy text'] == nil then
+        actions['Copy text'] = function()
+            local text
+            if args.title ~= nil and args.text ~= nil then
+                text = args.title .. '\n' .. args.text
+            else
+                text = args.title or args.text
+            end
+            io.popen('xclip -selection clipboard', 'w'):write(text):close()
+        end
+        args.actions = actions
+    end
+
+    args.timeout = (args.timeout == nil or args.timeout < default_timeout) and default_timeout or timeout
+
+    return orig_notify(args)
+end
+
 local function script_path()
     local str = debug.getinfo(2, "S").source:sub(2)
     return str:match("(.*/)")
@@ -165,7 +189,7 @@ local layout_by_tag = {
     { name = "soc", layout = layouts.fair },
     { name = "db", layout = layouts.tile.left },
     { name = "txt", layout = layouts.tile.left },
-    { name = "vnc", layout = layouts.tile.left },
+    { name = "vb", layout = layouts.tile.left },
     { name = "8", layout = layouts.tile.left },
     { name = "9", layout = layouts.magnifier },
 }

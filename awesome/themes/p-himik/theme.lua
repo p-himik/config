@@ -1,5 +1,8 @@
 --{{{ Main
+local gears = require("gears")
 local gfs = require("gears.filesystem")
+local dpi = require("beautiful").xresources.apply_dpi
+local naughty = require("naughty")
 
 local debug = debug
 local os = os
@@ -88,6 +91,12 @@ theme.layout_centerwork = awesome_dir .. "/lain/icons/layout/" .. theme_name .. 
 theme.awesome_icon = sharedicons .. "/awesome16.png"
 
 theme.notification_icon_size = 150
+theme.notification_width = 500
+theme.notification_font = 'verdana 12'
+theme.notification_shape = gears.shape.rounded_rect
+theme.notification_border_width = dpi(3)
+-- TODO: See if it's still necessary after Awesome v4.4.
+naughty.config.defaults.border_width = theme.notification_border_width
 
 theme.apw_fg_color = '#698f1e'
 theme.apw_bg_color = '#33450f'
