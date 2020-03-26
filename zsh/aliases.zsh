@@ -60,3 +60,7 @@ alias bt=bluetoothctl
 
 alias gdo=ordered-git-diff
 
+# The space at the front is needed to prevent this
+# command itself from going into the history.
+alias nohist=' export HISTFILE=/dev/null'
+
