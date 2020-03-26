@@ -818,7 +818,7 @@ awful.rules.rules = {
         rule = {
             -- For some reason, using `^$` does not work here in Awesome v4.3-219.
             -- But it works in other places *shrug*.
-            class = "java-lang-Thread",
+            class = "jetbrains-idea",
             name = "^win"
         },
         properties = {
@@ -842,7 +842,10 @@ awful.rules.rules = {
 
     {
         rule = {
-            name = "Slack Call Minipanel"
+            -- The main Slack window is named like "Slack | %channel/user% | %server%".
+            -- The call popup is named just "Slack", and it requests to skip taskbar.
+            name = "^Slack$",
+            skip_taskbar = true,
         },
         properties = {
             focusable = false,
@@ -872,16 +875,18 @@ function awful.rules.delayed_properties.delayed_placement(c, value, props)
 end
 
 -- NOTE: Use `xprop WM_CLASS` to get the value and use the last item in the list.
+--       To spy on the classes of newly opened windows, you can try using
+--       `xprop -spy -root _NET_ACTIVE_WINDOW | stdbuf -oL cut -f5 -d' ' | xargs -I{} xprop -id {} WM_CLASS`.
 --  The values are case-sensitive.
 local tag_rules = {
     ["www"] = {},
     ["dev"] = { "^jetbrains-", "java-lang-Thread" },
-    ["soc"] = { "Skype", "Telegram", "Slack", "discord" },
-    ["db"] = { "com-install4j-runtime-launcher-Launcher" },
+    ["soc"] = { "Skype", "Telegram", "Slack", "discord", "Zulip" },
+    ["db"] = { "com-install4j-runtime-launcher-Launcher", "Thunderbird", "Cherrytree", "calibre" },
     ["txt"] = { "Sublime_text" },
-    ["vnc"] = { "VirtualBox" },
+    ["vb"] = { "VirtualBox" },
     ["8"] = { "Pragha" },
-    ["mail"] = { "Thunderbird" }
+    ["9"] = { "Steam" }
 }
 
 for tag_name, classes in pairs(tag_rules) do
