@@ -113,7 +113,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(script_path() .. "/themes/p-himik/theme.lua")
-local apw = APW() -- must be after theme initialization
+local apw = APW({tooltip = false}) -- must be after theme initialization
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "terminator"
