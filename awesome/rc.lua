@@ -127,6 +127,7 @@ local screenshot_screen = 'ksnip -f'
 local screenshot_window = 'ksnip -a'
 local screenshot_selection = 'ksnip -r'
 local switch_dp_monitor_cmd = "switch_monitor.sh DP-1"
+local jetbrains_toolbox_cmd = '/home/p-himik/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox'
 
 local autostarts = {
     shell = {
@@ -489,6 +490,9 @@ root.buttons(gears.table.join(awful.button({}, 3, function() mymainmenu:toggle()
 local globalkeys = gears.table.join(
     awful.key({}, "#126", function() awful.spawn.with_shell(switch_dp_monitor_cmd) end,
         { description = "Switch monitor (plus-minus sign, Fn+F5)", group = "awesome" }),
+
+    awful.key({ modkey, "Control" }, "t", function() awful.spawn(jetbrains_toolbox_cmd) end,
+        { description = "Launch JetBrains Toolbox", group = "launcher" }),
 
     awful.key({ modkey }, "Tab", function ()
             awful.client.focus.history.previous()
