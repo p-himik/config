@@ -444,6 +444,8 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+            -- TODO: Remove when https://github.com/awesomeWM/awesome/issues/3089 is fixed.
+            fill_space = true,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
