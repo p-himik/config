@@ -148,7 +148,6 @@ local jetbrains_toolbox_cmd = '/home/p-himik/.local/share/JetBrains/Toolbox/bin/
 
 local autostarts = {
     shell = {
-        "kbdd",
         "restart_xbindkeys.sh",
         "restart_compton.sh"
     },
@@ -395,14 +394,28 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
---local kbd_dbus_next_cmd = "dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.next_layout"
-local kbd_img_path = "/usr/local/share/icons/flags/"
-local kbd_images = {
-    kbd_img_path .. "us.png",
-    kbd_img_path .. "ru.png"
-}
-dbus.request_name("session", "ru.gentoo.kbdd")
-dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
+-- From https://cgit.kde.org/plasma-workspace.git/tree/components/keyboardlayout/org.kde.KeyboardLayouts.xml
+local kbd_interface = 'org.kde.KeyboardLayouts'
+local kbd_signal = 'currentLayoutChanged'
+local kbd_getter = 'getCurrentLayout'
+-- From https://cgit.kde.org/plasma-workspace.git/tree/components/keyboardlayout/keyboardlayout.cpp
+local kbd_path = '/Layouts'
+
+local function kbd_layout_to_img(layout)
+    -- Requires `famfamfam-flag-png` package to be installed.
+    return '/usr/share/flags/countries/16x11/' .. layout .. ".png"
+end
+
+local function get_current_kbd_layout()
+    local kbd_current_layout_cmd = 'dbus-send --print-reply=literal --dest=org.kde.kded5 ' .. kbd_path .. ' ' .. kbd_interface .. '.' .. kbd_getter
+    local handle = io.popen(kbd_current_layout_cmd)
+    local result = handle:read('*a')
+    handle:close()
+    return trim(result)
+end
+
+local kbd_initial_image = kbd_layout_to_img(get_current_kbd_layout())
+dbus.add_match('session', "interface='" .. kbd_interface .. "',member='" .. kbd_signal .. "'")
 
 -- {{{ Wibar
 awful.screen.connect_for_each_screen(function(s)
@@ -431,12 +444,15 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", screen = s })
     local size = s.mywibox.height;
 
-    --noinspection ArrayElementZero
-    local kbdwidget = wibox.widget.imagebox(kbd_images[1], true)
-    dbus.connect_signal("ru.gentoo.kbdd", function(...)
-        local data = { ... }
-        local layout = data[2] + 1
-        kbdwidget:set_image(kbd_images[layout])
+    local kbdwidget = wibox.widget {
+        widget = wibox.widget.imagebox,
+        image = kbd_initial_image,
+        resize = true
+    }
+    dbus.connect_signal(kbd_interface, function(data, layout)
+        if data.member == kbd_signal and data.path == kbd_path then
+            kbdwidget:set_image(kbd_layout_to_img(layout))
+        end
     end)
 
     -- Add widgets to the wibox
