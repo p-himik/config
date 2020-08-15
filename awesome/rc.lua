@@ -115,7 +115,8 @@ naughty.notify = function (args)
         args.actions = actions
     end
 
-    args.timeout = (args.timeout == nil or args.timeout < default_timeout) and default_timeout or timeout
+    -- Timeout 0 means no timeout, which is used for critical notifications.
+    args.timeout = (args.timeout == nil or (args.timeout > 0 and args.timeout < default_timeout)) and default_timeout or timeout
 
     return orig_notify(args)
 end
