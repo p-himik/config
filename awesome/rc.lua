@@ -828,6 +828,16 @@ awful.rules.rules = {
     -- Ad-hoc rules
     {
         rule = {
+            class = "Pavucontrol",
+        },
+        properties = {
+            floating = true,
+            delayed_placement = awful.placement.centered,
+        }
+    },
+
+    {
+        rule = {
             class = "factorio",
         },
         properties = {
