@@ -140,9 +140,9 @@ local lock_cmd = "physlock -dms"
 local logout_cmd = "pkill -u " .. os.getenv("USER")
 local suspend_cmd = 'dbus-send --system --print-reply --dest="org.freedesktop.login1" /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
 local hibernate_cmd = 'sudo pm-hibernate'
-local screenshot_screen = 'ksnip -f'
-local screenshot_window = 'ksnip -a'
-local screenshot_selection = 'ksnip -r'
+local screenshot_screen = 'spectacle -f'
+local screenshot_window = 'spectacle -a'
+local screenshot_selection = 'spectacle -r'
 local switch_dp_monitor_cmd = "switch_monitor.sh DP-1"
 local jetbrains_toolbox_cmd = '/home/p-himik/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox'
 
