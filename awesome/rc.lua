@@ -94,6 +94,11 @@ end
 local default_timeout = 60
 naughty.config.defaults.timeout = default_timeout
 
+table.insert(naughty.dbus.config.mapping,
+             {{ urgency = '\0', -- low
+                appname = 'Solaar' },
+              { callback = function (...) return false end }})
+
 local orig_notify = naughty.notify
 naughty.notify = function (args)
     local actions = args.actions or {}
