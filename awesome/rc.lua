@@ -907,7 +907,7 @@ local tag_rules = {
     ["db"] = { "com-install4j-runtime-launcher-Launcher", "Thunderbird", "Cherrytree", "calibre" },
     ["txt"] = { "Sublime_text" },
     ["vb"] = { "VirtualBox" },
-    ["8"] = { "Pragha" },
+    ["8"] = { "Deadbeef" },
     ["9"] = { "Steam" }
 }
 
