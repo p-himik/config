@@ -866,6 +866,11 @@ awful.rules.rules = {
         rule = {
             -- The main Slack window is named like "Slack | %channel/user% | %server%".
             -- The call popup is named just "Slack", and it requests to skip taskbar.
+            -- The other difference is that it has
+            -- `NET_WM_WINDOW_TYPE(ATOM) = _NET_WM_WINDOW_TYPE_CALLS-MINI-PANEL`
+            -- where the main window has
+            -- `NET_WM_WINDOW_TYPE(ATOM) = _NET_WM_WINDOW_TYPE_NORMAL`
+            -- but I'm not sure how to use it.
             name = "^Slack$",
             skip_taskbar = true,
         },
