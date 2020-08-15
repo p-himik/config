@@ -6,6 +6,17 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local lain = require("lain")
 
+local default_inspect = require('inspect')
+function inspect(v)
+    local process = function(item, path)
+        if type(item) == 'key' then
+            return {key = item.key, keysym = item.keysym, modifiers = item.modifiers}
+        end
+        return item
+    end
+    return default_inspect(v, {process=process})
+end
+
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 local APW = require("apw4/widget")
