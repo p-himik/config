@@ -58,6 +58,7 @@ if ! zgen saved; then
 
     zgen load docker/compose contrib/completion/zsh/_docker-compose 1.21.0
     zgen load docker/machine contrib/completion/zsh/_docker-machine v0.16.1
+    zgen load containers/libpod completions/zsh/_podman master
 
     zgen load "$ZSH_BASE/themes/p-himik"
     zgen load "$ZSH_BASE/my_mvn.zsh"
