@@ -348,8 +348,42 @@ end
 
 -- }}}
 
+local function refocus_centerwork_layout_main_client(screen, cb)
+    for _, t in pairs(screen.tags) do
+        if t.layout.name == 'centerwork' then
+            local find_client = function ()
+                for _, c in pairs(client.get(screen)) do
+                    if c.sticky then
+                        return c
+                    end
+                    for _, v in ipairs(c:tags()) do
+                        if v == t then
+                            return c
+                        end
+                    end
+                end
+            end
+            local chosen_client = find_client()
+            -- Cannot use `awful.layout.parameters` because it returns
+            -- an empty list of clients if the tag is not selected.
+            if chosen_client and chosen_client.focusable then
+                chosen_client:emit_signal("request::activate", "refocus_centerwork_layout_main_client")
+            end
+        end
+    end
+    -- Note that just directly calling `cb` or even wrapping it in `gears.timer.delayed_call`
+    -- will not work because changing focus is lazy while changing a tag is not.
+    -- Some discussion and more details: https://github.com/awesomeWM/awesome/issues/3153
+    gears.timer.start_new(0.01, cb)
+end
+
+local function switch_to_tag(tag)
+    refocus_centerwork_layout_main_client(tag.screen, function() tag:view_only() end)
+end
+
 -- Create a wibox for each screen and add it
-local taglist_buttons = gears.table.join(awful.button({}, 1, function(t) t:view_only() end),
+local taglist_buttons = gears.table.join(
+    awful.button({}, 1, function(t) switch_to_tag(t) end),
     awful.button({ modkey }, 1, function(t)
         if client.focus then
             client.focus:move_to_tag(t)
@@ -713,11 +747,11 @@ for i = 1, 9 do
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
-                        local screen = awful.screen.focused()
-                        local tag = screen.tags[i]
-                        if tag then
-                           tag:view_only()
-                        end
+                      local screen = awful.screen.focused()
+                      local tag = screen.tags[i]
+                      if tag then
+                          switch_to_tag(tag)
+                      end
                   end,
                   {description = "view tag #"..i, group = "tag"}),
         -- Toggle tag display.
