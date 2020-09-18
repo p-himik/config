@@ -360,11 +360,11 @@ local function refocus_centerwork_layout_main_client(screen, cb)
                     elseif awful.client.focus.filter(c) then
                         for _, v in ipairs(c:tags()) do
                             if v == t then
-                                -- Only use the maximized window if it's the one focused.
-                                -- Otherwise, maximized windows from the back of the stack
-                                -- will be brought forward.
-                                if c.maximized and c.focus then
-                                    return c
+                                if c.maximized then
+                                    -- Only use the maximized window if it's the one focused.
+                                    -- Otherwise, maximized windows from the back of the stack
+                                    -- will be brought forward.
+                                    if c == client.focus then return c end
                                 elseif tag_first_client == nil then
                                     tag_first_client = c
                                 end
