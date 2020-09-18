@@ -80,8 +80,8 @@ function omg-description() {
     done
 }
 
-unsetopt extendedglob sharehistory
-setopt incappendhistory autocd
+unsetopt sharehistory
+setopt incappendhistory autocd extendedglob
 
 compctl -K listMavenCompletions mvn2
 compctl -K listMavenCompletions mvn3
