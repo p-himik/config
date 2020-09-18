@@ -7,6 +7,7 @@ alias rsync='rsync --progress -avh -e "ssh -ax -o ClearAllForwardings=yes"'
 alias less='less -i'
 alias a='sudo aptitude'
 alias af='apt-file find'
+alias fd='env MESSAGELANG=C fd'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
