@@ -350,7 +350,8 @@ end
 
 local function refocus_centerwork_layout_main_client(screen, cb)
     for _, t in pairs(screen.tags) do
-        if t.layout.name == 'centerwork' then
+        -- Do not do anything when switching _to_ a tag.
+        if t.selected and t.layout.name == 'centerwork' then
             local find_client = function ()
                 local tag_first_client
                 for _, c in pairs(client.get(screen)) do
@@ -359,7 +360,10 @@ local function refocus_centerwork_layout_main_client(screen, cb)
                     elseif awful.client.focus.filter(c) then
                         for _, v in ipairs(c:tags()) do
                             if v == t then
-                                if c.maximized then
+                                -- Only use the maximized window if it's the one focused.
+                                -- Otherwise, maximized windows from the back of the stack
+                                -- will be brought forward.
+                                if c.maximized and c.focus then
                                     return c
                                 elseif tag_first_client == nil then
                                     tag_first_client = c
@@ -375,11 +379,6 @@ local function refocus_centerwork_layout_main_client(screen, cb)
             -- an empty list of clients if the tag is not selected.
             if chosen_client and chosen_client.focusable then
                 chosen_client:emit_signal("request::activate", "refocus_centerwork_layout_main_client")
-                if not t.selected then
-                    -- Rising a client before switching from a tag makes it look strange.
-                    -- And it's not that useful either way.
-                    chosen_client:raise()
-                end
             end
         end
     end
