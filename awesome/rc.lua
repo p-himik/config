@@ -365,7 +365,7 @@ local function refocus_centerwork_layout_main_client(screen, cb)
                                     -- Otherwise, maximized windows from the back of the stack
                                     -- will be brought forward.
                                     if c == client.focus then return c end
-                                elseif tag_first_client == nil then
+                                elseif tag_first_client == nil and not c.minimized then
                                     tag_first_client = c
                                 end
                             end
