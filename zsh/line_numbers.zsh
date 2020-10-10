@@ -44,7 +44,7 @@ function locate-with-alias() {
     fill-query-and-params $@
     local INPUT_FILES_LIST
     if [[ -n "$CMD_QUERY" ]]; then
-        INPUT_FILES_LIST=($(locate "$CMD_QUERY" $CMD_PARAMS))
+        INPUT_FILES_LIST=("${(f)$(locate "$CMD_QUERY" $CMD_PARAMS)}")
         print-with-aliases "$CMD_QUERY"
     fi
 }
