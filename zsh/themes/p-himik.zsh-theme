@@ -98,6 +98,9 @@ function ssh_connection() {
 
 function omg_prompt_callback() {
     local env_prompt
+    if [[ -n ${CONTAINERS_GRAPHROOT} && -n ${CONTAINERS_RUNROOT} ]]; then
+        env_prompt+="[podman unshare]"
+    fi
     if [[ -n ${VIRTUAL_ENV} ]]; then
         env_prompt+="[`basename ${VIRTUAL_ENV}`]"
     fi
