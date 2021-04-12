@@ -91,35 +91,50 @@ do
 end
 -- }}}
 
+local function send_text_to_clipboard(text)
+    io.popen('xclip -selection clipboard', 'w'):write(text):close()
+end
+
+local function not_empty_str(s)
+    if s == nil or s == '' then
+        return nil
+    end
+    return s
+end
+
 local default_timeout = 60
 naughty.config.defaults.timeout = default_timeout
 
-table.insert(naughty.dbus.config.mapping,
-             {{ urgency = '\0', -- low
-                appname = 'Solaar' },
-              { callback = function (...) return false end }})
-
-local orig_notify = naughty.notify
-naughty.notify = function (args)
-    local actions = args.actions or {}
-    if actions['Copy text'] == nil then
-        actions['Copy text'] = function()
-            local text
-            if args.title ~= nil and args.text ~= nil then
-                text = args.title .. '\n' .. args.text
-            else
-                text = args.title or args.text
+local rnotification = require("ruled.notification")
+rnotification.connect_signal('request::rules', function()
+    rnotification.append_rule {
+        rule = { urgency = 'low',
+                 app_name = 'Solaar'},
+        properties = { ignore = true }
+    }
+    local copy_notif_text_action = naughty.action {
+        name = 'Copy',
+    }
+    copy_notif_text_action:connect_signal('invoked', function (_action, notif)
+        local title = not_empty_str(notif.title)
+        local message = not_empty_str(notif.message)
+        send_text_to_clipboard(title and message and (title .. '\n' .. message) or title or message)
+    end)
+    rnotification.append_rule {
+        rule = {},
+        properties = {
+            append_actions = {
+                copy_notif_text_action
+            },
+            callback = function (args)
+                -- Timeout 0 means no timeout, which is used for critical notifications.
+                if args.timeout > 0 and args.timeout < default_timeout then
+                    args.timeout = default_timeout
+                end
             end
-            io.popen('xclip -selection clipboard', 'w'):write(text):close()
-        end
-        args.actions = actions
-    end
-
-    -- Timeout 0 means no timeout, which is used for critical notifications.
-    args.timeout = (args.timeout == nil or (args.timeout > 0 and args.timeout < default_timeout)) and default_timeout or timeout
-
-    return orig_notify(args)
-end
+        }
+    }
+end)
 
 local function script_path()
     local str = debug.getinfo(2, "S").source:sub(2)
