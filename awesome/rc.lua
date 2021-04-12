@@ -1058,15 +1058,15 @@ client.connect_signal("unfocus", check_prevent_auto_unfocus)
 
 -- It's needed to focus a client that is under mouse right after we change a tag's layout
 local function delay_refocus_client_under_mouse()
-    local t = gears.timer { timeout = 0.01 }
-    t:connect_signal("timeout", function()
-        t:stop()
-        local c = mouse.current_client
-        if c then
-            refocus_client(c)
-        end
-    end)
-    t:start()
+    gears.timer { timeout = 0.01,
+                  autostart = true,
+                  callback = function()
+                      t:stop()
+                      local c = mouse.current_client
+                      if c then
+                          refocus_client(c)
+                      end
+                  end }
 end
 
 --screen.connect_signal("tag::history::update", delay_refocus_client_under_mouse)
