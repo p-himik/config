@@ -392,6 +392,52 @@ local function switch_to_tag(tag)
     refocus_centerwork_layout_main_client(tag.screen, function() tag:view_only() end)
 end
 
+-- {{{ Based on https://github.com/awesomeWM/awesome/issues/2518#issuecomment-500389134.
+local function update_borders(s)
+    if s and s.selected_tag then
+        local ln = s.selected_tag.layout.name
+        local max = (ln == "max" or ln == 'fullscreen')
+        -- Use tiled_clients so that other floating windows don't affect the count.
+        local only_one = #s.tiled_clients == 1
+        -- But iterate over clients instead of tiled_clients as tiled_clients doesn't include maximized windows.
+        for _, c in pairs(s.clients) do
+            if c.maximized or ((max or only_one) and not c.floating) then
+                c.border_width = 0
+            else
+                c.border_width = beautiful.border_width
+            end
+        end
+    end
+end
+
+local function connect_props_signals(lib, props, f)
+    for _, prop in ipairs(props) do
+        lib.connect_signal('property::' .. prop, f)
+    end
+end
+
+local function update_borders_by_client(c)
+    if c then
+        update_borders(c.screen)
+    end
+end
+connect_props_signals(client,
+                      { 'floating', 'fullscreen', 'maximized_vertical',
+                        'maximized_horizontal', 'maximized', 'minimized', 'hidden' },
+                      update_borders_by_client)
+for _, sg in pairs({'list', 'manage'}) do
+    client.connect_signal(sg, update_borders_by_client)
+end
+client.connect_signal("property::screen", function(c, old_screen)
+    update_borders_by_client(c)
+    update_borders(old_screen)
+end)
+
+connect_props_signals(tag,
+                      { 'selected', 'activated', 'tagged' },
+                      function(t) update_borders(t.screen) end)
+-- }}}
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
     awful.button({}, 1, function(t) switch_to_tag(t) end),
@@ -740,8 +786,8 @@ local clientkeys = gears.table.join(awful.key({ modkey, }, "f",
         function(c)
             c.maximized = not c.maximized
 
-            -- workaround for #1692
-            if client.focus then
+            -- TODO: Remove when https://github.com/awesomeWM/awesome/issues/1692 is fixed.
+            if client.focus and not client.focus.fullscreen and not c.maximized then
                 client.focus.ignore_border_width = false
                 client.focus.border_width = beautiful.border_width
             end
