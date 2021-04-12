@@ -207,7 +207,7 @@ local layout_by_tag = {
     { name = "txt", layout = layouts.tile.left },
     { name = "vb", layout = layouts.tile.left },
     { name = "8", layout = layouts.tile.left },
-    { name = "9", layout = layouts.magnifier },
+    { name = "9", layout = layouts.max.fullscreen },
 }
 for _, nl in ipairs(layout_by_tag) do
     table.insert(all_tags.names, nl.name)
