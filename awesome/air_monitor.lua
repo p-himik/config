@@ -54,15 +54,16 @@ function split_in_two(s, p)
 end
 
 function handle_co2_value(value, config)
-    local m = config.co2_max
+    local max = config.co2_max
     local prev = air_monitor.prev_co2_value
     air_monitor.prev_co2_value = value
-    if value > m and (prev == nil or prev <= m) then
-        notify_co2(m)
+    if value > max then
+        if prev == nil or prev <= max then
+            notify_co2(max)
+        end
         return true
-    elseif value <= m then
-        hide_co2()
     end
+    hide_co2()
 end
 
 function handle_humidity_value(value, config)
@@ -70,15 +71,18 @@ function handle_humidity_value(value, config)
     local max = config.humidity_max
     local prev = air_monitor.prev_humidity_value
     air_monitor.prev_humidity_value = value
-    if value < min and (prev == nil or prev >= min) then
-        notify_low_humidity(min)
+    if value < min then
+        if prev == nil or prev >= min then
+            notify_low_humidity(min)
+        end
         return true
-    elseif value > max and (prev == nil or prev <= max) then
-        notify_high_humidity(max)
+    elseif value > max then
+        if prev == nil or prev <= max then
+            notify_high_humidity(max)
+        end
         return true
-    elseif min <=  value and value <= max then
-        hide_humidity()
     end
+    hide_humidity()
 end
 
 function parse_line(l)
