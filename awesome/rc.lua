@@ -1,6 +1,7 @@
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
+local gfs = require('gears.filesystem')
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
@@ -32,6 +33,7 @@ require("awful.autofocus")
 local awesome = awesome
 local client = client
 local dbus = dbus
+local dofile = dofile
 local screen = screen
 local mouse = mouse
 local tostring = tostring
@@ -139,6 +141,18 @@ end)
 local function script_path()
     local str = debug.getinfo(2, "S").source:sub(2)
     return str:match("(.*/)")
+end
+
+local sensitive_config_path = script_path() .. '/sensitive_config.lua'
+local sensitive_config = {}
+if gfs.file_readable(sensitive_config_path) then
+    sensitive_config = dofile(sensitive_config_path)
+end
+
+local air_monitor
+if sensitive_config.air_monitor then
+    local am = require('air_monitor')
+    air_monitor = am(sensitive_config.air_monitor)
 end
 
 -- {{{ Variable definitions
@@ -610,6 +624,7 @@ awful.screen.connect_for_each_screen(function(s)
                 widget = apw.progressbar
             },
             --batwidget,
+            air_monitor,
             vpnwidget,
             kbdwidget,
             wibox.widget.systray(),
