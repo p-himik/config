@@ -58,7 +58,7 @@ function handle_co2_value(value, config)
     local prev = air_monitor.prev_co2_value
     air_monitor.prev_co2_value = value
     if value > max then
-        if prev == nil or prev <= max then
+        if config.notify_co2 and (prev == nil or prev <= max) then
             notify_co2(max)
         end
         return true
@@ -72,12 +72,12 @@ function handle_humidity_value(value, config)
     local prev = air_monitor.prev_humidity_value
     air_monitor.prev_humidity_value = value
     if value < min then
-        if prev == nil or prev >= min then
+        if config.notify_humidity and (prev == nil or prev >= min) then
             notify_low_humidity(min)
         end
         return true
     elseif value > max then
-        if prev == nil or prev <= max then
+        if config.notify_humidity and (prev == nil or prev <= max) then
             notify_high_humidity(max)
         end
         return true
