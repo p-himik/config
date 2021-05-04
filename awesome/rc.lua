@@ -152,7 +152,7 @@ end
 local air_monitor
 if sensitive_config.air_monitor then
     local am = require('air_monitor')
-    air_monitor = am(sensitive_config.air_monitor)
+    air_monitor = am(gears.table.join(sensitive_config.air_monitor, { notify_co2 = true }))
 end
 
 -- {{{ Variable definitions
