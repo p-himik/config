@@ -1,4 +1,5 @@
-local rc_dir = debug.getinfo(1, "S").source:sub(2):match("(.*/)")
+local gfs = require('gears.filesystem')
+local rc_dir = gfs.get_configuration_dir()
 
 local fennel = require('fennel')
 fennel.path = rc_dir .. '?.fnl;' .. rc_dir .. '?/init.fnl'

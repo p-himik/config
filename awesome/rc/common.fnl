@@ -1,11 +1,10 @@
-(local {: config-path} (require :rc.util))
 (local gears (require :gears))
 (local gfs (require :gears.filesystem))
 (local fennel (require :fennel))
 
 (local terminal "terminator")
 
-(local sensitive-config (let [path (.. (config-path) "/sensitive_config.fnl")]
+(local sensitive-config (let [path (.. (gfs.get_configuration_dir) "/sensitive_config.fnl")]
                           (if (gfs.file_readable path)
                             (fennel.dofile path)
                             {})))

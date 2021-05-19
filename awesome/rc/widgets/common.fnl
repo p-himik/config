@@ -1,13 +1,13 @@
 (local awful (require :awful))
 (local beautiful (require :beautiful))
 (local clj (require :cljlib))
+(local gfs (require :gears.filesystem))
 (local hotkeys-popup (require :awful.hotkeys_popup))
 (local {: terminal : cmds} (require :rc.common))
-(local {: config-path} (require :rc.util))
 (local APW (require :apw4.widget))
 
 ;; The theme has to be initialized before we create any of the widgets.
-(beautiful.init (.. (config-path) "/themes/p-himik/theme.lua"))
+(beautiful.init (.. (gfs.get_configuration_dir) "/themes/p-himik/theme.lua"))
 
 (fn beautiful.xresources.get_current_theme []
   ;; This function is needed just to remove the warning about missing xrdb config.
