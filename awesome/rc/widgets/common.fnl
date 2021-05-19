@@ -1,5 +1,6 @@
 (local awful (require :awful))
 (local beautiful (require :beautiful))
+(local clj (require :cljlib))
 (local hotkeys-popup (require :awful.hotkeys_popup))
 (local {: terminal : cmds} (require :rc.common))
 (local {: config-path} (require :rc.util))
@@ -28,6 +29,44 @@
   ["Quit" awesome.quit]
 ])
 
+(fn mk-client-menu-toggle-fn [only-current-tag?]
+  (var instance nil)
+  (fn [_c]
+    (if (and instance instance.wibox.visible)
+      (do
+        (instance:hide)
+        (set instance nil))
+      (let [filter-fn (if only-current-tag?
+                        (let [s (awful.screen.focused)
+                              tags (collect [_ t (ipairs s.selected_tags)]
+                                     (values t true))]
+                          (fn [c]
+                            (clj.some (fn [t] (. tags t)) (c:tags))))
+                        (fn [_c] true))
+            items {}]
+        (var key 0)
+        (each [c (awful.client.iterate filter-fn)]
+          (let [name (or c.name "")
+                name (if (< key 10)
+                       (do
+                         (set key (+ key 1))
+                         (.. "[&" key "] " name))
+                       name)
+                cmd (fn []
+                      (when c.valid
+                        (when (not (c:isvisible))
+                          (awful.tag.viewmore (c:tags) c.screen))
+                        (c:emit_signal "request::activate" "menu.clients" {:raise true})))]
+            (table.insert items {:text name
+                                 :cmd  cmd
+                                 :icon c.icon})))
+        (when (not= nil (next items))
+          (set instance (awful.menu.new {:theme {:width 300}
+                                         :items items}))
+          (instance:show)
+          (instance:item_enter 1))))))
+
 {:main-menu (awful.menu {:items [["Awesome" awesome-menu beautiful.awesome_icon]
                                  ["Open terminal" terminal]]})
+ : mk-client-menu-toggle-fn
  :apw (APW {:tooltip false})}

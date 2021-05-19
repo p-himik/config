@@ -1,6 +1,7 @@
 (local awful (require :awful))
 (local beautiful (require :beautiful))
 (local gears (require :gears))
+(local {: modkey} (require :rc.common))
 
 (fn update-borders [s]
   ;; Based on https://github.com/awesomeWM/awesome/issues/2518#issuecomment-500389134.
@@ -91,3 +92,48 @@
 ;; See https://github.com/awesomeWM/awesome/issues/1382.
 (screen.connect_signal :removed awesome.restart)
 (screen.connect_signal :added awesome.restart)
+
+(local b awful.button)
+(local k awful.key)
+
+(client.connect_signal
+  :request::default_mousebindings
+  (fn []
+    (awful.mouse.append_client_mousebindings
+      [(b [] 1 (fn [c] (c:activate {:context :mouse_click})))
+       (b [modkey] 1 (fn [c] (c:activate {:context :mouse_click :action :mouse_move})))
+       (b [modkey] 3 (fn [c] (c:activate {:context :mouse_click :action :mouse_resize})))])))
+
+(client.connect_signal
+  :request::default_keybindings
+  (fn []
+    (awful.keyboard.append_client_keybindings
+      [(k [modkey :Shift] :c
+          (fn [c] (c:kill))
+          {:description "close" :group :client})
+       (k [modkey :Control] :space
+          awful.client.floating.toggle
+          {:description "toggle floating" :group :client})
+       (k [modkey :Control] :Return
+          (fn [c] (c:swap (awful.client.getmaster)))
+          {:description "move to master" :group :client})
+       (k [modkey] :o
+          (fn [c] (c:move_to_screen))
+          {:description "move to screen" :group :client})
+       (k [modkey] :n
+          (fn [c]
+            ;; The client currently has the input focus, so it cannot be
+            ;; minimized, since minimized clients can't have the focus.
+            (set c.minimized true))
+          {:description "minimize" :group :client})
+       (k [modkey] :m
+          (fn [c]
+            (set c.maximized (not c.maximized))
+            ;; TODO: Remove when https://github.com/awesomeWM/awesome/issues/1692 is fixed.
+            (when (and client.focus
+                       (not client.focus.fullscreen)
+                       (not c.maximized))
+              (set client.focus.ignore_border_width false)
+              (set client.focus.border_width beautiful.border_width))
+            (c:raise))
+          {:description "maximize" :group :client})])))

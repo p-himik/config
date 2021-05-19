@@ -6,6 +6,7 @@
 (local beautiful (require :beautiful))
 (local gears (require :gears))
 (local {: modkey} (require :rc.common))
+(local ruled (require :ruled))
 (local tags (require :rc.tags))
 
 ;; Taken from https://github.com/alfunx/.dotfiles/blob/master/.config/awesome/config/rules.lua
@@ -15,70 +16,17 @@
   (when props.delayed_placement
     (awful.rules.extra_properties.placement c props.delayed_placement props)))
 
-(local client-keys
-  (let [k awful.key]
-    (gears.table.join
-      (k [modkey :Shift] :c
-         (fn [c] (c:kill))
-         {:description "close" :group :client})
-      (k [modkey :Control] :space
-         awful.client.floating.toggle
-         {:description "toggle floating" :group :client})
-      (k [modkey :Control] :Return
-         (fn [c] (c:swap (awful.client.getmaster)))
-         {:description "move to master" :group :client})
-      (k [modkey] :o
-         (fn [c] (c:move_to_screen))
-         {:description "move to screen" :group :client})
-      (k [modkey] :n
-         (fn [c]
-           ;; The client currently has the input focus, so it cannot be
-           ;; minimized, since minimized clients can't have the focus.
-           (set c.minimized true))
-         {:description "minimize" :group :client})
-      (k [modkey] :m
-         (fn [c]
-           (set c.maximized (not c.maximized))
-           ;; TODO: Remove when https://github.com/awesomeWM/awesome/issues/1692 is fixed.
-           (when (and client.focus
-                      (not client.focus.fullscreen)
-                      (not c.maximized))
-             (set client.focus.ignore_border_width false)
-             (set client.focus.border_width beautiful.border_width))
-           (c:raise))
-         {:description "maximize" :group :client}))))
-
-(local client-buttons
-  (let [b awful.button
-        emit-raise (fn [c]
-                     (c:emit_signal "request::activate" "mouse_click" {:raise true}))]
-    (gears.table.join
-      (b [] 1
-         (fn [c]
-           (when c.focusable
-             (emit-raise c))))
-      (b [modkey] 1
-         (fn [c]
-           (emit-raise c)
-           (awful.mouse.client.move c)))
-      (b [modkey] 3
-         (fn [c]
-           (emit-raise c)
-           (awful.mouse.client.resize c))))))
-
 (local rules [
-  {;; All clients match this rule.
+  {:id :global
    :rule {}
    :properties {:border_width beautiful.border_width
                 :border_color beautiful.border_normal
                 :focus awful.client.focus.filter
                 :raise true
-                :keys client-keys
-                :buttons client-buttons
                 :screen awful.screen.preferred
                 :placement (+ awful.placement.no_overlap awful.placement.no_offscreen)
                 :size_hints_honor false}}
-  {;; Floating clients.
+  {:id :floating
    :rule_any {:instance [
                 "DTA" ;; Firefox addon DownThemAll.
                 "copyq" ;; Includes session name in class.
@@ -104,12 +52,13 @@
                 ;"pop-up" ;; e.g. Google Chrome's (detached) Developer Tools.
               ]}
    :properties {:floating true}}
-  {;; On top clients.
-  :rule_any {:role [
+  {:id :on-top
+   :rule_any {:role [
                 "gimp-toolbox"
                 "gimp-dock"
               ]}
    :properties {:optop true}}
+
   {:rule {:class "Pavucontrol"}
    :properties {:floating true
                 :delayed_placement awful.placement.centered}}
@@ -150,10 +99,10 @@
                 :placement awful.placement.bottom}}
 ])
 
-(each [_ t (ipairs tags)]
+(each [_ t (ipairs tags.tag-specs)]
   (when t.classes
     (each [_ c (ipairs t.classes)]
       (table.insert rules {:rule       {:class c :type :normal}
                            :properties {:screen 1 :tag t.name}}))))
 
-rules
+(ruled.client.connect_signal :request::rules (fn [] (ruled.client.append_rules rules)))

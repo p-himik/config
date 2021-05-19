@@ -1,19 +1,19 @@
 (local awful (require :awful))
 (local beautiful (require :beautiful))
 (local gears (require :gears))
-(local layout-by-tag (require :rc.tags))
-(local {: taglist-buttons : tasklist-buttons} (require :rc.bindings))
-(local common (require :rc.common))
+(local tags (require :rc.tags))
+(local {: modkey &as common} (require :rc.common))
 (local create-kbd-widget (require :rc.widgets.keyboard))
 (local create-calendar-widget (require :rc.widgets.calendar))
-(local {: main-menu : apw} (require :rc.widgets.common))
+(local cw (require :rc.widgets.common))
+(local set-wallpaper (require :rc.wallpaper))
 (local vicious (require :vicious))
 (local vpn (require :vpnwidget))
 (local wibox (require :wibox))
 
 (local all-tags {:names   []
                  :layouts []})
-(each [_ nl (ipairs layout-by-tag)]
+(each [_ nl (ipairs tags.tag-specs)]
   (table.insert all-tags.names nl.name)
   (table.insert all-tags.layouts nl.layout))
 
@@ -21,7 +21,7 @@
   (gears.table.crush children params))
 
 (local mylauncher (awful.widget.launcher {:image beautiful.awesome_icon
-                                          :menu  main-menu}))
+                                          :menu  cw.main-menu}))
 
 (local cpu-widget (doto (wibox.widget.graph)
                     (vicious.register vicious.widgets.cpu "$1" 0.5)))
@@ -45,15 +45,31 @@
   (awful.tag all-tags.names s all-tags.layouts)
 
   (set s.mypromptbox (awful.widget.prompt))
-  (set s.mylayoutbox (awful.widget.layoutbox s))
-  (let [layout-button (fn [b inc]
-                        (awful.button [] b (fn [] (awful.layout.inc inc))))]
-    (s.mylayoutbox:buttons (gears.table.join (layout-button 1 1)
-                                             (layout-button 3 -1)
-                                             (layout-button 4 1)
-                                             (layout-button 5 -1))))
-  (set s.mytaglist (awful.widget.taglist s awful.widget.taglist.filter.all taglist-buttons))
-  (set s.mytasklist (awful.widget.tasklist s awful.widget.tasklist.filter.currenttags tasklist-buttons))
+  (let [b awful.button
+        layout-button (fn [button inc]
+                        (b [] button (fn [] (awful.layout.inc inc))))]
+    (set s.mylayoutbox (awful.widget.layoutbox
+                         {:screen s
+                          :buttons [(layout-button 1 1)
+                                    (layout-button 3 -1)
+                                    (layout-button 4 1)
+                                    (layout-button 5 -1)]}))
+    (set s.mytaglist (awful.widget.taglist
+                       {:screen s
+                        :filter awful.widget.taglist.filter.all
+                        :buttons [(b [] 1 tags.switch-to-tag)
+                                  (b [modkey] 1 (fn [t] (-?> client.focus (: :move_to_tag t))))
+                                  (b [] 3 awful.tag.viewtoggle)
+                                  (b [modkey] 3 (fn [t] (-?> client.focus (: :toggle_tag t))))
+                                  (b [] 4 (fn [t] (awful.tag.viewnext t.screen)))
+                                  (b [] 5 (fn [t] (awful.tag.viewprev t.screen)))]}))
+    (set s.mytasklist (awful.widget.tasklist
+                        {:screen s
+                         :filter awful.widget.tasklist.filter.currenttags
+                         :buttons [(b [] 1 (fn [c] (c:activate {:context :tasklist :action :toggle_minimization})))
+                                   (b [] 3 (cw.mk-client-menu-toggle-fn false))
+                                   (b [] 4 (fn [_c] (awful.client.focus.byidx 1)))
+                                   (b [] 5 (fn [_c] (awful.client.focus.byidx -1)))]})))
   (set s.mywibox (awful.wibar {:position :top :screen s}))
   (let [size s.mywibox.height]
     (s.mywibox:setup
@@ -84,7 +100,7 @@
                                                    :to    [20 0]
                                                    :stops [[0 "#AECF96"] [0.5 "#88A175"] [1 "#FF5656"]]}
                                            :background_color "#494B4F"}])
-                              {:widget apw.progressbar
+                              {:widget cw.apw.progressbar
                                :forced_width (math.ceil (* size 1.5))}
                               ;batwidget
                               air-monitor
@@ -93,3 +109,9 @@
                               (wibox.widget.systray)
                               calendar-widget
                               s.mylayoutbox])]))))
+
+(screen.connect_signal
+  :request::desktop_decoration
+  (fn [s]
+    (set-wallpaper s)
+    (add-wibar-to-screen s)))
