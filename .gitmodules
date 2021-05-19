@@ -7,3 +7,6 @@
 [submodule "awesome/lain"]
 	path = awesome/lain
 	url = https://github.com/lcpz/lain.git
+[submodule "awesome/cljlib"]
+	path = awesome/cljlib
+	url = https://gitlab.com/andreyorst/fennel-cljlib

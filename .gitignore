@@ -1,4 +1,4 @@
 .zcompdump*
 *.zwc
 .idea/
-/awesome/sensitive_config.lua
+/awesome/sensitive_config.fnl
