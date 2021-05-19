@@ -16,10 +16,13 @@
 (awful.keyboard.append_global_keybindings
   [(k [] "#126"
       (fn [] (awful.spawn.with_shell cmds.switch-dp-monitor))
-      {:description "Switch monitor (plus-minus sign, Fn+F5)" :group :awesome})
+      {:description "switch monitor (plus-minus sign, Fn+F5)" :group :awesome})
    (k [modkey :Control] :t
       (fn [] (awful.spawn cmds.jetbrains-toolbox))
-      {:description "Launch JetBrains Toolbox" :group :launcher})
+      {:description "launch JetBrains Toolbox" :group :launcher})
+   (k [modkey :Control :Mod1] :d
+      (fn [] (awful.spawn "goldendict"))
+      {:description "launch GoldenDict" :group :launcher})
    (k [modkey] :Return
       (fn [] (awful.spawn cmds.terminal))
       {:description "open a terminal" :group :launcher})
