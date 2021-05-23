@@ -19,12 +19,18 @@
              (not= s nil))
     s))
 
+(local disabled-notifications [{:urgency :low :app_name "Solaar"}
+                               {:urgency :low :app_name "Network management"}])
+
 (ruled.notification.connect_signal
   :request::rules
   (fn []
-    (ruled.notification.append_rule {:rule       {:urgency  :low
-                                                  :app_name "Solaar"}
-                                     :properties {:ignore true}})
+    (ruled.notification.append_rules
+      (icollect [_ rule (ipairs disabled-notifications)]
+        {:rule       rule
+         :properties {:ignore  true
+                      ;; Without the timeout, the notification object will be there forever, creating a leak.
+                      :timeout 1}}))
     (let [copy-action (naughty.action {:name "Copy"})]
       (copy-action:connect_signal
         :invoked
