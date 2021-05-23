@@ -106,3 +106,14 @@
                            :properties {:screen 1 :tag t.name}}))))
 
 (ruled.client.connect_signal :request::rules (fn [] (ruled.client.append_rules rules)))
+
+(client.connect_signal
+  :request::activate
+  (fn [c context hints]
+    ;; Rules don't get triggered for an already managed client,
+    ;; so we have to use signals to simulate such rules.
+    (when (= c.class "GoldenDict")
+      (let [s (awful.screen.focused)]
+        (match s.selected_tag
+          t (when (not= t c.first_tag)
+              (c:move_to_tag t)))))))
