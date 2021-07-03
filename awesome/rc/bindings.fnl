@@ -13,18 +13,29 @@
    (b [] 4 awful.tag.viewnext)
    (b [] 5 awful.tag.viewprev)])
 
+(fn spawn [cmd]
+  (let [t (type cmd)]
+    (if
+      (= t :function)
+      (cmd)
+
+      (= t :string)
+      (awful.spawn cmd)
+
+      (error (.. "Unknown cmd type: " t)))))
+
 (awful.keyboard.append_global_keybindings
   [(k [] "#126"
-      (fn [] (awful.spawn.with_shell cmds.switch-dp-monitor))
+      (fn [] (spawn cmds.switch-dp-monitor))
       {:description "switch monitor (plus-minus sign, Fn+F5)" :group :awesome})
    (k [modkey :Control] :t
-      (fn [] (awful.spawn cmds.jetbrains-toolbox))
+      (fn [] (spawn cmds.jetbrains-toolbox))
       {:description "launch JetBrains Toolbox" :group :launcher})
    (k [modkey :Control :Mod1] :d
-      (fn [] (awful.spawn "goldendict"))
+      (fn [] (spawn "goldendict"))
       {:description "launch GoldenDict" :group :launcher})
    (k [modkey] :Return
-      (fn [] (awful.spawn cmds.terminal))
+      (fn [] (spawn cmds.terminal))
       {:description "open a terminal" :group :launcher})
    (k [modkey] :Tab
       (fn []
@@ -52,29 +63,29 @@
       {:description "go back" :group :tag})
 
    (k [] :Print
-      (fn [] (awful.spawn cmds.screenshot-screen))
+      (fn [] (spawn cmds.screenshot-screen))
       {:description "screenshot screen" :group :awesome})
    (k [:Shift] :Print
-      (fn [] (awful.spawn cmds.screenshot-window))
+      (fn [] (spawn cmds.screenshot-window))
       {:description "screenshot window" :group :awesome})
    (k [:Control :Shift] :Print
-      (fn [] (awful.spawn cmds.screenshot-selection))
+      (fn [] (spawn cmds.screenshot-selection))
       {:description "screenshot selection" :group :awesome})
 
    (k [modkey :Control] :r
       awesome.restart
       {:description "reload Awesome WM" :group :awesome})
    (k [modkey] :q
-      (fn [] (awful.spawn cmds.lock))
+      (fn [] (spawn cmds.lock))
       {:description "lock session" :group :awesome})
    (k [modkey :Mod1] :q ;; Alt.
-      (fn [] (awful.spawn cmds.logout))
+      (fn [] (spawn cmds.logout))
       {:description "logout" :group :awesome})
    (k [modkey :Control] :q
-      (fn [] (awful.spawn.with_shell cmds.suspend))
+      (fn [] (spawn cmds.suspend))
       {:description "suspend" :group :awesome})
    (k [modkey :Control :Shift] :q
-      (fn [] (awful.spawn cmds.hibernate))
+      (fn [] (spawn cmds.hibernate))
       {:description "hibernate" :group :awesome})
 
    (k [modkey :Control] :j
