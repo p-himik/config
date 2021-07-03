@@ -1,6 +1,8 @@
+(local awful (require :awful))
+(local fennel (require :fennel))
 (local gears (require :gears))
 (local gfs (require :gears.filesystem))
-(local fennel (require :fennel))
+(local naughty (require :naughty))
 
 (local terminal "terminator")
 
@@ -8,6 +10,29 @@
                           (if (gfs.file_readable path)
                             (fennel.dofile path)
                             {})))
+
+(local spectacle-commands
+  ;; Currently unused - left here for reference.
+  {:screenshot-screen "spectacle -f"
+   :screenshot-window "spectacle -a"
+   :screenshot-selection "spectacle -r"})
+
+(local flameshot-commands
+  (let [check-before-running (fn [cmd]
+                               (fn []
+                                 (awful.spawn.easy_async "whoami"
+                                   (fn [stdout stderr exit-reason exit-code]
+                                     (let [user (stdout:gsub "\n$" "")]
+                                       (awful.spawn.easy_async ["pgrep" "-x" "-u" user "-c" "flameshot"]
+                                         (fn [stdout stderr exit-reason exit-code]
+                                           (if (= exit-code 0)
+                                             (awful.spawn cmd)
+                                             (naughty.notification {:preset  naughty.config.presets.warn
+                                                                    :title   "Flameshot"
+                                                                    :message "Please start Flameshot before taking screenshots with it"})))))))))]
+    {:screenshot-screen (check-before-running "flameshot screen -c")
+     :screenshot-window (check-before-running "flameshot gui")
+     :screenshot-selection (check-before-running "flameshot gui")}))
 
 (gears.table.crush
   {; Default modkey.
@@ -18,15 +43,14 @@
    :modkey :Mod4
    :terminal "terminator"
 
-   :cmds {:terminal terminal
-          :editor (.. terminal " -x " (or (os.getenv :EDITOR) "vim"))
-          :lock "physlock -dms"
-          :logout (.. "pkill -u " (os.getenv "USER"))
-          :suspend "dbus-send --system --print-reply --dest='org.freedesktop.login1' /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true"
-          :hibernate "sudo pm-hibernate"
-          :screenshot-screen "spectacle -f"
-          :screenshot-window "spectacle -a"
-          :screenshot-selection "spectacle -r"
-          :switch-dp-monitor "switch_monitor.sh DP-1"
-          :jetbrains-toolbox "/home/p-himik/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"}}
+   :cmds (gears.table.crush
+           {:terminal terminal
+            :editor (.. terminal " -x " (or (os.getenv :EDITOR) "vim"))
+            :lock "physlock -dms"
+            :logout (.. "pkill -u " (os.getenv "USER"))
+            :suspend "dbus-send --system --print-reply --dest='org.freedesktop.login1' /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true"
+            :hibernate "sudo pm-hibernate"
+            :switch-dp-monitor "switch_monitor.sh DP-1"
+            :jetbrains-toolbox "/home/p-himik/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"}
+           flameshot-commands)}
   sensitive-config)
