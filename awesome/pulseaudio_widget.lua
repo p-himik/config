@@ -81,22 +81,6 @@ function widget:update_appearance(v)
 
 end
 
-function widget:notify(v)
-  local msg = tonumber(v) and string.format("%d%%", v) or v
-
-  if self.notification then
-    naughty.destroy(self.notification, naughty.notificationClosedReason.dismissedByCommand)
-  end
-
-  self.notification = naughty.notify(
-    {
-      text=msg,
-      timeout=self.notification_timeout_seconds
-    }
-  )
-
-end
-
 function widget:update_sink(object_path)
   self.sink = pulse.get_device(self.connection, object_path)
 end
@@ -165,7 +149,6 @@ function widget:connect_device(device)
         local v = math.ceil(tonumber(volume[1]) / this.BaseVolume * 100)
         if this.object_path == self.sink.object_path then
           self:update_appearance(v)
-          self:notify(v)
         end
       end,
       "VolumeUpdated"
@@ -178,7 +161,6 @@ function widget:connect_device(device)
         local m = is_mute and "Muted" or "Unmuted"
         if this.object_path == self.sink.object_path then
           self:update_appearance(m)
-          self:notify(m)
         end
       end,
       "MuteUpdated"
