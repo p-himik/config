@@ -27,10 +27,13 @@
                                          (fn [stdout stderr exit-reason exit-code]
                                            (if (= exit-code 0)
                                              (awful.spawn cmd)
+                                             ;; TODO: Either start flameshot here and wait for its DBus endpoints to become available
+                                             ;;  or try running Awesome WM with dbus-launch: https://wiki.archlinux.org/title/Flameshot#Option_1:_Use_dbus-launch
                                              (naughty.notification {:preset  naughty.config.presets.warn
                                                                     :title   "Flameshot"
                                                                     :message "Please start Flameshot before taking screenshots with it"})))))))))]
     {:screenshot-screen (check-before-running "flameshot screen -c")
+     ;; Flameshot can't capture a single window.
      :screenshot-window (check-before-running "flameshot gui")
      :screenshot-selection (check-before-running "flameshot gui")}))
 
