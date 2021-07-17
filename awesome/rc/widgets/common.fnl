@@ -4,7 +4,6 @@
 (local gfs (require :gears.filesystem))
 (local hotkeys-popup (require :awful.hotkeys_popup))
 (local {: terminal : cmds} (require :rc.common))
-(local APW (require :apw4.widget))
 
 ;; The theme has to be initialized before we create any of the widgets.
 (beautiful.init (.. (gfs.get_configuration_dir) "/themes/p-himik/theme.lua"))
@@ -69,4 +68,4 @@
 {:main-menu (awful.menu {:items [["Awesome" awesome-menu beautiful.awesome_icon]
                                  ["Open terminal" terminal]]})
  : mk-client-menu-toggle-fn
- :apw (APW {:tooltip false})}
+ :pulse (require :pulseaudio_widget)}

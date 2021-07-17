@@ -100,8 +100,7 @@
                                                    :to    [20 0]
                                                    :stops [[0 "#AECF96"] [0.5 "#88A175"] [1 "#FF5656"]]}
                                            :background_color "#494B4F"}])
-                              {:widget cw.apw.progressbar
-                               :forced_width (math.ceil (* size 1.5))}
+                              cw.pulse
                               ;batwidget
                               air-monitor
                               vpn-widget
