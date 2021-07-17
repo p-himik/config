@@ -31,6 +31,7 @@
         {:rule       rule
          :properties {:ignore  true
                       ;; Without the timeout, the notification object will be there forever, creating a leak.
+                      ;; TODO: Report the leak.
                       :timeout 1}}))
     (ruled.notification.append_rules
       (icollect [_ rule (ipairs temp-notifications)]
