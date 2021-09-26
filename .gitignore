@@ -2,3 +2,4 @@
 *.zwc
 .idea/
 /awesome/sensitive_config.fnl
+/config.code-workspace
