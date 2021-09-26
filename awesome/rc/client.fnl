@@ -120,6 +120,9 @@
        (k [modkey] :o
           (fn [c] (c:move_to_screen))
           {:description "move to screen" :group :client})
+       (k [modkey] :t
+          (fn [c] (set c.ontop (not c.ontop)))
+          {:description "toggle keep on top" :group :client})
        (k [modkey] :n
           (fn [c]
             ;; The client currently has the input focus, so it cannot be
