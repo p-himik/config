@@ -92,6 +92,8 @@ function parse_line(l)
         return 'co2', value
     elseif field == 'humidity_RH' then
         return 'humidity', value
+    elseif field == 'temperature_C' then
+        return 'temp', value
     end
 end
 
@@ -123,7 +125,7 @@ function air_monitor.new(config)
     local smb_cmd = 'prompt; get latest_config_measurements.json -'
     local cmd = ('smbclient \\\\\\\\' .. config.ip .. '\\\\airvisual ' .. config.password .. ' -p ' .. port
                  .. ' -U ' .. config.username
-                 .. ' -c "' .. smb_cmd .. '" | grep -e co2_ppm -e humidity_RH')
+                 .. ' -c "' .. smb_cmd .. '" | grep -e co2_ppm -e humidity_RH -e temperature_C')
     return awful.widget.watch({ awful.util.shell, '-c', cmd }, 60, function(widget, stdout)
         if stdout == nil then
             notify_error('Unable to query air monitor')
@@ -139,10 +141,13 @@ function air_monitor.new(config)
                 local humidity_bad = handle_humidity_value(data.humidity, config)
                 table.insert(pieces, 'RH: ' .. red_if_bad(data.humidity, humidity_bad) .. '%')
             end
+            if data.temp then
+                table.insert(pieces, data.temp .. ' °C')
+            end
             if #pieces == 0 then
                 widget:set_text('')
             else
-                widget:set_markup(table.concat(pieces, '; '))
+                widget:set_markup(table.concat(pieces, ' | '))
             end
         end
     end)
