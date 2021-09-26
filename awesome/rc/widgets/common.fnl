@@ -4,6 +4,7 @@
 (local gfs (require :gears.filesystem))
 (local hotkeys-popup (require :awful.hotkeys_popup))
 (local {: terminal : cmds} (require :rc.common))
+(local pa-widget (require :pa_widget))
 
 ;; The theme has to be initialized before we create any of the widgets.
 (beautiful.init (.. (gfs.get_configuration_dir) "/themes/p-himik/theme.lua"))
@@ -68,4 +69,7 @@
 {:main-menu (awful.menu {:items [["Awesome" awesome-menu beautiful.awesome_icon]
                                  ["Open terminal" terminal]]})
  : mk-client-menu-toggle-fn
- :pulse (require :pulseaudio_widget)}
+ :pulse (pa-widget {:mic-context-menu-items [{:text "Echo on"
+                                              :cmd  "headsetcontrol -s 60"}
+                                             {:text "Echo off"
+                                              :cmd  "headsetcontrol -s 0"}]})}

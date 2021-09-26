@@ -69,8 +69,8 @@ theme.titlebar_close_button_normal = shared_theme .. "/titlebar/close_normal.png
 theme.titlebar_close_button_focus  = shared_theme .. "/titlebar/close_focus.png"
 
 theme.menu_submenu_icon = sharedthemes .. "/default/submenu.png"
-theme.menu_height   = 15
-theme.menu_width    = 100
+theme.menu_height   = 25
+theme.menu_width    = 200
 
 local layouts_path = shared_theme .. "/layouts"
 theme.layout_fairh = layouts_path .. "/fairh.png"
@@ -98,10 +98,19 @@ theme.notification_border_width = dpi(3)
 -- TODO: See if it's still necessary after Awesome v4.4.
 naughty.config.defaults.border_width = theme.notification_border_width
 
-theme.apw_fg_color = '#698f1e'
-theme.apw_bg_color = '#33450f'
-theme.apw_mute_fg_color = '#be2a15'
-theme.apw_mute_bg_color = '#532a15'
+theme.pa_widget = {
+    fg_color = '#698f1e',
+    bg_color = '#33450f',
+    muted_fg_color = '#be2a15',
+    muted_bg_color = '#532a15',
+    -- audio-speakers-symbolic
+    -- audio-headphones-symbolic
+    -- audio-headset-symbolic
+    icons = {["alsa_output.pci-0000_00_1f.3.iec958-stereo"] = "audio-speakers",
+             ["alsa_output.usb-Logitech_PRO_X_000000000000-00.analog-stereo"] = "audio-headset",
+             ["bluez_sink.00_23_01_40_53_BE.a2dp_sink"] = "audio-headphones",
+             ["alsa_input.usb-Logitech_PRO_X_000000000000-00.mono-fallback"] = "microphone"}
+}
 
 theme.icon_theme = 'oxygen/base'
 

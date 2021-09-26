@@ -46,11 +46,13 @@
       (cw.mk-client-menu-toggle-fn true)
       {:description "select client" :group :client})
 
-   (k [] :XF86AudioRaiseVolume cw.pulse.volume_up)
-   (k [] :XF86AudioLowerVolume cw.pulse.volume_down)
-   (k [] :XF86AudioMute cw.pulse.toggle_muted)
-   (k [modkey] :Left cw.pulse.volume_down)
-   (k [modkey] :Right cw.pulse.volume_up)
+   (k [] :XF86AudioRaiseVolume cw.pulse.volume-up)
+   (k [] :XF86AudioLowerVolume cw.pulse.volume-down)
+   (k [] :XF86AudioMute cw.pulse.toggle-muted)
+   (k [modkey] :Left cw.pulse.volume-down)
+   (k [modkey] :Right cw.pulse.volume-up)
+   (k [modkey] :Down cw.pulse.toggle-muted)
+   (k [modkey] :Up cw.pulse.toggle-mic-muted)
 
    (k [modkey] :s
       hotkeys-popup.show_help

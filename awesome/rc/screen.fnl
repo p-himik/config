@@ -100,7 +100,11 @@
                                                    :to    [20 0]
                                                    :stops [[0 "#AECF96"] [0.5 "#88A175"] [1 "#FF5656"]]}
                                            :background_color "#494B4F"}])
-                              cw.pulse
+                              cw.pulse.device-widget
+                              {:widget       cw.pulse.volume-widget
+                               :forced_width (math.ceil (* size 1.5))}
+                              cw.pulse.mic-widget
+                              cw.pulse.mic-status-widget
                               ;batwidget
                               air-monitor
                               vpn-widget

@@ -4,7 +4,6 @@
 ;; to extract common useful properties.
 (local awful (require :awful))
 (local beautiful (require :beautiful))
-(local gears (require :gears))
 (local {: modkey} (require :rc.common))
 (local ruled (require :ruled))
 (local tags (require :rc.tags))
