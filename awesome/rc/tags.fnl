@@ -38,7 +38,7 @@
         [])
      (t :vb ls.tile.left
         ["VirtualBox"])
-     (t :8 ls.tile.left
+     (t :8 ls.tile.right
         ["Deadbeef"])
      (t :9 ls.max.fullscreen
         ["Steam"])]))
