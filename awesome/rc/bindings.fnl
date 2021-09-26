@@ -29,8 +29,8 @@
       (fn [] (spawn cmds.switch-dp-monitor))
       {:description "switch monitor (plus-minus sign, Fn+F5)" :group :awesome})
    (k [modkey :Control] :t
-      (fn [] (spawn cmds.jetbrains-toolbox))
-      {:description "launch JetBrains Toolbox" :group :launcher})
+      (fn [] (spawn cmds.jetbrains-idea))
+      {:description "launch JetBrains IDEA" :group :launcher})
    (k [modkey :Control :Mod1] :d
       (fn [] (spawn "goldendict"))
       {:description "launch GoldenDict" :group :launcher})

@@ -54,6 +54,6 @@
             :suspend "dbus-send --system --print-reply --dest='org.freedesktop.login1' /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true"
             :hibernate "sudo pm-hibernate"
             :switch-dp-monitor "switch_monitor.sh DP-1"
-            :jetbrains-toolbox "/home/p-himik/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"}
+            :jetbrains-idea "idea"}
            flameshot-commands)}
   sensitive-config)
