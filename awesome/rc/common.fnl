@@ -23,7 +23,7 @@
                                  (awful.spawn.easy_async "whoami"
                                    (fn [stdout stderr exit-reason exit-code]
                                      (let [user (stdout:gsub "\n$" "")]
-                                       (awful.spawn.easy_async ["pgrep" "-x" "-u" user "-c" "flameshot"]
+                                       (awful.spawn.easy_async ["pgrep" "-f" "-u" user "-c" "flameshot"]
                                          (fn [stdout stderr exit-reason exit-code]
                                            (if (= exit-code 0)
                                              (awful.spawn cmd)
