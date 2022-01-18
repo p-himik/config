@@ -40,7 +40,8 @@
       (icollect [_ rule (ipairs temp-notifications)]
         {:rule       rule
          :properties {:timeout 3}}))
-    (let [copy-action (naughty.action {:name "Copy"})]
+    (let [copy-action (naughty.action {:name "Copy"})
+          copy-info-action (naughty.action {:name "Copy Info"})]
       (copy-action:connect_signal
         :invoked
         (fn [_action notif]
@@ -49,9 +50,15 @@
             (send-text-to-clipboard (if (and title msg)
                                       (.. title "\n" msg)
                                       (or title msg))))))
+      (copy-info-action:connect_signal
+        :invoked
+        (fn [_action notif]
+          (let [view (require :fennel.view)
+                info (view notif)]
+            (send-text-to-clipboard info))))
       (ruled.notification.append_rule
         {:rule       {}
-         :properties {:append_actions [copy-action]
+         :properties {:append_actions [copy-action copy-info-action]
                       :screen         awful.screen.preferred
                       :never_timeout  true}}))))
 
