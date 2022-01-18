@@ -5,7 +5,10 @@
 (local naughty (require :naughty))
 (local wibox (require :wibox))
 
-(local pulseaudio-dbus (require :pulseaudio_dbus))
+(local pulseaudio-dbus (let [(ok? val-or-err) (pcall #(require :pulseaudio_dbus))]
+                         (if ok?
+                           val-or-err
+                           nil)))
 
 (local icon-theme (lgi.Gtk.IconTheme.get_default))
 (local icon-flags [lgi.Gtk.IconLookupFlags.GENERIC_FALLBACK])
