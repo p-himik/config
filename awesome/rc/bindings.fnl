@@ -49,6 +49,7 @@
    (k [] :XF86AudioRaiseVolume cw.pulse.volume-up)
    (k [] :XF86AudioLowerVolume cw.pulse.volume-down)
    (k [] :XF86AudioMute cw.pulse.toggle-muted)
+   (k [] :XF86AudioMicMute cw.pulse.toggle-mic-muted)
    (k [modkey] :Left cw.pulse.volume-down)
    (k [modkey] :Right cw.pulse.volume-up)
    (k [modkey] :Down cw.pulse.toggle-muted)
