@@ -59,6 +59,8 @@
       (ruled.notification.append_rule
         {:rule       {}
          :properties {:append_actions [copy-action copy-info-action]
+                      :title          (fn [notif]
+                                        (.. notif.title " [app: " notif.app_name "]"))
                       :screen         awful.screen.preferred
                       :never_timeout  true}}))))
 
