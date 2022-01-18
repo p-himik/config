@@ -46,7 +46,7 @@ local function update(force)
     local bats = previous_state
 
     if #bats == 0 then
-        widget:set_markup("no data")
+        widget:set_markup("")
         return
     end
 
