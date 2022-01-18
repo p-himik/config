@@ -10,6 +10,7 @@
 (local vicious (require :vicious))
 (local vpn (require :vpnwidget))
 (local wibox (require :wibox))
+(local battery (require :battery))
 
 (local all-tags {:names   []
                  :layouts []})
@@ -100,6 +101,7 @@
                                                    :to    [20 0]
                                                    :stops [[0 "#AECF96"] [0.5 "#88A175"] [1 "#FF5656"]]}
                                            :background_color "#494B4F"}])
+                              (battery)
                               cw.pulse.device-widget
                               {:widget       cw.pulse.volume-widget
                                :forced_width (math.ceil (* size 1.5))}
