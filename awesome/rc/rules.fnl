@@ -96,6 +96,10 @@
   {:rule {:class "GoldenDict"}
    :properties {:floating true
                 :placement awful.placement.bottom}}
+  {:rule {;; The name can end with stuff like '(1 of 4)'.
+          :name "^Steam %- News"}
+   :callback (fn [c]
+               (c:kill))}
 ])
 
 (each [_ t (ipairs tags.tag-specs)]
