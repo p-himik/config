@@ -57,6 +57,9 @@
                 "gimp-dock"
               ]}
    :properties {:optop true}}
+  {:id :maximized
+   :rule_any {:class ["discord" "whatsdesk" "Signal"]}
+   :properties {:maximized true}}
 
   {:rule {:class "Pavucontrol"}
    :properties {:floating true
