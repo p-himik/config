@@ -31,7 +31,7 @@
      (t :dev ls.tile
         ["^jetbrains-" "java-lang-Thread"])
      (t :soc ls.fair
-        ["Skype" "Telegram" "Slack" "discord" "Zulip" "Signal"])
+        ["Skype" "Telegram" "Slack" "discord" "Zulip" "Signal" "whatsdesk"])
      (t :db ls.tile.left
         ["com-install4j-runtime-launcher-Launcher" "Cherrytree" "calibre"])
      (t "@" ls.tile.left
