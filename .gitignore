@@ -3,3 +3,5 @@
 .idea/
 /awesome/sensitive_config.fnl
 /config.code-workspace
+/.clj-kondo/.cache
+/.lsp/.cache
