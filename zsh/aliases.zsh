@@ -65,3 +65,13 @@ alias gdo=ordered-git-diff
 # command itself from going into the history.
 alias nohist=' export HISTFILE=/dev/null'
 
+# The advice at https://unix.stackexchange.com/a/551163/290420
+# doesn't really work for some reason - it returns the same list
+# unless I run `echo $RANDOM` - then the seed is renewed.
+alias -g LRF='<(find . -type f -exec realpath {} \; | shuf)'
+
+# Not aliases but conceptually the same.
+# Piping into `xargs` just to trim the output.
+function ctof () { units "tempC($1)" tempF | xargs }
+function ftoc () { units "tempF($1)" tempC | xargs }
+
