@@ -76,16 +76,6 @@ if ! zgen saved; then
     zgen save
 fi
 
-function omg-description() {
-    for i in $(typeset + | grep "^omg_.*_symbol$"); do
-        local s="${(P)i}"
-        local color_var="${i}_color"
-        local color="${(P)color_var}"
-        local desc="$(echo $i | sed -r 's/^omg_(.*)_symbol$/\1/g' | tr '_' ' ')"
-        print -P -- "${color} ${s} %k%b - ${desc}"
-    done
-}
-
 unsetopt sharehistory
 setopt incappendhistory autocd extendedglob
 
@@ -130,3 +120,6 @@ PERL5LIB="/home/p-himik/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5L
 PERL_LOCAL_LIB_ROOT="/home/p-himik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/p-himik/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/p-himik/perl5"; export PERL_MM_OPT;
+
+# Added by ProtonUp-Qt on 03-10-2022 23:49:36
+if [ -d "/home/p-himik/stl/prefix" ]; then export PATH="$PATH:/home/p-himik/stl/prefix"; fi
