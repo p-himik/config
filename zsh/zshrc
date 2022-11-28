@@ -17,8 +17,8 @@ export PYTHONNOUSERSITE=True
 
 # Lines configured by zsh-newuser-install
 export HISTFILE=~/.histfile
-export HISTSIZE=1000
-export SAVEHIST=1000
+export HISTSIZE=100000
+export SAVEHIST=100000
 export HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
 
