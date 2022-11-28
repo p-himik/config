@@ -23,7 +23,8 @@
                                {:urgency :low :app_name "Network Management"}
                                ;; For some reason, it still keeps on showing notifications about connected
                                ;; devices even after the relevant plugin has been disabled.
-                               {:urgency :normal :app_name "blueman"}])
+                               {:urgency :normal :app_name "blueman"}
+                               {:app_name "Slack"}])
 (local temp-notifications [{:urgency :normal :app_name "flameshot"}])
 
 (ruled.notification.connect_signal
