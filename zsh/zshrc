@@ -11,10 +11,6 @@ export DISABLE_UPDATE_PROMPT=true
 export DISABLE_AUTO_UPDATE=true
 export DEFAULT_USER=p-himik
 
-# There're problems with user sites and conda
-# e.g. https://github.com/conda/conda/issues/448
-export PYTHONNOUSERSITE=True
-
 # Lines configured by zsh-newuser-install
 export HISTFILE=~/.histfile
 export HISTSIZE=100000
@@ -22,18 +18,7 @@ export SAVEHIST=100000
 export HIST_STAMPS="dd.mm.yyyy"
 # End of lines configured by zsh-newuser-install
 
-# Remember also to execute
-# conda config --set changeps1 false
 export VIRTUAL_ENV_DISABLE_PROMPT=true
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if [ -f "$MINICONDA_HOME/etc/profile.d/conda.sh" ]; then
-    . "$MINICONDA_HOME/etc/profile.d/conda.sh"
-else
-    export PATH="$MINICONDA_HOME/bin:$PATH"
-fi
-# <<< conda initialize <<<
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -71,7 +56,6 @@ if ! zgen saved; then
     zgen load "$ZSH_BASE/aliases.zsh"
     zgen load "$ZSH_BASE/line_numbers.zsh"
     zgen load "$ZSH_BASE/git_functions.zsh"  # loading after SCM Breeze to override some aliases
-    zgen load "$ZSH_BASE/conda_env.zsh"
 
     zgen save
 fi
