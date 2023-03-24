@@ -26,6 +26,8 @@
                                {:urgency :normal :app_name "blueman"}
                                {:app_name "Slack"}])
 (local temp-notifications [{:urgency :normal :app_name "flameshot"}])
+;; Reference: https://github.com/awesomeWM/awesome/issues/3109#issue-629030918.
+(local double-escaped-notifications [{:app_name "Telegram"}])
 
 (ruled.notification.connect_signal
   :request::rules
@@ -41,6 +43,15 @@
       (icollect [_ rule (ipairs temp-notifications)]
         {:rule       rule
          :properties {:timeout 3}}))
+    (ruled.notification.append_rule
+      (icollect [_ rule (ipairs double-escaped-notifications)]
+        {:rule       rule
+         :properties {:message (fn [notif]
+                                 (print "NOTIF MSG" notif.message)
+                                 (-?> notif.message
+                                      (: :gsub "&lt;" "<")
+                                      (: :gsub "&gt;" ">")
+                                      (: :gsub "&amp;" "&")))}}))
     (let [copy-action (naughty.action {:name "Copy"})
           copy-info-action (naughty.action {:name "Copy Info"})]
       (copy-action:connect_signal
