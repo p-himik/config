@@ -40,6 +40,8 @@ alias mvnt='mvn test'
 
 # overwriting `gunwip` from oh-my-zsh git plugin because its use of `git log -n 1` is incompatible with SCM Breeze
 alias gunwip='git log -1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
+# remove whitespace-only changes
+alias gwap='git diff -w --no-color | git apply --cached --ignore-whitespace && git checkout -- . && git reset && git add -p'
 
 # `dc` is "an arbitrary precision calculator"
 alias dco='docker-compose'
