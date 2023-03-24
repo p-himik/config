@@ -4,6 +4,7 @@ alias ls='ls --color=auto --group-directories-first'
 
 alias j=jump
 alias rsync='rsync --progress -avh -e "ssh -ax -o ClearAllForwardings=yes"'
+alias rsyncp='rsync -ah --info=progress2 -e "ssh -ax -o ClearAllForwardings=yes"'
 alias less='less -i'
 alias a='sudo aptitude'
 alias af='apt-file find'
