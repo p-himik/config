@@ -103,6 +103,8 @@
           :name "^Steam %- News"}
    :callback (fn [c]
                (c:kill))}
+  {:rule_any {:class ["^steam" "^Steam$"]}
+   :properties {:maximized true}}
 ])
 
 (each [_ t (ipairs tags.tag-specs)]
