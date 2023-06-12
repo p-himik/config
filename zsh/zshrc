@@ -105,5 +105,9 @@ PERL_LOCAL_LIB_ROOT="/home/p-himik/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB
 PERL_MB_OPT="--install_base \"/home/p-himik/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/p-himik/perl5"; export PERL_MM_OPT;
 
+# Autocompletion for clj and clojure.
+compdef _gnu_generic clj
+compdef _gnu_generic clojure
+
 # Added by ProtonUp-Qt on 03-10-2022 23:49:36
 if [ -d "/home/p-himik/stl/prefix" ]; then export PATH="$PATH:/home/p-himik/stl/prefix"; fi
