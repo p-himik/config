@@ -99,8 +99,8 @@
   {:rule {:class "GoldenDict"}
    :properties {:floating true
                 :placement awful.placement.bottom}}
-  {:rule {;; The name can end with stuff like '(1 of 4)'.
-          :name "^Steam %- News"}
+  {:rule {:name  "^Special Offers$"
+          :class "^steam$"}
    :callback (fn [c]
                (c:kill))}
   {:rule_any {:class ["^steam" "^Steam$"]}
