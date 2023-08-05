@@ -101,8 +101,10 @@
                 :placement awful.placement.bottom}}
   {:rule {:name  "^Special Offers$"
           :class "^steam$"}
-   :callback (fn [c]
-               (c:kill))}
+   :callback (fn [c] (c:kill))}
+  {:rule {:name  "^Steam %- News$"
+          :class "^Steam$"}
+   :callback (fn [c] (c:kill))}
   {:rule_any {:class ["^steam" "^Steam$"]}
    :properties {:maximized true}}
 ])
