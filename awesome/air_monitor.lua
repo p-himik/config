@@ -48,11 +48,6 @@ function hide_error() hide_notification('error') end
 function hide_co2() hide_notification('co2') end
 function hide_humidity() hide_notification('humidity') end
 
-function split_in_two(s, p)
-    local result = gstring.split(s, p)
-    return result[1], result[2]
-end
-
 function handle_co2_value(value, config)
     local max = config.co2_max
     local prev = air_monitor.prev_co2_value
@@ -85,27 +80,14 @@ function handle_humidity_value(value, config)
     hide_humidity()
 end
 
-function parse_line(l)
-    local field, value = split_in_two(l, ' ')
-    value = tonumber(value)
-    if field == 'co2_ppm' then
-        return 'co2', value
-    elseif field == 'humidity_RH' then
-        return 'humidity', value
-    elseif field == 'temperature_C' then
-        return 'temp', value
-    end
-end
-
 function parse_result(result)
-    result = result:gsub('[":,]', ''):gsub('  +', '')
-    local data = {}
-    for _, line in ipairs(gstring.split(result)) do
-        if line ~= '' then
-            field, value = parse_line(line)
-            data[field] = value
-        end
-    end
+    local result = result:gsub('"', '')
+    local positional_data = gstring.split(result)
+    local data = {date = positional_data[1],
+                  time = positional_data[2],
+                  co2 = tonumber(positional_data[3]),
+                  humidity = tonumber(positional_data[4]),
+                  temp = tonumber(positional_data[5])}
     return data
 end
 
@@ -125,8 +107,9 @@ function air_monitor.new(config)
     local smb_cmd = 'prompt; get latest_config_measurements.json -'
     local cmd = ('smbclient \\\\\\\\' .. config.ip .. '\\\\airvisual ' .. config.password .. ' -p ' .. port
                  .. ' -U ' .. config.username
-                 .. ' -c "' .. smb_cmd .. '" | grep -e co2_ppm -e humidity_RH -e temperature_C')
-    return awful.widget.watch({ awful.util.shell, '-c', cmd }, 60, function(widget, stdout)
+                 .. ' -c "' .. smb_cmd .. '" | jq \'.date_and_time["date","time"],.measurements[0]["co2_ppm","humidity_RH","temperature_C"]\'')
+    local tooltip
+    local widget = awful.widget.watch({ awful.util.shell, '-c', cmd }, 60, function(widget, stdout)
         if stdout == nil then
             notify_error('Unable to query air monitor')
         else
@@ -149,8 +132,18 @@ function air_monitor.new(config)
             else
                 widget:set_markup(table.concat(pieces, ' | '))
             end
+            if data.date and data.time then
+                tooltip.text = 'Measurement taken at: ' .. data.date .. ' ' .. data.time
+            else
+                tooltip.text = ''
+            end
         end
     end)
+    tooltip = awful.tooltip {
+        objects = {widget},
+        text = ''
+    }
+    return widget
 end
 
 function air_monitor.mt.__call(_, ...)
