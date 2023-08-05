@@ -78,5 +78,11 @@ alias -g LRF='<(find . -type f -exec realpath {} \; | shuf)'
 function ctof () { units "tempC($1)" tempF | xargs }
 function ftoc () { units "tempF($1)" tempC | xargs }
 
-alias npm='podman run -it -e "TERM=xterm-256color" -v ./:"/root/${PWD##*/}" -w "/root/${PWD##*/}" node:slim npm'
+function npm() {
+    if [[ $1 == run ]] then
+        command npm "$@"
+    else
+        podman run -it -e "TERM=xterm-256color" -v ./:"/root/${PWD##*/}" -w "/root/${PWD##*/}" node:slim npm "$@"
+    fi
+}
 
