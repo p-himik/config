@@ -56,7 +56,7 @@
                 "gimp-toolbox"
                 "gimp-dock"
               ]}
-   :properties {:optop true}}
+   :properties {:ontop true}}
   {:id :maximized
    :rule_any {:class ["discord" "whatsdesk" "Signal"]}
    :properties {:maximized true}}
