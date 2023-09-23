@@ -41,7 +41,7 @@
      (t :8 ls.tile.right
         ["Deadbeef"])
      (t :9 ls.max.fullscreen
-        ["Steam"])]))
+        ["Steam" "steam"])]))
 
 (fn refocus-centerwork-layout-main-client [screen cb]
   (each [_ t (pairs screen.tags)]
