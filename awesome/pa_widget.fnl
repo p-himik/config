@@ -84,7 +84,9 @@
   (ctx.mic-widget:set_image (get-device-icon source ctx)))
 
 (fn get-device [ctx path]
-  (pulseaudio-dbus.get_device ctx.connection path))
+  (let [volume-step 2
+        volume-max 100]
+    (pulseaudio-dbus.get_device ctx.connection path volume-step volume-max)))
 
 ;; Forward declaration.
 (var ensure-connection nil)
