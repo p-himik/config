@@ -175,8 +175,8 @@ function air_monitor.new(config)
     local cmd = json_cmd .. ';' .. csv_cmd
 
     local tooltip
-    local widget = awful.widget.watch({ awful.util.shell, '-c', cmd }, 60, function(widget, stdout)
-        if stdout == nil then
+    local widget = awful.widget.watch({ awful.util.shell, '-c', cmd }, 60, function(widget, stdout, _stderr, _exitreason, exitcode)
+        if stdout == nil or exitcode ~= 0 then
             notify_error('Unable to query air monitor')
         else
             hide_error()
