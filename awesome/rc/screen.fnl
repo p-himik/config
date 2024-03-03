@@ -139,7 +139,7 @@
                                              ;batwidget
                                              air-monitor
                                              vpn-widget
-                                             ;(create-kbd-widget)
+                                             (create-kbd-widget)
                                              (wibox.widget.systray)
                                              calendar-widget
                                              s.mylayoutbox])]))))
