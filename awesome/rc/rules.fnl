@@ -4,6 +4,7 @@
 ;; to extract common useful properties.
 (local awful (require :awful))
 (local beautiful (require :beautiful))
+(local gears (require :gears))
 (local {: modkey} (require :rc.common))
 (local ruled (require :ruled))
 (local tags (require :rc.tags))
@@ -51,6 +52,12 @@
                 ;"pop-up" ;; e.g. Google Chrome's (detached) Developer Tools.
               ]}
    :properties {:floating true}}
+  {:rule {:class "Mate-panel"
+          :name "Bottom Panel"}
+   :properties {:focusable false
+                :ontop true}
+                :border_width 0
+                :respect_rule_border true}
   {:id :on-top
    :rule_any {:role [
                 "gimp-toolbox"
@@ -104,9 +111,18 @@
    :callback (fn [c] (c:kill))}
   {:rule {:name  "^Steam %- News$"
           :class "^Steam$"}
-   :callback (fn [c] (c:kill))}
+   :callback (fn [c]
+               ;; Can't kill the window immediately as it sometimes makes Steam misbehave.
+               (gears.timer {:timeout     0.1
+                             :autostart   true
+                             :single_shot true
+                             :callback    (fn [] (c:kill))} ))}
   {:rule_any {:class ["^steam" "^Steam$"]}
    :properties {:maximized true}}
+  {:rule {:class "LibGDX_game_development"}
+   :properties {:floating true
+                :ontop true
+                :delayed_placement awful.placement.bottom_right}}
 ])
 
 (each [_ t (ipairs tags.tag-specs)]

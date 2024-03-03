@@ -70,7 +70,7 @@ theme.titlebar_close_button_focus  = shared_theme .. "/titlebar/close_focus.png"
 
 theme.menu_submenu_icon = sharedthemes .. "/default/submenu.png"
 theme.menu_height   = 25
-theme.menu_width    = 200
+theme.menu_width    = 300
 
 local layouts_path = shared_theme .. "/layouts"
 theme.layout_fairh = layouts_path .. "/fairh.png"

@@ -13,6 +13,7 @@
       (each [_ c (ipairs s.clients)]
         (set c.border_width
           (if (or c.maximized
+                  (not c.focusable)
                   (and useless-border? (not c.floating)))
             0
             beautiful.border_width))))))
@@ -102,7 +103,9 @@
     (awful.mouse.append_client_mousebindings
       [(b [] 1 (fn [c] (c:activate {:context :mouse_click})))
        (b [modkey] 1 (fn [c] (c:activate {:context :mouse_click :action :mouse_move})))
-       (b [modkey] 3 (fn [c] (c:activate {:context :mouse_click :action :mouse_resize})))])))
+       (b [modkey] 3 (fn [c] (c:activate {:context :mouse_click :action :mouse_resize})))
+       ;(b [] 8 (fn [c] (awful.spawn "goldendict \"`xclip -o`\"")))
+       ])))
 
 (client.connect_signal
   :request::default_keybindings

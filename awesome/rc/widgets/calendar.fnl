@@ -3,12 +3,10 @@
 (local wibox (require :wibox))
 
 (local position :tr)
-(local args {:position      position
-             :spacing       3
-             :week_numbers  true
-             :long_weekdays true})
+(local args {: position :spacing 3 :week_numbers true :long_weekdays true})
+
 (each [_ cell (ipairs [:normal :weeknumber :weekday :header :month :focus])]
-  (tset args (.. "style_" cell) {:border_width 0}))
+  (tset args (.. :style_ cell) {:border_width 0}))
 
 (fn create-widget []
   (let [box (calendar-popup.month args)]

@@ -4,10 +4,10 @@
 (fn set-wallpaper [s]
   (match beautiful.wallpaper
     wp (let [wp (if (= (type wp) :function)
-                  (wp s)
-                  wp)]
+                    (wp s)
+                    wp)]
          (gears.wallpaper.maximized wp s true))))
 
-(screen.connect_signal :property::geometry set-wallpaper)
+(screen.connect_signal "property::geometry" set-wallpaper)
 
 set-wallpaper

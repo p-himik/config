@@ -4,7 +4,7 @@
 (local gfs (require :gears.filesystem))
 (local naughty (require :naughty))
 
-(local terminal "terminator")
+(local terminal "mate-terminal")
 
 (local sensitive-config (let [path (.. (gfs.get_configuration_dir) "/sensitive_config.fnl")]
                           (if (gfs.file_readable path)
