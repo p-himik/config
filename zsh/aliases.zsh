@@ -82,7 +82,7 @@ function npm() {
     if [[ $1 == run ]] then
         command npm "$@"
     else
-        podman run -it -e "TERM=xterm-256color" -v ./:"/root/${PWD##*/}" -w "/root/${PWD##*/}" node:slim npm "$@"
+        podman run -it --rm -e "TERM=xterm-256color" -v ./:"/root/${PWD##*/}" -w "/root/${PWD##*/}" node:slim npm --update-notifier false "$@"
     fi
 }
 
