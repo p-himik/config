@@ -124,7 +124,7 @@
                              :callback    (fn [] (c:kill))} ))}
   {:rule_any {:class ["^steam" "^Steam$"]}
    :properties {:maximized true}}
-  {:rule {:class "LibGDX_game_development"}
+  {:rule {:name "LibGDX_game_development"}
    :properties {:floating true
                 :ontop true
                 :delayed_placement awful.placement.bottom_right}}
