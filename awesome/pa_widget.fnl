@@ -54,10 +54,13 @@
                                               :text (.. "Signal: " code
                                                         ". You can restart it by restarting Awesome WM.")
                                               :preset naughty.config.presets.critical}))
-                           (naughty.notify {:title "`pactl subscribe` has exited"
-                                            :text (.. "Exit status: " code
-                                                      ". You can restart it by restarting Awesome WM.")
-                                            :preset naughty.config.presets.critical})))})]
+                           (do
+                             (naughty.notify {:title "`pactl subscribe` has exited"
+                                              :text (.. "Exit status: " code
+                                                        ". It was restarted automatically.")
+                                              :timeout 3
+                                              :preset naughty.config.presets.warn})
+                             (spawn-pactl-subscribe ctx subscriber))))})]
     (tset ctx :pactl-pid pid)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
