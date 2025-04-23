@@ -81,7 +81,7 @@
 
 (fn create-pa-widget []
   (pa-widget {:mic-context-menu-items [{:text "Echo on"
-                                        :cmd "headsetcontrol -s 60"}
+                                        :cmd "headsetcontrol -s 100"}
                                        {:text "Echo off"
                                         :cmd "headsetcontrol -s 0"}]}))
 
