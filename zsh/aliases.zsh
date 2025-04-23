@@ -88,3 +88,5 @@ function npm() {
     fi
 }
 
+alias q='qimgv .'
+
