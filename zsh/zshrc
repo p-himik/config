@@ -11,13 +11,6 @@ export DISABLE_UPDATE_PROMPT=true
 export DISABLE_AUTO_UPDATE=true
 export DEFAULT_USER=p-himik
 
-# Lines configured by zsh-newuser-install
-export HISTFILE=~/.histfile
-export HISTSIZE=100000
-export SAVEHIST=100000
-export HIST_STAMPS="dd.mm.yyyy"
-# End of lines configured by zsh-newuser-install
-
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -113,3 +106,13 @@ compdef _gnu_generic clojure
 
 # Added by ProtonUp-Qt on 03-10-2022 23:49:36
 if [ -d "/home/p-himik/stl/prefix" ]; then export PATH="$PATH:/home/p-himik/stl/prefix"; fi
+
+# These lines are at the bottom because, it seems,
+# otherwise they're overridden by something, probably oh-my-zsh.
+# Lines configured by zsh-newuser-install
+export HISTFILE=~/.histfile
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+export HIST_STAMPS="dd.mm.yyyy"
+# End of lines configured by zsh-newuser-install
+
