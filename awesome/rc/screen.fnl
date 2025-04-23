@@ -5,6 +5,7 @@
 (local {: modkey &as common} (require :rc.common))
 (local create-kbd-widget (require :rc.widgets.keyboard))
 (local create-calendar-widget (require :rc.widgets.calendar))
+(local pomodoro-widget (require :rc.widgets.pomodoro))
 (local cw (require :rc.widgets.common))
 (local set-wallpaper (require :rc.wallpaper))
 (local vicious (require :vicious))
@@ -138,6 +139,7 @@
                                              cw.pulse.mic-status-widget
                                              ;batwidget
                                              air-monitor
+                                             pomodoro-widget
                                              vpn-widget
                                              (create-kbd-widget)
                                              (wibox.widget.systray)

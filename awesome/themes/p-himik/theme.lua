@@ -89,6 +89,8 @@ theme.layout_dwindle = layouts_path .. "/dwindle.png"
 theme.layout_centerwork = awesome_dir .. "/lain/icons/layout/" .. theme_name .. "/centerwork.png"
 
 theme.awesome_icon = sharedicons .. "/awesome16.png"
+theme.pomodoro_running_icon = themedir .. "/pomodoro_running.png"
+theme.pomodoro_stopped_icon = themedir .. "/pomodoro_stopped.png"
 
 theme.notification_icon_size = 150
 theme.notification_width = 500
