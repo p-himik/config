@@ -88,12 +88,12 @@
                                                :group :awesome})
                                            (k [:Shift] :Print
                                               (fn []
-                                                (spawn cmds.screenshot-window))
+                                                (spawn cmds.screenshot-selection))
                                               {:description "screenshot window"
                                                :group :awesome})
                                            (k [:Control :Shift] :Print
                                               (fn []
-                                                (spawn cmds.screenshot-selection))
+                                                (spawn cmds.screenshot-custom))
                                               {:description "screenshot selection"
                                                :group :awesome})
                                            (k [modkey] "\\"

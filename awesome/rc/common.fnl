@@ -11,12 +11,6 @@
                             (fennel.dofile path)
                             {})))
 
-(local spectacle-commands
-  ;; Currently unused - left here for reference.
-  {:screenshot-screen "spectacle -f"
-   :screenshot-window "spectacle -a"
-   :screenshot-selection "spectacle -r"})
-
 (local flameshot-commands
   (let [check-before-running (fn [cmd]
                                (fn []
@@ -33,9 +27,8 @@
                                                                     :title   "Flameshot"
                                                                     :message "Please start Flameshot before taking screenshots with it"})))))))))]
     {:screenshot-screen (check-before-running "flameshot screen -c")
-     ;; Flameshot can't capture a single window.
-     :screenshot-window (check-before-running "flameshot gui")
-     :screenshot-selection (check-before-running "flameshot gui")}))
+     :screenshot-selection (check-before-running "flameshot gui")
+     :screenshot-custom (check-before-running "flameshot launcher")}))
 
 (gears.table.crush
   {; Default modkey.
