@@ -88,7 +88,8 @@
                                                                                                 notif.title
                                                                                                 (.. notif.title " [app: " notif.app_name "]")))
                                                                                      :screen awful.screen.preferred
-                                                                                     :never_timeout true}}))))
+                                                                                     :never_timeout (fn [notif]
+                                                                                                      (not= notif.category "p-himik"))}}))))
 
 (naughty.connect_signal "request::display"
                         (fn [n] (naughty.layout.box {:notification n})))
