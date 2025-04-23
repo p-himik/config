@@ -107,7 +107,9 @@ function parse_result(result)
     -- 2023/09/23;14:04:21;1695477861;1.0;4;1;1.0;1.0;0;0;25.4;77.7;54;652;
     local csv_data = csv_header ~= '' and zip(gstring.split(csv_header, ';'), gstring.split(csv_values, ';')) or nil
 
-    if not json_data and not csv_data then
+    -- No clue how there can be no date in the CSV data, but it happened once
+    -- after the network got down and then back up.
+    if not json_data and (not csv_data or not csv_data['Date']) then
         return nil
     end
 
