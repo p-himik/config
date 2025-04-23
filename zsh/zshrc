@@ -60,8 +60,8 @@ if ! zgen saved; then
     zgen save
 fi
 
-unsetopt sharehistory
-setopt incappendhistory autocd extendedglob
+unsetopt extendedglob sharehistory
+setopt incappendhistory autocd
 
 compctl -K listMavenCompletions mvn2
 compctl -K listMavenCompletions mvn3
