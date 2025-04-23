@@ -58,6 +58,11 @@
                 :ontop true}
                 :border_width 0
                 :respect_rule_border true}
+  {:rule {:class "albert"}
+   :properties {:ontop true
+                :border_width 0
+                :floating true
+                :respect_rule_border true}}
   {:id :on-top
    :rule_any {:role [
                 "gimp-toolbox"
