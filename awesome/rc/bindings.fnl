@@ -3,6 +3,7 @@
 (local {: modkey : cmds} (require :rc.common))
 (local cw (require :rc.widgets.common))
 (local menubar (require :menubar))
+(local naughty (require :naughty))
 (local tags (require :rc.tags))
 
 (local b awful.button)
@@ -94,6 +95,16 @@
                                               (fn []
                                                 (spawn cmds.screenshot-selection))
                                               {:description "screenshot selection"
+                                               :group :awesome})
+                                           (k [modkey] "\\"
+                                              naughty.destroy_all_notifications
+                                              {:description "clear notifications"
+                                               :group :awesome})
+                                           (k [modkey :Control] :b
+                                              (fn []
+                                                (each [_ s (ipairs screen)]
+                                                  (set s.mywibox.visible (not s.mywibox.visible))))
+                                              {:description "toggle wibox"
                                                :group :awesome})
                                            (k [modkey :Control] :r
                                               awesome.restart
