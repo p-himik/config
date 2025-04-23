@@ -84,10 +84,9 @@
                                                                         :properties {:append_actions [copy-action
                                                                                                       copy-info-action]
                                                                                      :title (fn [notif]
-                                                                                              (.. notif.title
-                                                                                                  " [app: "
-                                                                                                  notif.app_name
-                                                                                                  "]"))
+                                                                                              (if (= notif.app_name "")
+                                                                                                notif.title
+                                                                                                (.. notif.title " [app: " notif.app_name "]")))
                                                                                      :screen awful.screen.preferred
                                                                                      :never_timeout true}}))))
 
