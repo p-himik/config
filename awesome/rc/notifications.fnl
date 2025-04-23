@@ -23,6 +23,8 @@
 (local disabled-notifications
        [{:urgency :low :app_name :Solaar}
         {:urgency :low :app_name "Network Management"}
+        ;; Annoying snap update notifications.
+        {:title "Update available for" :message "Close the application to update now"}
         ;; For some reason, it still keeps on showing notifications about connected
         ;; devices even after the relevant plugin has been disabled.
         {:urgency :normal :app_name :blueman}
