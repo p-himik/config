@@ -23,9 +23,6 @@ alias notify-error='notify-send -i /usr/share/icons/gnome/48x48/status/dialog-er
 alias m=xdg-open
 alias e=extract
 
-alias sa='conda activate'
-alias sd='conda deactivate'
-
 function _mvn_with_notify {
     local current_path="$(pwd | sed "s/$(echo $HOME | sed 's|/|\\/|g')/~/g")"
     mvn-color $@ && notify-info "Build Successful" "$current_path" || notify-error "Build Failed" "$current_path"
