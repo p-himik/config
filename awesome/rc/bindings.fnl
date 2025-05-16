@@ -39,6 +39,10 @@
                                               (fn [] (spawn :goldendict))
                                               {:description "launch GoldenDict"
                                                :group :launcher})
+                                           (k [] :XF86Tools
+                                              (fn [] (spawn :goldendict))
+                                              {:description "launch GoldenDict"
+                                               :group :launcher})
                                            (k [modkey] :Return
                                               (fn [] (spawn cmds.terminal))
                                               {:description "open a terminal"
