@@ -1,5 +1,7 @@
 #!zsh
 
+alias rm='rm -i'
+
 alias ls='ls --color=auto --group-directories-first'
 
 alias j=jump
