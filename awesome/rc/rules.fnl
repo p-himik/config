@@ -110,6 +110,7 @@
                 :ontop true}}
   {:rule {:class "GoldenDict"}
    :properties {:floating true
+                :ontop true
                 :placement awful.placement.bottom}}
   {:rule {:name  "^Special Offers$"
           :class "^steam$"}
