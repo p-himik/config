@@ -22,9 +22,9 @@
                                              (fn []
                                                (spawn "goldendict \"`xclip -o`\"")))])
 
-(awful.keyboard.append_global_keybindings [(k [] :F1 (fn [])
-                                              {:description "disable the annoying F1 help"
-                                               :group :client})
+(awful.keyboard.append_global_keybindings [;(k [] :F1 (fn [])
+                                           ;   {:description "disable the annoying F1 help"
+                                           ;    :group :client})
                                            (k [] "#126"
                                               (fn []
                                                 (spawn cmds.switch-dp-monitor))
