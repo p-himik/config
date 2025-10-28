@@ -187,7 +187,7 @@
   (let [i (if (= (type i) :string)
               (lookup-icon i size)
               i)]
-    (i:load_surface)))
+    (-?> i (: :load_surface))))
 
 (local default-icons {:muted-mic :microphone-sensitivity-muted
                       :normal-mic :microphone-sensitivity-high
