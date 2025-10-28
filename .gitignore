@@ -5,3 +5,6 @@
 /config.code-workspace
 /.clj-kondo/.cache
 /.lsp/.cache
+
+.nrepl-port
+.cpcache/
