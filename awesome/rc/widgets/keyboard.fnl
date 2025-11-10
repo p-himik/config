@@ -47,7 +47,7 @@
   (let [files (icollect [_ v (pairs ctx._layout)]
                 v.file)
         files (rotate-table-in-place files shift)]
-    (spawn.spawn [:setxkbmap (table.concat files ",")])))
+    (spawn.spawn [:setxkbmap (table.concat files ",")] false)))
 
 (fn clear-menu [menu]
   (for [idx (length menu.items) 1 -1]

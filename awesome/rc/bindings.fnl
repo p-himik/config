@@ -12,7 +12,7 @@
 (fn spawn [cmd]
   (let [t (type cmd)]
     (if (= t :function) (cmd)
-        (= t :string) (awful.spawn cmd)
+        (= t :string) (awful.spawn cmd false)
         (error (.. "Unknown cmd type: " t)))))
 
 (awful.mouse.append_global_mousebindings [(b [] 3 (fn [] (cw.main-menu:toggle)))

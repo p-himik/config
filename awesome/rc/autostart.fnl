@@ -6,4 +6,4 @@
 
 
 (each [_ cmd (ipairs [mate-polkit-cmd xbindkeys-cmd compositor-cmd])]
-  (awful.spawn.with_shell cmd))
+  (awful.spawn.with_shell cmd false))

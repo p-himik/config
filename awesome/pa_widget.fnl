@@ -167,7 +167,7 @@
 
 (fn set-default-sink-volume-perc [vol]
   (let [vol (clamp vol 0 volume-max)]
-    (spawn.spawn [:pactl :set-sink-volume "@DEFAULT_SINK@" (.. vol "%")])))
+    (spawn.spawn [:pactl :set-sink-volume "@DEFAULT_SINK@" (.. vol "%")] false)))
 
 (fn get-device-icon-name [info]
   (. info.properties :device.icon_name))
