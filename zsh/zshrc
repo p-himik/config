@@ -53,6 +53,8 @@ if ! zgen saved; then
     zgen save
 fi
 
+autoload -Uz zcalc
+
 unsetopt extendedglob sharehistory
 setopt incappendhistory autocd
 
