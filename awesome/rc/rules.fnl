@@ -58,7 +58,8 @@
                 :ontop true}
                 :border_width 0
                 :respect_rule_border true}
-  {:rule {:class "albert"}
+  {:rule {:class "albert"
+          :name "^Albert$"}
    :properties {:ontop true
                 :border_width 0
                 :floating true

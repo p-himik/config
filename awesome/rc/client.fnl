@@ -11,12 +11,13 @@
           only-one? (= (length s.tiled_clients) 1)
           useless-border? (or max? only-one?)]
       (each [_ c (ipairs s.clients)]
-        (set c.border_width
-          (if (or c.maximized
-                  (not c.focusable)
-                  (and useless-border? (not c.floating)))
-            0
-            beautiful.border_width))))))
+        (when (not c.respect_rule_border)
+          (set c.border_width
+               (if (or c.maximized
+                       (not c.focusable)
+                       (and useless-border? (not c.floating)))
+                 0
+                 beautiful.border_width)))))))
 
 (fn connect-props-signals [lib props f]
   (each [_ prop (ipairs props)]
