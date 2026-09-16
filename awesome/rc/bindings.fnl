@@ -77,10 +77,10 @@
                                               hotkeys-popup.show_help
                                               {:description "show help"
                                                :group :awesome})
-                                           (k [modkey] :w
-                                              (fn [] (cw.main-menu:show))
-                                              {:description "show main menu"
-                                               :group :awesome})
+                                           ;(k [modkey] :w
+                                           ;   (fn [] (cw.main-menu:show))
+                                           ;   {:description "show main menu"
+                                           ;    :group :awesome})
                                            (k [modkey] :Escape
                                               awful.tag.history.restore
                                               {:description "go back"
