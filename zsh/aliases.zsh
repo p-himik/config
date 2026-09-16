@@ -93,5 +93,5 @@ function npm() {
     fi
 }
 
-alias q='qimgv .'
+alias q='geeqie'
 
