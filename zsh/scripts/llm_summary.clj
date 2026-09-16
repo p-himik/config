@@ -31,7 +31,7 @@ Rules:
 10. No commentary, no headers, no concluding remarks.")
 
 (defn split-subtitle-text-into-blocks [text]
-  (str/split text #"\n\n+"))
+  (str/split text #"\r?\n\r?\n+"))
 
 (defn parse-subtitle-block [text]
   (when-not (some #(str/starts-with? text %) ["WEBVTT" "STYLE" "REGION" "NOTE"])
@@ -46,7 +46,7 @@ Rules:
          (remove #(re-matches #" *" %)))))
 
 (defn get-summary [text]
-  (let [body {:model    "openrouter/auto"
+  (let [body {:model    "openai/gpt-5.4-mini"
               :messages [{:role    "system"
                           :content system-prompt}
                          {:role    "user"
@@ -62,25 +62,40 @@ Rules:
     {:details {:provider provider
                :model    model
                :usage    usage}
+     :error   (get-in choices [0 :error :message])
      :summary (-> (get-in choices [0 :message :content])
                   (str/replace #"(\\x1b|\\033)\[" "\033["))}))
+
+(def video-info-print-str "Title:   %(title)s
+Channel: %(channel)s
+
+%(description)s
+
+")
+
+(defn get-subtitle-file-summary [file]
+  (let [blocks (-> (slurp (str file))
+                   (split-subtitle-text-into-blocks))
+        text (->> blocks
+                  (mapcat parse-subtitle-block)
+                  (dedupe)
+                  (str/join "\n"))]
+    (get-summary text)))
 
 (defn get-yt-video-summary [url]
   (let [tmp (fs/create-temp-file {:prefix "yt-summary."})
         tmp-dir (str (.getParent tmp))]
     (try
-      (p/shell "yt-dlp --write-auto-subs --write-subs --sub-format vtt --skip-download" "--sub-langs" ".*-orig,en" url "-o" tmp)
-      (let [[text-file & other-files] (fs/glob tmp-dir (str (.getFileName tmp) ".*.vtt"))
-            blocks (-> (slurp (str text-file))
-                       (split-subtitle-text-into-blocks))
-            text (->> blocks
-                      (mapcat parse-subtitle-block)
-                      (dedupe)
-                      (str/join "\n"))]
+      (p/shell "yt-dlp --write-auto-subs --write-subs --sub-format vtt --skip-download"
+               "--sub-langs" ".*-orig,en"
+               "--print" video-info-print-str
+               "--no-simulate"
+               url "-o" tmp)
+      (let [[text-file & other-files] (fs/glob tmp-dir (str (.getFileName tmp) ".*.vtt"))]
         (when other-files
           (binding [*out* *err*]
             (println "Warning: multiple subtitle files exist, reading only" text-file)))
-        (get-summary text))
+        (get-subtitle-file-summary text-file))
       (finally
         (run! fs/delete-if-exists (fs/glob tmp-dir (str (.getFileName tmp) "*")))))))
 
@@ -96,14 +111,21 @@ Rules:
       (str/starts-with? maybe-url "http://127.0.0.1:3000/watch?v=")))
 
 (let [[mode url] (case (count *command-line-args*)
-                   0 [:clipboard nil]
-                   1 (let [url (first *command-line-args*)]
-                       (assert (youtube-url? url))
-                       [:youtube url]))
-      {:keys [details summary]} (case mode
-                                  :youtube (get-yt-video-summary url)
-                                  :clipboard (get-clipboard-text-summary))]
+                     0 [:clipboard nil]
+                     1 (let [url (first *command-line-args*)]
+                         (if (str/ends-with? url ".vtt")
+                           [:subs-file url]
+                           (do
+                             (assert (youtube-url? url))
+                             [:youtube url]))))
+      {:keys [details summary error]} (case mode
+                                        :youtube (get-yt-video-summary url)
+                                        :subs-file (get-subtitle-file-summary url)
+                                        :clipboard (get-clipboard-text-summary))]
   (println)
   (pprint/pprint details)
   (println)
-  (println summary))
+  (println summary)
+  (when error
+    (binding [*out* *err*]
+      (println error))))
