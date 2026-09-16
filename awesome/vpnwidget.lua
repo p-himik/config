@@ -4,7 +4,8 @@ local setmetatable = setmetatable
 local vpnwidget = { mt = {} }
 
 function vpnwidget.new(timeout)
-    local cmd = {awful.util.shell, '-c', 'ip route get to 1.1.1.1 | grep -q "dev.*table"' }
+    -- `dev tun` is not reliable in principle, but there doesn't seem to be another way.
+    local cmd = {awful.util.shell, '-c', 'ip route get to 1.1.1.1 | grep -q -e "dev.*table" -e "dev tun"' }
     return awful.widget.watch(cmd, timeout or 5, function(widget, _stdout, _stderr, _exitreason, exitcode)
         if exitcode == 0 then
             widget:set_markup(" <span color='#00FF00'>VPN: ON</span> ")
