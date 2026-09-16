@@ -28,7 +28,7 @@
                     (t :soc ls.fair
                        [:Skype
                         :Telegram
-                        :Slack
+                        :Slack :slack
                         :discord
                         :Zulip
                         :Signal
