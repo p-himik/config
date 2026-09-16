@@ -130,6 +130,9 @@
    :properties {:floating true
                 :ontop true
                 :delayed_placement awful.placement.bottom_right}}
+  {:rule {:class "^Godot$"
+          :name  " %(DEBUG%)$"}
+   :properties {:floating true}}
 ])
 
 (each [_ t (ipairs tags.tag-specs)]
