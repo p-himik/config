@@ -83,7 +83,13 @@ function npm() {
     if [[ $1 == run ]] then
         command npm "$@"
     else
-        podman run -it --rm -e "TERM=xterm-256color" -v ./:"/root/${PWD##*/}" -w "/root/${PWD##*/}" node:slim npm --update-notifier false "$@"
+        [[ -z "$NPM_PREFIX" ]] && (echo "NPM_PREFIX env var is not set" && exit 1)
+#            -v "${NPM_PREFIX}/":/root/.npm \
+#--prefix /root/.npm
+        podman run -it --rm -e "TERM=xterm-256color" \
+            -v ./:"/root/${PWD##*/}" \
+            -w "/root/${PWD##*/}" \
+            node:slim npm --update-notifier false  "$@"
     fi
 }
 
