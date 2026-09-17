@@ -1,3 +1,5 @@
+(local naughty (require :naughty))
+
 (fn trim [s]
   ;; Remove leading and trailing spaces from the string.
   ;; trim5 from http://lua-users.org/wiki/StringTri
@@ -17,4 +19,17 @@
             (table.insert t 1 (table.remove t l)))
           t))))
 
-{: trim : file-exists? : rotate-table-in-place}
+(fn log [...]
+  (let [(file msg) (io.open "/tmp/awesome-fennel.log" "a+")]
+    (when msg
+      (naughty.notify {:title  "Cannot open log file"
+                       :text   msg
+                       :preset naughty.config.presets.critical}))
+    (let [n (select :# ...)]
+      (each [i item (ipairs [...])]
+        (file:write item (when (< i n) " "))))
+    (file:write "\n")
+    (file:flush)
+    (file:close)))
+
+{: trim : file-exists? : rotate-table-in-place : log}
