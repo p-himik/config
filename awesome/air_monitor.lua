@@ -185,7 +185,9 @@ function air_monitor.new(config)
             local data = parse_result(stdout)
             local pieces = {}
             if not data then
-                table.insert(pieces, err('No AirVisual data'))
+                if config.show_no_data_label then
+                    table.insert(pieces, err('No AirVisual data'))
+                end
             else
                 if data.co2 then
                     local co2_bad = handle_co2_value(data.co2, config)
