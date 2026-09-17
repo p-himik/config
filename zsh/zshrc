@@ -73,6 +73,9 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
+# Disable Insert toggling overwrite mode.
+bindkey -r '^[[2~'
+
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _complete _ignored _approximate _prefix
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*'
